@@ -67,6 +67,24 @@
   (require 'valign)
   (require 'window))
 
+(defun my/org-add-created-at-point (&optional POM)
+  "Insert CREATED property for the entry at POM.
+
+POM is an marker, or buffer position."
+  (interactive)
+  (when (derived-mode-p 'org-mode)
+    (let ((datetime (org-entry-get POM "CREATED")))
+      (unless datetime
+        (setq datetime (format-time-string "[%Y-%m-%d %a %H:%M]"))
+        (org-entry-put POM "CREATED" datetime))
+      datetime)))
+
+(defun my/org-add-created ()
+  "Add CREATED properites for all headings in current buffer."
+  (interactive)
+  (when (derived-mode-p 'org-mode)
+    (org-map-entries #'my/org-add-created-at-point)))
+
 ;; Ideas from Matthew Lee Hinman's blog.
 ;; https://writequit.org/articles/emacs-org-mode-generate-ids.html
 (defun my/org-add-custom-id-at-point (&optional POM)
@@ -158,6 +176,7 @@ If the PROPERTY already has the same VALUE, do nothing."
 
 (defun my-org-setup-save-functions (&rest _)
   "Run `my-org-save-functions'."
+  (add-hook 'before-save-hook #'my/org-add-created nil t)
   (add-hook 'before-save-hook #'my/org-add-custom-id nil t)
   (add-hook 'before-save-hook #'my/org-add-created-property nil t)
   (add-hook 'before-save-hook #'my/org-update-last-modified-property nil t))

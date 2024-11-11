@@ -71,10 +71,7 @@
      ;; - CANC, tasks cancelled.
      ;; - FAIL, tasks abandoned.
      org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "|"
-                                   "DONE(d)" "CANC(c)" "FAIL(f)")))
-    (:snoc
-     ;; Add some customized special properties.
-     org-special-properties "CREATED")))
+                                   "DONE(d)" "CANC(c)" "FAIL(f)")))))
 
 
 
@@ -133,25 +130,20 @@
      `("e" "Event" entry (file+headline "agenda.org" "Event")
        ,(concat
          "* NEXT %?\n"
-         "SCHEDULED: %(org-insert-time-stamp (org-read-date nil t))\n"
-         "CREATED: %U"))
+         "SCHEDULED: %(org-insert-time-stamp (org-read-date nil t))\n"))
      `("i" "Inbox" entry (file+headline "inbox.org" "Inbox")
        ,(concat
-         "* TODO %?\n"
-         "CREATED: %U"))
+         "* TODO %?\n"))
      `("m" "Meeting" entry (file+headline "agenda.org" "Meeting")
        ,(concat
          "* NEXT %?\n"
-         "SCHEDULED: %(org-insert-time-stamp (org-read-date nil t))\n"
-         "CREATED: %U"))
+         "SCHEDULED: %(org-insert-time-stamp (org-read-date nil t))\n"))
      `("n" "Note" entry (file+headline "inbox.org" "Note")
        ,(concat
-         "* TODO %?\n"
-         "CREATED: %U"))
+         "* TODO %?\n"))
      `("r" "Read" entry (file+headline "inbox.org" "Reading list")
        ,(concat
-         "* %?\n"
-         "CREATED: %U")))))
+         "* %?\n")))))
 
 (setup window
   (:set
