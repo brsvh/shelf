@@ -23,6 +23,30 @@
     };
   };
 
+  system = {
+    activationScripts = {
+      avatar = {
+        text =
+          let
+            avatar = my.etc.avatar.bsc;
+            user = "bsc";
+            icon = "/var/lib/AccountsService/icons/${user}";
+            unit = "/var/lib/AccountsService/users/${user}";
+          in
+          ''
+            mkdir -p /var/lib/AccountsService/{icons,users}
+            cp ${avatar} ${icon}
+            echo -e "[User]\nIcon=${icon}\n" > ${unit}
+            chown root:root ${unit}
+            chmod 0600 ${unit}
+
+            chown root:root ${icon}
+            chmod 0444 ${icon}
+          '';
+      };
+    };
+  };
+
   users = {
     users = {
       bsc = {
