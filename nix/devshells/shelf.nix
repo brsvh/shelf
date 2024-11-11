@@ -259,14 +259,6 @@ in
     {
       data = {
         formatter = {
-          emacs-lisp = {
-            command = "my-emacs-formatter";
-
-            includes = [
-              "*.el"
-            ];
-          };
-
           nix = {
             command = "nixfmt";
 
@@ -297,7 +289,6 @@ in
       output = "treefmt.toml";
 
       packages = with pkgs; [
-        my-emacs-formatter
         nixfmt-rfc-style
         shellcheck
         shfmt
