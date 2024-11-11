@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((dash "2.19.1") (emacs "29.1") (my-lib "0.1.0") (on "0.1.0") (orderless "1.2") (setup "1.4.0") (svg-lib "0.3") (transient "0.7.5"))
+;; Package-Requires: ((dash "2.19.1") (emacs "30.1") (my-lib "0.1.0") (on "0.1.0") (orderless "1.2") (setup "1.4.0") (svg-lib "0.3") (transient "0.7.5"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

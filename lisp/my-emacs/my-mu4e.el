@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: extensions
-;; Package-Requires: ((emacs "29.1") (mu4e "1.12.7") (my-core "0.2.0"))
+;; Package-Requires: ((emacs "30.1") (mu4e "1.12.7") (my-core "0.2.0"))
 ;; URL: https://github.com/brsvh/my-emacs
 ;; Version: 0.1.50
 

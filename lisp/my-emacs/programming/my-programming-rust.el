@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((eglot "1.17") (emacs "29.1") (my-core "0.2.0"))
+;; Package-Requires: ((eglot "1.17") (emacs "30.1") (my-core "0.2.0"))
 ;; URL: https://github.com/brsvh/my-emacs
 ;; Version: 0.1.50
 

@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((diff-hl "1.10.0") (emacs "29.1") (envrc "0.12") (git-cliff "0.8.0") (magit "4.1.0") (org-project-capture "3.1.1") (project "0.11.1") (tabspaces "1.5"))
+;; Package-Requires: ((diff-hl "1.10.0") (emacs "30.1") (envrc "0.12") (git-cliff "0.8.0") (magit "4.1.0") (org-project-capture "3.1.1") (project "0.11.1") (tabspaces "1.5"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

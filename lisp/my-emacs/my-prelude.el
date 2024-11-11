@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((benchmark-init "1.2") (cl-lib "1.0") (gcmh "0.2.1") (emacs "29.1") (my-lib "0.1.0"))
+;; Package-Requires: ((benchmark-init "1.2") (cl-lib "1.0") (gcmh "0.2.1") (emacs "30.1") (my-lib "0.1.0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

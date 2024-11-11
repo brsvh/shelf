@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((emacs "29.1") (grip-mode "2.3.3") (markdown-mode "2.6") (my-core "0.2.0") (valign "3.1.1"))
+;; Package-Requires: ((emacs "30.1") (grip-mode "2.3.3") (markdown-mode "2.6") (my-core "0.2.0") (valign "3.1.1"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

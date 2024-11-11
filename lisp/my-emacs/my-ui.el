@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((consult "1.8") (doom-modeline "4.2.0") (emacs "29.1") (embark "1.1") (embark-consult "1.1") (ibuffer-project "2.2") (marginalia "1.7") (modus-themes "4.5.0") (nerd-icons "0.1.0") (nerd-icons-ibuffer "1.0.0") (orderless "1.2") (popper "0.4.6") (sideline "0.2.0") (spacious-padding "0.5.0") (svg-tag-mode "0.3.2") (switch-window "1.6.1") (vertico "1.9"))
+;; Package-Requires: ((consult "1.8") (doom-modeline "4.2.0") (emacs "30.1") (embark "1.1") (embark-consult "1.1") (ibuffer-project "2.2") (marginalia "1.7") (modus-themes "4.5.0") (nerd-icons "0.1.0") (nerd-icons-ibuffer "1.0.0") (orderless "1.2") (popper "0.4.6") (sideline "0.2.0") (spacious-padding "0.5.0") (svg-tag-mode "0.3.2") (switch-window "1.6.1") (vertico "1.9"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

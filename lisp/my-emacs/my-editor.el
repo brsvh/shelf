@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((anzu "0.64") (consult "1.8") (editorconfig "0.11.0") (emacs "29.1") (form-feed "0.2.3") (mwim "0.4") (my-core "0.2.0") (rg "2.3.0") (yasnippet "0.14.1"))
+;; Package-Requires: ((anzu "0.64") (consult "1.8") (editorconfig "0.11.0") (emacs "30.1") (form-feed "0.2.3") (mwim "0.4") (my-core "0.2.0") (rg "2.3.0") (yasnippet "0.14.1"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((emacs "29.1") (mermaid-mode "1.0"))
+;; Package-Requires: ((emacs "30.1") (mermaid-mode "1.0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

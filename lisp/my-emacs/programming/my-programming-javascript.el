@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((eglot "1.17") (emacs "29.1") (flymake "1.3.7") (flymake-eslint "1.7.0") (my-core "0.2.0"))
+;; Package-Requires: ((eglot "1.17") (emacs "30.1") (flymake "1.3.7") (flymake-eslint "1.7.0") (my-core "0.2.0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

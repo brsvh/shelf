@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: extensions
-;; Package-Requires: ((emacs "29.1") (org "9.7.11") (org-modern "1.5"))
+;; Package-Requires: ((emacs "30.1") (org "9.7.11") (org-modern "1.5"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

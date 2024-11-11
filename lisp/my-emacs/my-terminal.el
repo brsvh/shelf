@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: extensions
-;; Package-Requires: ((eat "0.9.4") (emacs "29.1") (project "0.11.1") (with-editor "3.4.2"))
+;; Package-Requires: ((eat "0.9.4") (emacs "30.1") (project "0.11.1") (with-editor "3.4.2"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
