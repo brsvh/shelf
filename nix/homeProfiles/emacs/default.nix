@@ -187,7 +187,7 @@ in
           my-emacs
         ];
 
-      package = pkgs.emacs30-gtk3;
+      package = pkgs.emacs-gtk3;
 
       isDefaultEditor = true;
     };

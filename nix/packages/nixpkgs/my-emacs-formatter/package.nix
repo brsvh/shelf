@@ -1,12 +1,12 @@
 {
-  emacs30-nox,
+  emacs-nox,
   emacsPackagesFor,
   runtimeShell,
   writeScriptBin,
   ...
 }:
 let
-  emacs = (emacsPackagesFor emacs30-nox).withPackages (epkgs: [
+  emacs = (emacsPackagesFor emacs-nox).withPackages (epkgs: [
     epkgs.my-emacs
   ]);
 in

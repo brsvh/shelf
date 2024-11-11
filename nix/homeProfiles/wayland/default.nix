@@ -11,7 +11,7 @@ in
 {
   programs = {
     emacs = {
-      package = mkForce pkgs.emacs30-pgtk;
+      package = mkForce pkgs.emacs-pgtk;
     };
   };
 }
