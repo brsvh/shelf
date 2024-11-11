@@ -200,6 +200,8 @@ in
 
             overlays = [
               rust-overlay.overlays.default
+              self.overlays.epkgs
+              self.overlays.nixpkgs
             ];
           };
         };

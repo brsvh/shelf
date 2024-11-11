@@ -117,7 +117,9 @@ in
               root = data.root or true;
             };
 
-            sections = removeAttrs data [ "root" ];
+            sections = removeAttrs data [
+              "root"
+            ];
           };
         in
         pkgs.writeText name (generators.toINIWithGlobalSection { } value);
@@ -159,7 +161,11 @@ in
             };
           };
 
-          skip = [ { ref = "update_flake_lock_action"; } ];
+          skip = [
+            {
+              ref = "update_flake_lock_action";
+            }
+          ];
         };
       };
 
@@ -253,19 +259,36 @@ in
     {
       data = {
         formatter = {
+          emacs-lisp = {
+            command = "my-emacs-formatter";
+
+            includes = [
+              "*.el"
+            ];
+          };
+
           nix = {
             command = "nixfmt";
-            includes = [ "*.nix" ];
+
+            includes = [
+              "*.nix"
+            ];
           };
 
           shellcheck = {
             command = "shellcheck";
-            includes = [ "*.sh" ];
+
+            includes = [
+              "*.sh"
+            ];
           };
 
           shfmt = {
             command = "shfmt";
-            includes = [ "*.sh" ];
+
+            includes = [
+              "*.sh"
+            ];
           };
         };
       };
@@ -274,6 +297,7 @@ in
       output = "treefmt.toml";
 
       packages = with pkgs; [
+        my-emacs-formatter
         nixfmt-rfc-style
         shellcheck
         shfmt
