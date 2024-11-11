@@ -82,21 +82,24 @@
      "r" #'tabspaces-remove-current-buffer
      "s" #'tabspaces-switch-to-buffer))
   (:set
-   ;; Inhibit bind default key-bindings of `tabspaces'.
-   tabspaces-keymap-prefix nil
-
-   ;; I prefer to use `consult-buffer'.
-   tabspaces-use-filtered-buffers-as-default nil
-
    ;; Share *scratch* and *Messages* buffers.
    tabspaces-include-buffers '("*scratch*" "*Messages*")
+
+   ;; Inhibit create the project-todo.org
+   tabspaces-initialize-project-with-todo nil
+
+   ;; Inhibit bind default key-bindings of `tabspaces'.
+   tabspaces-keymap-prefix nil
 
    ;; Let `tabspaces' save opened sessions.
    tabspaces-session t
    tabspaces-session-file (my-state-path* "tabspaces/sessons.eld")
 
    ;; But don't auto restore.
-   tabspaces-session-auto-restore nil)
+   tabspaces-session-auto-restore nil
+
+   ;; I prefer to use `consult-buffer'.
+   tabspaces-use-filtered-buffers-as-default nil)
   (:with-hook tab-bar-mode-hook
     (:hook #'tabspaces-mode)))
 
