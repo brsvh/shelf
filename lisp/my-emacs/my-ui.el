@@ -284,19 +284,11 @@
 
 ;; Set more padding in the Frame.
 (setup spacious-padding
-  (:quit)
   (:autoload spacious-padding-mode)
   (:first-ui spacious-padding-mode)
   (:when-loaded
     (:set
-     spacious-padding-widths '( :fringe-width 8
-                                :header-line-width 4
-                                :internal-border-width 3
-                                :mode-line-width 6
-                                :right-divider-width 3
-                                :scroll-bar-width 8
-                                :tab-width 4)
-     spacious-padding-subtle-mode-line t)))
+     spacious-padding-subtle-mode-line nil)))
 
 
 
