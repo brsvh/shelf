@@ -103,11 +103,11 @@
     },
     "devshellago": {
       "locked": {
-        "lastModified": 1731405957,
-        "narHash": "sha256-41Klb5inI3ulpw7kBO3GC8V/8UGi+P9YR7+7P8kQVjc=",
+        "lastModified": 1731406995,
+        "narHash": "sha256-47oGNZc8O8vSCqXB3g4MPCeUybNhm48L16pkTs4DABY=",
         "owner": "brsvh",
         "repo": "devshellago",
-        "rev": "31be0fe0a605633de269b2d13b782e19e5636d78",
+        "rev": "eeac8fd6486c4feed8ef32723f102258417a86d1",
         "type": "github"
       },
       "original": {
