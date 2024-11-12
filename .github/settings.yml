@@ -2,7 +2,7 @@ repository:
   name: shelf
   description: A place to collect things about Nix/NixOS, it is also where to keep my dotfiles.
   homepage: https://brsvh.github.io/shelf/
-  topics: dotfiles, home-manager, nixos-configuration, nix-flake, nixos-flake, fonts, chinese-fonts
+  topics: dotfiles, home-manager, nixos-configuration, nix-flake, nixos-flake
   private: false
 
   has_issues: true
