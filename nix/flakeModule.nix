@@ -11,6 +11,7 @@ let
 
   inherit (inputs)
     browser
+    devshellago
     home-manager
     nix-alien
     nixpkgs
@@ -111,7 +112,7 @@ let
 in
 {
   imports = [
-    my.flakeModules.devshell
+    devshellago.flakeModule
     my.flakeModules.myConfigs
     my.flakeModules.options
   ];

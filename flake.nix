@@ -82,6 +82,10 @@
       url = "github:numtide/devshell/main";
     };
 
+    devshellago = {
+      url = "github:brsvh/devshellago/main";
+    };
+
     crane = {
       url = "github:ipetkov/crane/master";
     };

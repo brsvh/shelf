@@ -101,6 +101,22 @@
         "type": "github"
       }
     },
+    "devshellago": {
+      "locked": {
+        "lastModified": 1731405957,
+        "narHash": "sha256-41Klb5inI3ulpw7kBO3GC8V/8UGi+P9YR7+7P8kQVjc=",
+        "owner": "brsvh",
+        "repo": "devshellago",
+        "rev": "31be0fe0a605633de269b2d13b782e19e5636d78",
+        "type": "github"
+      },
+      "original": {
+        "owner": "brsvh",
+        "ref": "main",
+        "repo": "devshellago",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -561,6 +577,7 @@
         "darwin": "darwin",
         "default-linux": "default-linux",
         "devshell": "devshell",
+        "devshellago": "devshellago",
         "disko": "disko",
         "facter": "facter",
         "flake-compat": "flake-compat",

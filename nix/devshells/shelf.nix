@@ -21,18 +21,17 @@ in
     name = "shelf";
 
     startup = {
-      "lefthook.yml" = {
+      "lefthook" = {
         deps = [
-          ".conform.yaml"
-          "treefmt.toml"
+          "conform"
+          "treefmt"
         ];
       };
     };
   };
 
-  nixago = [
-    # conform
-    {
+  nixago = {
+    conform = {
       data = {
         commit = {
           body = {
@@ -79,9 +78,9 @@ in
       packages = with pkgs; [
         conform
       ];
-    }
-    # editorconfig
-    {
+    };
+
+    editorconfig = {
       data = {
         root = true;
 
@@ -129,15 +128,15 @@ in
       packages = with pkgs; [
         editorconfig-checker
       ];
-    }
-    # lefthook
-    {
+    };
+
+    lefthook = {
       data = {
         commit-msg = {
           commands = {
             conform = {
               run = ''
-                # Allow wip, fixup, squash.
+                  # Allow wip, fixup, squash.
                 [[ "$(head -n 1 {1})" =~ ^WIP(:.*)?$|^wip(:.*)?$|fixup\!.*|squash\!.* ]] ||
                 conform enforce --commit-msg-file {1}
               '';
@@ -205,9 +204,9 @@ in
       packages = with pkgs; [
         lefthook
       ];
-    }
-    # sops
-    {
+    };
+
+    sops = {
       data =
         let
           eustoma = {
@@ -254,9 +253,9 @@ in
         ssh-to-age
         ssh-to-pgp
       ];
-    }
-    # treefmt
-    {
+    };
+
+    treefmt = {
       data = {
         formatter = {
           nix = {
@@ -294,6 +293,6 @@ in
         shfmt
         treefmt
       ];
-    }
-  ];
+    };
+  };
 }
