@@ -12,7 +12,6 @@
     my.homeProfiles.email
     my.homeProfiles.english
     my.homeProfiles.envvars
-    my.homeProfiles.feishu
     my.homeProfiles.fish
     my.homeProfiles.git
     my.homeProfiles.gnome
