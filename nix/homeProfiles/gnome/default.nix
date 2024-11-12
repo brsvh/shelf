@@ -64,6 +64,10 @@ in
             dynamic-workspaces = true;
           };
 
+          "org/gnome/settings-daemon/plugins/power" = {
+            sleep-inactive-ac-type = "nothing";
+          };
+
           "org/gnome/shell" = {
             disable-user-extensions = false;
             enabled-extensions =
