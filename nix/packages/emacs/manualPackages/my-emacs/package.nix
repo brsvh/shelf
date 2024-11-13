@@ -68,6 +68,7 @@
   org-category-capture,
   org-contrib,
   org-modern,
+  org-noter,
   org-project-capture,
   org-roam,
   org-roam-bibtex,
@@ -261,6 +262,7 @@ trivialBuild rec {
     org-category-capture
     org-contrib
     org-modern
+    org-noter
     org-project-capture
     org-roam
     org-roam-bibtex
