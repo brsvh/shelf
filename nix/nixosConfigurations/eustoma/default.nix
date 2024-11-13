@@ -8,6 +8,7 @@
     my.nixosProfiles.binfmt
     my.nixosProfiles.chinese
     my.nixosProfiles.docker
+    my.nixosProfiles.fprintd
     # my.nixosProfiles.guix
     my.nixosProfiles.libvirt
     my.nixosProfiles.virtual-camera

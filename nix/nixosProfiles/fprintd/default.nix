@@ -1,0 +1,7 @@
+{
+  services = {
+    fprintd = {
+      enable = true;
+    };
+  };
+}
