@@ -1,6 +1,6 @@
 {
+  config,
   my,
-  pkgs,
   ...
 }:
 {
@@ -54,7 +54,7 @@
           };
         };
 
-        shell = pkgs.fish;
+        shell = config.programs.fish.package;
       };
     };
   };
