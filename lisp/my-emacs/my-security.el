@@ -54,6 +54,16 @@
   (:after auth-source-pass
     (my-path* (my-dir auth-source-pass-filename))))
 
+(setup pass
+  (:autoload pass)
+  (:keymap-set-into ctl-c-a-map "p" pass))
+
+(setup window
+  (:set
+   (append display-buffer-alist)
+   '( "\\*Password-Store\\*"
+      (display-buffer-same-window))))
+
 
 
 ;;;

@@ -83,6 +83,12 @@
     (:set
      mail-user-agent 'mu4e-user-agent)))
 
+(setup window
+  (:set
+   (append display-buffer-alist)
+   '( "\\*mu4e-main\\*"
+      (display-buffer-same-window))))
+
 
 
 ;;;

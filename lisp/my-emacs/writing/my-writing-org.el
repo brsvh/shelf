@@ -266,13 +266,13 @@ If the PROPERTY already has the same VALUE, do nothing."
 (setup window
   (:set
    (append display-buffer-alist)
-   '("\\*Org todo\\*"
-     ;; Prefer to show the select window under the current window.
-     (display-buffer-reuse-window display-buffer-below-selected)
-     ;; Hide Mode Line.
-     (window-parameters (mode-line-format . none))
-     ;; Set height to 1/3 of current frame.
-     (window-height 0.33))))
+   '( "\\*Org todo\\*"
+      ;; Prefer to show the select window under the current window.
+      (display-buffer-reuse-window display-buffer-below-selected)
+      ;; Hide Mode Line.
+      (window-parameters (mode-line-format . none))
+      ;; Set height to 1/3 of current frame.
+      (window-height 0.33))))
 
 (setup font-lock
   (:when-loaded
@@ -302,13 +302,13 @@ If the PROPERTY already has the same VALUE, do nothing."
 (setup window
   (:set
    (append display-buffer-alist)
-   '("\\*Org Select\\*"
-     ;; Prefer to show the select window under the current window.
-     (display-buffer-reuse-window display-buffer-below-selected)
-     ;; Hide Mode Line.
-     (window-parameters (mode-line-format . none))
-     ;; Set height to 2/5 of current frame.
-     (window-height 0.4))))
+   '( "\\*Org Select\\*"
+      ;; Prefer to show the select window under the current window.
+      (display-buffer-reuse-window display-buffer-below-selected)
+      ;; Hide Mode Line.
+      (window-parameters (mode-line-format . none))
+      ;; Set height to 2/5 of current frame.
+      (window-height 0.4))))
 
 
 
@@ -524,13 +524,13 @@ If the PROPERTY already has the same VALUE, do nothing."
 
    ;; Display the Org Roam buffer in the right window.
    (append display-buffer-alist)
-   '("\\*org-roam\\*"
-     (display-buffer-reuse-window display-buffer-in-side-window)
-     (side . right)
-     (slot . 0)
-     (window-width . 0.33)
-     (window-parameters . ((no-other-window . t)
-                           (no-delete-other-windows . t)))))
+   '( "\\*org-roam\\*"
+      (display-buffer-reuse-window display-buffer-in-side-window)
+      (side . right)
+      (slot . 0)
+      (window-width . 0.33)
+      (window-parameters . ((no-other-window . t)
+                            (no-delete-other-windows . t)))))
   (:with-hook org-roam-mode-hook
     ;; Show citations.
     (:hook org-roam-bibtex-mode)))
