@@ -85,7 +85,7 @@
   (:with-map ctl-c-a-map
     (:keymap-set
      ;; Show agenda.
-     "a" #'org-agenda))
+     "a" org-agenda))
   (:when-loaded
     (:snoc
      org-agenda-custom-commands
@@ -123,7 +123,7 @@
   (:with-map ctl-c-a-map
     (:keymap-set
      ;; Capture everything.
-     "c" #'org-capture))
+     "c" org-capture))
   (:when-loaded
     (:snoc
      org-capture-templates
@@ -167,7 +167,7 @@
 (setup org-agenda
   (:with-hook org-agenda-finalize-hook
     (:hook
-     #'org-modern-agenda))
+     org-modern-agenda))
   (:when-loaded
     (:set
      org-agenda-tags-column 0

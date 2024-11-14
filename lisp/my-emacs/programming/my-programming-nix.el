@@ -71,7 +71,7 @@
 
 (setup nix-ts-mode
   (:with-hook nix-ts-mode-hook
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

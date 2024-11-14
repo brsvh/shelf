@@ -62,9 +62,9 @@
 
 (setup typescript-ts-mode
   (:with-mode typescript-ts-mode
-    (:hook #'flymake-eslint-enable))
+    (:hook flymake-eslint-enable))
   (:with-mode tsx-ts-mode
-    (:hook #'flymake-eslint-enable)))
+    (:hook flymake-eslint-enable)))
 
 
 
@@ -77,9 +77,9 @@
 ;; Activate `eglot' for all TypeScript mode.
 (setup js-mode
   (:with-mode tsx-ts-mode
-    (:hook #'eglot-ensure))
+    (:hook eglot-ensure))
   (:with-mode typescript-ts-mode
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

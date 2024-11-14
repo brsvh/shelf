@@ -64,15 +64,15 @@
          "\\*Activities\\*")
   (:with-map ctl-c-w-map
     (:keymap-set
-     "b"   #'activities-switch-buffer
-     "g"   #'activities-revert
-     "RET" #'activities-switch
-     "C-d" #'activities-discard
-     "C-k" #'activities-kill
-     "C-l" #'activities-list
-     "C-n" #'activities-new
-     "C-r" #'activities-resume
-     "C-s" #'activities-suspend)))
+     "b"   activities-switch-buffer
+     "g"   activities-revert
+     "RET" activities-switch
+     "C-d" activities-discard
+     "C-k" activities-kill
+     "C-l" activities-list
+     "C-n" activities-new
+     "C-r" activities-resume
+     "C-s" activities-suspend)))
 
 
 

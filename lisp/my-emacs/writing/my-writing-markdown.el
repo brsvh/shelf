@@ -71,12 +71,12 @@
   (:with-hook (markdown-mode-hook gfm-mode-hook)
     (:hook
      ;; Auto insert paried '*', '_', and '`'.
-     #'(lambda ()
-         (electric-pair-local-mode +1)
-         (:snoc-local electric-pair-pairs
-                      (cons ?* ?*)
-                      (cons ?_ ?_)
-                      (cons ?` ?`))))))
+     (lambda ()
+       (electric-pair-local-mode +1)
+       (:snoc-local electric-pair-pairs
+                    (cons ?* ?*)
+                    (cons ?_ ?_)
+                    (cons ?` ?`))))))
 
 
 
@@ -86,7 +86,7 @@
 (setup grip-mode
   (:autoload grip-mode)
   (:after markdown-mode
-    (:keymap-set-into markdown-mode-command-map "g" #'grip-mode)
+    (:keymap-set-into markdown-mode-command-map "g" grip-mode)
     (let ((credential (auth-source-user-and-password "api.github.com")))
       (:set
        grip-github-user (car credential)
@@ -103,9 +103,9 @@
 (setup valign
   (:autoload valign-mode)
   (:with-hook gfm-mode-hook
-    (:hook #'valign-mode))
+    (:hook valign-mode))
   (:with-hook markdown-mode-hook
-    (:hook #'valign-mode)))
+    (:hook valign-mode)))
 
 
 

@@ -48,7 +48,6 @@
   (:autoload turn-on-reftex))
 
 (setup tex-site
-  (:autoload TeX-load-hack)
   (:set TeX-auto-global (my-cache-path "auctex/")))
 
 (setup tex
@@ -61,7 +60,6 @@
          'TeX-error-overview-mode
          "\\*TeX Help\\*"
          'TeX-output-mode)
-  (:advice-add TeX-mode :before #'TeX-load-hack)
   (:set
    ;; Automatically generated AUCTeX style files.
    TeX-auto-local ".auto"
@@ -94,7 +92,7 @@
 
 (setup tex
   (:with-hook TeX-mode
-    (:hook #'citar-capf-setup)))
+    (:hook citar-capf-setup)))
 
 
 
@@ -106,7 +104,7 @@
   (:with-hook LaTeX-mode-hook
     (:hook
      ;; Support labels, references, citations, and index.
-     #'turn-on-reftex)))
+     turn-on-reftex)))
 
 
 

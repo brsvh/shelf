@@ -64,11 +64,11 @@
    c-mode
    c-or-c++-mode)
   (:with-mode c-or-c++-mode
-    (:hook #'eglot-ensure))
+    (:hook eglot-ensure))
   (:with-mode c-mode
-    (:hook #'eglot-ensure))
+    (:hook eglot-ensure))
   (:with-mode c++-mode
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

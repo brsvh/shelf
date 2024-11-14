@@ -57,7 +57,7 @@
 
 (setup haskell-ts-mode
   (:with-mode haskell-ts-mode
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

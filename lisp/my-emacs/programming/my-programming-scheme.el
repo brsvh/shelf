@@ -41,7 +41,7 @@
 ;; Parens editing:
 
 (setup scheme-mode
-  (:hook #'parinfer-rust-mode))
+  (:hook parinfer-rust-mode))
 
 
 

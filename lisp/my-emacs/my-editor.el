@@ -107,7 +107,7 @@ shebang line or file path may exist now."
 
 (setup bookmark
   (:with-map global-map
-    (:keymap-set "<remap> <bookmark-bmenu-list>" #'consult-bookmark))
+    (:keymap-set "<remap> <bookmark-bmenu-list>" consult-bookmark))
   (:when-loaded
     (:set
      bookmark-default-file (my-data-path "bookmarks.el"))))
@@ -131,8 +131,8 @@ shebang line or file path may exist now."
 (setup editing
   (:with-map ctl-c-e-map
     (:keymap-set
-     "SPC" #'my/current-buffer-delete-trailing-whitespace
-     "TAB" #'my/current-buffer-untabify)))
+     "SPC" my/current-buffer-delete-trailing-whitespace
+     "TAB" my/current-buffer-untabify)))
 
 
 
@@ -154,7 +154,7 @@ shebang line or file path may exist now."
 
 (setup files
   (:with-hook after-save-hook
-    (:hook #'my-editor-guess-file-mode))
+    (:hook my-editor-guess-file-mode))
   (:set
    ;; Move to trash when delete files.
    delete-by-moving-to-trash t
@@ -200,8 +200,8 @@ shebang line or file path may exist now."
 (setup mwim
   (:with-map global-map
     (:keymap-set
-     "<remap> <move-beginning-of-line>" #'mwim-beginning-of-code-or-line
-     "<remap> <move-end-of-line>" #'mwim-end-of-code-or-line)))
+     "<remap> <move-beginning-of-line>" mwim-beginning-of-code-or-line
+     "<remap> <move-end-of-line>" mwim-end-of-code-or-line)))
 
 (setup subword
   (:autoload global-subword-mode subword-mode)
@@ -228,13 +228,13 @@ shebang line or file path may exist now."
   (:first-file recentf-mode)
   (:advice-add
    ;; Silent load.
-   recentf-load-list :around #'my-silent-message
+   recentf-load-list :around my-silent-message
    ;; Silent cleanup.
-   recentf-cleanup :around #'my-silent-message)
+   recentf-cleanup :around my-silent-message)
   (:set
    ;; Change the storage location for persisting the recent files.
    recentf-save-file (my-state-path "recent.el"))
-  (:keymap-set-into ctl-c-f-map "r" #'consult-recent-file))
+  (:keymap-set-into ctl-c-f-map "r" consult-recent-file))
 
 
 
@@ -258,14 +258,14 @@ shebang line or file path may exist now."
    rg-dwim)
   (:with-map ctl-c-s-map
     (:keymap-set
-     "S" #'rg-save-search-as-name
-     "d" #'rg-dwim
-     "k" #'rg-kill-saved-searches
-     "l" #'rg-list-searches
-     "p" #'rg-project
-     "s" #'rg-save-search
-     "t" #'rg-literal
-     "r" #'rg)))
+     "S" rg-save-search-as-name
+     "d" rg-dwim
+     "k" rg-kill-saved-searches
+     "l" rg-list-searches
+     "p" rg-project
+     "s" rg-save-search
+     "t" rg-literal
+     "r" rg)))
 
 
 
@@ -275,7 +275,7 @@ shebang line or file path may exist now."
 (setup yasnippet
   (:when-loaded
     (:snoc yas-snippet-dirs (my-path my-etc-directory "snippets/"))
-    (:advice-add yas-load-directory :around #'my-silent-message)))
+    (:advice-add yas-load-directory :around my-silent-message)))
 
 
 
@@ -285,8 +285,8 @@ shebang line or file path may exist now."
 (setup consult
   (:with-map global-map
     (:keymap-set
-     "<remap> <yank>" #'consult-yank-from-kill-ring
-     "<remap> <yank-pop>" #'consult-yank-pop)))
+     "<remap> <yank>" consult-yank-from-kill-ring
+     "<remap> <yank-pop>" consult-yank-pop)))
 
 (setup delsel
   ;; When typing with a selected region, replace it directly.

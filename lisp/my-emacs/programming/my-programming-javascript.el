@@ -61,9 +61,9 @@
 
 (setup js
   (:with-mode js-ts-mode
-    (:hook #'flymake-eslint-enable))
+    (:hook flymake-eslint-enable))
   (:with-mode js-mode
-    (:hook #'flymake-eslint-enable)))
+    (:hook flymake-eslint-enable)))
 
 
 
@@ -76,9 +76,9 @@
 ;; Activate `eglot' for all JavaScript mode.
 (setup js
   (:with-mode js-ts-mode
-    (:hook #'eglot-ensure))
+    (:hook eglot-ensure))
   (:with-mode js-mode
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

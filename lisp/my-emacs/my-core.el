@@ -165,6 +165,7 @@ Usage see `cl-eval-when'."
     :documentation "Set KEY to DEFINITION.
 See `keymap-set'."
     :debug '(key sexp)
+    :ensure '(nil func)
     :repeatable t)
 
   (setup-define :keymap-set-into
@@ -174,7 +175,8 @@ See `keymap-set'."
             `(:with-map ,feature-or-map (:keymap-set ,@body)))
         `(:with-feature ,feature-or-map (:keymap-set ,@body))))
     :documentation "Set keys to definition into FEATURE-OR-MAP."
-    :debug '(sexp &rest key sexp))
+    :debug '(sexp &rest key sexp)
+    :ensure '(nil func))
 
   (setup-define :keymap-unset
     (lambda (key remove)
@@ -328,7 +330,7 @@ These forms are supported:
 
 (setup server
   (:with-hook after-init-hook
-    (:hook #'my/server-start))
+    (:hook my/server-start))
   (:when-loaded
     (:set
      server-auth-dir (my-state-path "server/"))))
@@ -378,23 +380,19 @@ These forms are supported:
   "Default keymap use to bind my Emacs operating commands.")
 
 (setup my-maps
-  (:with-map ctl-c-map
-    (:keymap-set
-     "4"      ctl-c-4-map
-     "5"      ctl-c-5-map
-     "a"      ctl-c-a-map
-     "e"      ctl-c-e-map
-     "f"      ctl-c-f-map
-     "p"      ctl-c-p-map
-     "s"      ctl-c-s-map
-     "v"      ctl-c-v-map
-     "w"      ctl-c-w-map
-     "<home>" ctl-c-home-map))
-  (:with-map ctl-c-p-map
-    (:keymap-set "TAB" ctl-c-p-tab-map))
-  (:with-map ctl-c-v-map
-    (:keymap-set "g" ctl-c-v-g-map))
-  (:keymap-set-into global-map "C-c" ctl-c-map))
+  (keymap-set global-map  "C-c"    ctl-c-map)
+  (keymap-set ctl-c-map   "4"      ctl-c-4-map)
+  (keymap-set ctl-c-map   "5"      ctl-c-5-map)
+  (keymap-set ctl-c-map   "a"      ctl-c-a-map)
+  (keymap-set ctl-c-map   "e"      ctl-c-e-map)
+  (keymap-set ctl-c-map   "f"      ctl-c-f-map)
+  (keymap-set ctl-c-map   "p"      ctl-c-p-map)
+  (keymap-set ctl-c-map   "s"      ctl-c-s-map)
+  (keymap-set ctl-c-map   "v"      ctl-c-v-map)
+  (keymap-set ctl-c-map   "w"      ctl-c-w-map)
+  (keymap-set ctl-c-map   "<home>" ctl-c-home-map)
+  (keymap-set ctl-c-p-map "TAB"  ctl-c-p-tab-map)
+  (keymap-set ctl-c-v-map "g"    ctl-c-v-g-map))
 
 
 
@@ -402,7 +400,7 @@ These forms are supported:
 ;; Built-in features:
 
 (setup files
-  (:keymap-set-into ctl-c-home-map "r" #'restart-emacs))
+  (:keymap-set-into ctl-c-home-map "r" restart-emacs))
 
 
 

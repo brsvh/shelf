@@ -85,7 +85,7 @@
   (:autoload pangu-spacing-mode)
   (:with-map ctl-c-e-map
     (:keymap-set
-     "C-SPC" #'pangu-spacing-mode))
+     "C-SPC" pangu-spacing-mode))
   (:when-loaded
     (:set pangu-spacing-real-insert-separtor t)))
 

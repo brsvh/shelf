@@ -70,11 +70,11 @@
 
 (defun my-modus-themes-enable-p (&rest _)
   "Return non-nil if current theme is belong to Modus Themes, else nil."
-  (cl-some #'(lambda (theme)
-               (member theme '(modus-operandi
-                               modus-operandi-tinted
-                               modus-vivendi
-                               modus-vivendi-tinted)))
+  (cl-some (lambda (theme)
+             (member theme '(modus-operandi
+                             modus-operandi-tinted
+                             modus-vivendi
+                             modus-vivendi-tinted)))
            custom-enabled-themes))
 
 (defun my-orderless-consult-suffix ()
@@ -140,20 +140,21 @@
                      modus-vivendi-tinted)))
 
 (defvar consult--source-tab-buffer
-  (list :name     "Tab buffer"
-        :narrow   ?b
-        :history  'buffer-name-history
-        :category 'buffer
-        :state    #'consult--buffer-state
-        :default  t
-        :enabled (lambda () tab-bar-mode)
-        :items    #'(lambda ()
-                      (consult--buffer-query
-                       :predicate #'(lambda (buffer)
-                                      (memq buffer
-                                            (frame-parameter nil 'buffer-list)))
-                       :sort 'visibility
-                       :as #'consult--buffer-pair))))
+  `( :name     "Tab buffer"
+     :narrow   ?b
+     :history  buffer-name-history
+     :category buffer
+     :face     consult-buffer
+     :state    consult--buffer-state
+     :default  t
+     :enabled  ,(lambda () tab-bar-mode)
+     :items    ,(lambda ()
+                  (consult--buffer-query
+                   :predicate (lambda (buffer)
+                                (memq buffer
+                                      (frame-parameter nil 'buffer-list)))
+                   :sort 'visibility
+                   :as #'consult--buffer-pair))))
 
 (orderless-define-completion-style my-orderless-with-initialism
   (orderless-matching-styles '(orderless-initialism
@@ -170,9 +171,9 @@
          "\\`\\*Embark Collect \\(Live\\|Completions\\)\\*")
   (:with-map global-map
     (:keymap-set
-     "C-." #'embark-act
-     "C-;" #'embark-dwim
-     "C-h B" #'embark-bindings))
+     "C-." embark-act
+     "C-;" embark-dwim
+     "C-h B" embark-bindings))
   (:when-loaded
     (:set
      ;; Prefer to pop up Embark buffer below the current window.
@@ -187,7 +188,7 @@
 (setup embark-consult
   (:after embark
     (:with-hook embark-collect-mode-hook
-      (:hook #'consult-preview-at-point-mode))))
+      (:hook consult-preview-at-point-mode))))
 
 
 
@@ -216,22 +217,22 @@
            "*Ibuffer*"))
   (:with-hook ibuffer-mode-hook
     (:hook
-     #'nerd-icons-ibuffer-mode
-     #'(lambda ()
-         (:set ibuffer-filter-groups
-               (ibuffer-project-generate-filter-groups))
-         (unless (eq ibuffer-sorting-mode
-                     'project-file-relative)
-           (ibuffer-do-sort-by-project-file-relative))))))
+     nerd-icons-ibuffer-mode
+     (lambda ()
+       (:set ibuffer-filter-groups
+             (ibuffer-project-generate-filter-groups))
+       (unless (eq ibuffer-sorting-mode
+                   'project-file-relative)
+         (ibuffer-do-sort-by-project-file-relative))))))
 
 (setup buff-menu
-  (:keymap-set-into global-map "<remap> <list-buffers>" #'ibuffer))
+  (:keymap-set-into global-map "<remap> <list-buffers>" ibuffer))
 
 (setup buffer
   (:with-map global-map
     (:keymap-set
      ;; Select a buffer open in current window.
-     "<remap> <switch-to-buffer>" #'consult-buffer)))
+     "<remap> <switch-to-buffer>" consult-buffer)))
 
 (setup sideline
   (:autoload global-sideline-mode sideline-mode)
@@ -280,7 +281,7 @@
   (:with-map global-map
     (:keymap-set
      ;; Select a buffer open in a new frame.
-     "<remap> <switch-to-buffer-other-frame>" #'consult-buffer-other-frame)))
+     "<remap> <switch-to-buffer-other-frame>" consult-buffer-other-frame)))
 
 ;; Set more padding in the Frame.
 (setup spacious-padding
@@ -304,12 +305,12 @@
    prefix-help-command #'embark-prefix-help-command)
   (:with-map help-map
     (:keymap-set
-     "C-k" #'describe-keymap)))
+     "C-k" describe-keymap)))
 
 (setup info
   (:with-map global-map
     (:keymap-set
-     "<remap> <info>" #'consult-info)))
+     "<remap> <info>" consult-info)))
 
 
 
@@ -387,12 +388,12 @@
   (:after vertico
     (:with-map vertico-map
       (:keymap-set
-       "<return>" #'vertico-directory-enter
+       "<return>" vertico-directory-enter
 
        ;; Eliminating multiple characters in the path simultaneously by
        ;; word.
-       "<backspace>" #'vertico-directory-delete-char
-       "M-<backspace>" #'vertico-directory-delete-word))))
+       "<backspace>" vertico-directory-delete-char
+       "M-<backspace>" vertico-directory-delete-word))))
 
 
 
@@ -448,16 +449,16 @@
          "\\*Warnings\\*")
   (:with-map global-map
     (:keymap-set
-     "C-`" #'popper-toggle
-     "C-~" #'popper-cycle
-     "M-p" #'popper-toggle-type))
+     "C-`" popper-toggle
+     "C-~" popper-cycle
+     "M-p" popper-toggle-type))
   (:when-loaded
     (:set
      popper-group-function #'popper-group-by-directory
      popper-window-height #'my-popper-fit-window-height)
     ;; Close popups with `keyboard-quit'.
     (:advice-add
-     keyboard-quit :before #'my-popper-close-with-keyboard-quit)
+     keyboard-quit :before my-popper-close-with-keyboard-quit)
     (:after doom-modeline
       ;; Replace " POP " in `doom-modeline' with .
       (:set
@@ -527,8 +528,8 @@
    ;; Open *scratch* buffer with `fundamental-mode'.
    initial-major-mode 'fundamental-mode)
   (:advice-add
-   display-startup-echo-area-message :override #'ignore
-   display-startup-screen            :override #'ignore))
+   display-startup-echo-area-message :override ignore
+   display-startup-screen            :override ignore))
 
 
 
@@ -539,30 +540,30 @@
   (:first-ui tab-bar-mode)
   (:with-map global-map
     (:keymap-set
-     "<remap> <switch-to-buffer-other-tab>" #'consult-buffer-other-tab))
+     "<remap> <switch-to-buffer-other-tab>" consult-buffer-other-tab))
   (:with-hook tab-bar-mode-hook
     (:hook
-     #'(lambda ()
-         (if (bound-and-true-p tab-bar-mode)
-             ;; Prefer to use `consult--source-tab-buffer' when
-             ;; `tab-bar-mode' is enabled.
-             (progn
-               ;; Hide default source `consult--source-buffer'.
-               (consult-customize consult--source-buffer
-                                  :hidden t
-                                  :default nil)
-               (:set
-                ;; Use buffer of current Tab as default source.
-                (prepend consult-buffer-sources)
-                'consult--source-tab-buffer))
-           ;; Unset `consult--source-tab-buffer' when `tab-bar-mode' is
-           ;; disabled.
+     (lambda ()
+       (if (bound-and-true-p tab-bar-mode)
+           ;; Prefer to use `consult--source-tab-buffer' when
+           ;; `tab-bar-mode' is enabled.
            (progn
+             ;; Hide default source `consult--source-buffer'.
              (consult-customize consult--source-buffer
-                                :hidden nil
-                                :default t)
-             (:set (remove consult-buffer-sources)
-                   'consult--source-tab-buffer))))))
+                                :hidden t
+                                :default nil)
+             (:set
+              ;; Use buffer of current Tab as default source.
+              (prepend consult-buffer-sources)
+              'consult--source-tab-buffer))
+         ;; Unset `consult--source-tab-buffer' when `tab-bar-mode' is
+         ;; disabled.
+         (progn
+           (consult-customize consult--source-buffer
+                              :hidden nil
+                              :default t)
+           (:set (remove consult-buffer-sources)
+                 'consult--source-tab-buffer))))))
   (:when-loaded
     (:set
      ;; Only show Tab Bar when have one more Tabs.
@@ -639,27 +640,27 @@
      ;; switch to by number.
      "<remap> <other-window>" #'switch-window
 
-     ;; When there are more than two windows, select the window to
+     ;; When there are re than two windows, select the window to
      ;; maximize to by number.
-     "<remap> <delete-other-windows>" #'switch-window-then-maximize
+     "<remap> <delete-other-windows>" switch-window-then-maximize
 
      ;; When there are more than two windows, split the window below by
      ;; selecting its number.
-     "<remap> <split-window-below>" #'switch-window-then-split-below
+     "<remap> <split-window-below>" switch-window-then-split-below
 
      ;; When there are more than two windows, split the window right by
      ;; selecting its number.
-     "<remap> <split-window-right>" #'switch-window-then-split-right
+     "<remap> <split-window-right>" switch-window-then-split-right
 
      ;; Select a buffer open in other window.
-     "<remap> <switch-to-buffer-other-window>" #'consult-buffer-other-window)))
+     "<remap> <switch-to-buffer-other-window>" consult-buffer-other-window)))
 
 (setup winner
   (:first-ui winner-mode)
   (:with-map ctl-c-map
     (:keymap-set
-     "<left>" #'winner-undo
-     "<right>" #'winner-redo))
+     "<left>" winner-undo
+     "<right>" winner-redo))
   (:when-loaded
     (:snoc winner-boring-buffers
            "*Backtrace*"

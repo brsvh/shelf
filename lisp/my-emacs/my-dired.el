@@ -56,11 +56,11 @@
   (:when-gui
    (:with-hook dired-mode-hook
      (:hook
-      #'diredfl-mode          ;; Colorful `dired'.
-      #'nerd-icons-dired-mode ;; `dired' with Nerd icons.
-      #'(lambda ()            ;; Inhibit fill column indicator.
-          (when (bound-and-true-p display-fill-column-indicator-mode)
-            (display-fill-column-indicator-mode -1)))))))
+      diredfl-mode          ;; Colorful `dired'.
+      nerd-icons-dired-mode ;; `dired' with Nerd icons.
+      (lambda ()            ;; Inhibit fill column indicator.
+        (when (bound-and-true-p display-fill-column-indicator-mode)
+          (display-fill-column-indicator-mode -1)))))))
 
 
 
@@ -107,7 +107,7 @@
            ("\\.pdf\\'" "xdg-open")))))
     (:with-map dired-mode-map
       (:keymap-set
-       "M-<return>" #'dired-open-xdg))))
+       "M-<return>" #'did-open-xdg))))
 
 
 
@@ -121,7 +121,7 @@
   (:when-loaded
     (:with-map dired-mode-map
       (:keymap-set
-       ")" #'dired-git-info-mode))))
+       ")" dired-git-info-mode))))
 
 
 

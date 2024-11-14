@@ -202,11 +202,11 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:when-loaded
     (:with-hook org-mode-hook
       (:hook
-       #'my-org-setup-save-functions))))
+       my-org-setup-save-functions))))
 
 (setup ol
   (:autoload org-store-link)
-  (:keymap-set-into ctl-c-a-map "l" #'org-store-link))
+  (:keymap-set-into ctl-c-a-map "l" org-store-link))
 
 
 
@@ -217,7 +217,7 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:autoload org-side-tree)
   ;; Show a indented side tree.
   (:with-hook org-side-tree-mode-hook
-    (:hook #'org-indent-mode)))
+    (:hook org-indent-mode)))
 
 (setup valign
   (:autoload valign-mode))
@@ -248,12 +248,12 @@ If the PROPERTY already has the same VALUE, do nothing."
     (:with-map org-mode-map
       (:keymap-set
        ;; Show a side tree as outline.
-       "C-c m t" #'org-side-tree))))
+       "C-c m t" org-side-tree))))
 
 (setup org-modern
   (:autoload org-modern-mode)
   (:with-hook org-mode-hook
-    (:hook #'org-modern-mode))
+    (:hook org-modern-mode))
   (:when-loaded
     (:set
      org-modern-star '( "●" "◉" "◎" "⊙" "○")
@@ -261,7 +261,7 @@ If the PROPERTY already has the same VALUE, do nothing."
      org-modern-table nil))
   ;; Align variable-pitch font, CJK characters and images in tables.
   (:with-hook org-modern-mode-hook
-    (:hook #'valign-mode)))
+    (:hook valign-mode)))
 
 (setup window
   (:set
@@ -335,7 +335,7 @@ If the PROPERTY already has the same VALUE, do nothing."
 (setup org
   (:also-load oc oc-basic oc-bibtex)
   (:with-hook org-mode-hook
-    (:hook #'citar-capf-setup))
+    (:hook citar-capf-setup))
   (:when-loaded
     (:after embark
       (citar-embark-mode +1))))
@@ -351,7 +351,7 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:after org
     (:with-map org-mode-map
       (:keymap-set
-       "C-c c i" #'org-cite-insert))))
+       "C-c c i" org-cite-insert))))
 
 
 
@@ -373,13 +373,13 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:with-hook org-mode-hook
     (:hook
      ;; Auto insert paried '*', '/', '=', and '~'.
-     #'(lambda ()
-         (electric-pair-local-mode +1)
-         (:snoc-local electric-pair-pairs
-                      (cons ?* ?*)
-                      (cons ?/ ?/)
-                      (cons ?= ?=)
-                      (cons ?~ ?~))))))
+     (lambda ()
+       (electric-pair-local-mode +1)
+       (:snoc-local electric-pair-pairs
+                    (cons ?* ?*)
+                    (cons ?/ ?/)
+                    (cons ?= ?=)
+                    (cons ?~ ?~))))))
 
 
 
@@ -391,20 +391,20 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:when-loaded
     (:set
      (append org-export-filter-paragraph-functions)
-     #'(lambda (text _backend _info)
-         (let* ((text (replace-regexp-in-string
-                       "\\([[:multibyte:]]\\) *\n *\\([[:multibyte:]]\\)"
-                       "\\1\\2"
-                       text))
-                (text (replace-regexp-in-string
-                       "\\([[:multibyte:]]\\) \\(.*?\\) \\([[:multibyte:]]\\)"
-                       "\\1\\2\\3"
-                       text))
-                (text (replace-regexp-in-string
-                       "\\([[:multibyte:]]\\)\\(\\(?:<[^>]+>\\)?[a-z0-9A-Z-]+\\(?:<[^>]+>\\)?\\)\\([[:multibyte:]]\\)"
-                       "\\1 \\2 \\3"
-                       text)))
-           text)))))
+     (lambda (text _backend _info)
+       (let* ((text (replace-regexp-in-string
+                     "\\([[:multibyte:]]\\) *\n *\\([[:multibyte:]]\\)"
+                     "\\1\\2"
+                     text))
+              (text (replace-regexp-in-string
+                     "\\([[:multibyte:]]\\) \\(.*?\\) \\([[:multibyte:]]\\)"
+                     "\\1\\2\\3"
+                     text))
+              (text (replace-regexp-in-string
+                     "\\([[:multibyte:]]\\)\\(\\(?:<[^>]+>\\)?[a-z0-9A-Z-]+\\(?:<[^>]+>\\)?\\)\\([[:multibyte:]]\\)"
+                     "\\1 \\2 \\3"
+                     text)))
+         text)))))
 
 
 
@@ -482,13 +482,13 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:with-map ctl-c-a-map
     (:keymap-set
      ;; Capture a note.
-     "n" #'org-roam-capture))
+     "n" org-roam-capture))
   (:after org
     (:with-map org-mode-map
       (:keymap-set
-       "C-c r f" #'org-roam-node-find
-       "C-c r i" #'org-roam-node-insert
-       "C-c r b" #'org-roam-buffer-toggle))
+       "C-c r f" org-roam-node-find
+       "C-c r i" org-roam-node-insert
+       "C-c r b" org-roam-buffer-toggle))
     (citar-org-roam-mode +1))
   ;; Separate store Org Roam citations.
   (:after oc
@@ -500,16 +500,16 @@ If the PROPERTY already has the same VALUE, do nothing."
      (append citar-bibliography)
      (my-path org-roam-directory "citations.bib")))
   (:with-mode org-roam-mode
-    (:hook #'consult-org-roam-mode)))
+    (:hook consult-org-roam-mode)))
 
 (setup org-roam-db
   (:set org-roam-db-location (my-path org-roam-directory "roam.db"))
   (:advice-add
    ;; Don't immediately initialize Org Roam database when enable
    ;; `org-roam-db-autosync-mode'.
-   org-roam-db-autosync-enable :around #'my-writing-org-roam-db-fake-sync
+   org-roam-db-autosync-enable :around my-writing-org-roam-db-fake-sync
    ;; Sync `org-roam' db when first query.
-   org-roam-db-query :before #'my-writing-org-roam-db-sync-once)
+   org-roam-db-query :before my-writing-org-roam-db-sync-once)
   (:after org
     (org-roam-db-autosync-enable)))
 
@@ -533,7 +533,7 @@ If the PROPERTY already has the same VALUE, do nothing."
                            (no-delete-other-windows . t)))))
   (:with-hook org-roam-mode-hook
     ;; Show citations.
-    (:hook #'org-roam-bibtex-mode)))
+    (:hook org-roam-bibtex-mode)))
 
 
 (provide 'my-writing-org)

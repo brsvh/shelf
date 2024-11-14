@@ -57,7 +57,7 @@
 
 (setup rust-ts-mode
   (:with-mode rust-ts-mode
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

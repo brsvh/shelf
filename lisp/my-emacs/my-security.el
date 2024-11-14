@@ -62,7 +62,7 @@
 (setup epg
   (:when-loaded
     ;; REVIEW this is a fix for GnuPG 2.4.1-2.4.3.
-    (:advice-add epg-wait-for-status :override #'ignore)))
+    (:advice-add epg-wait-for-status :override ignore)))
 
 
 

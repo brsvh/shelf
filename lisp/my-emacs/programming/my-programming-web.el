@@ -70,21 +70,21 @@
 
 (setup css-mode
   (:with-mode css-ts-mode
-    (:hook #'rainbow-mode))
+    (:hook rainbow-mode))
   (:with-mode css-mode
-    (:hook #'rainbow-mode)))
+    (:hook rainbow-mode)))
 
 (setup mhtml-mode
   (:with-mode mhtml-mode
-    (:hook #'rainbow-mode)))
+    (:hook rainbow-mode)))
 
 (setup sgml-mode
   (:with-mode html-mode
-    (:hook #'rainbow-mode)))
+    (:hook rainbow-mode)))
 
 (setup web-mode
   (:with-mode web-mode
-    (:hook #'rainbow-mode)))
+    (:hook rainbow-mode)))
 
 
 
@@ -100,9 +100,9 @@
 
 (setup css-mode
   (:with-mode css-ts-mode
-    (:hook #'eglot-ensure))
+    (:hook eglot-ensure))
   (:with-mode css-mode
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

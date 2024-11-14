@@ -40,7 +40,7 @@
 ;; Parens editing:
 
 (setup lisp-mode
-  (:hook #'parinfer-rust-mode))
+  (:hook parinfer-rust-mode))
 
 
 

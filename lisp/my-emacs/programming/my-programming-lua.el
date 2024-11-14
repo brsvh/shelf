@@ -56,7 +56,7 @@
 
 (setup lua-ts-mode
   (:with-hook lua-ts-mode-hook
-    (:hook #'eglot-ensure)))
+    (:hook eglot-ensure)))
 
 
 

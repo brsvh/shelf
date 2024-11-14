@@ -102,11 +102,11 @@
 
 (setup prog-mode
   (:hook
-   #'display-line-numbers-mode ;; Show line numbers of buffer.
-   #'hl-line-mode              ;; Highlight current line of buffer.
-   #'hl-todo-mode              ;; Highlight TODO keywords.
-   #'rainbow-delimiters-mode   ;; Colorful brackets highlighting.
-   #'sideline-mode))           ;; Sideline at current line.
+   display-line-numbers-mode ;; Show line numbers of buffer.
+   hl-line-mode              ;; Highlight current line of buffer.
+   hl-todo-mode              ;; Highlight TODO keywords.
+   rainbow-delimiters-mode   ;; Colorful brackets highlighting.
+   sideline-mode))           ;; Sideline at current line.
 
 
 
@@ -117,7 +117,7 @@
   (:autoload company-mode))
 
 (setup prog-mode
-  (:hook #'company-mode))
+  (:hook company-mode))
 
 
 
@@ -130,7 +130,7 @@
 ;; (setup eldoc
 ;;   (:with-mode eldoc-mode
 ;;     (:hook
-;;      #'(lambda ()
+;;      (lambda ()
 ;;          (:local-set
 ;;           (append sideline-backends-left) 'sideline-eldoc)))))
 
@@ -140,7 +140,7 @@
 (setup eglot
   (:with-hook eglot-managed-mode-hook
     (:hook
-     #' eldoc-box-hover-at-point-mode)))
+     eldoc-box-hover-at-point-mode)))
 
 
 
@@ -158,13 +158,13 @@
 (setup flymake
   (:with-hook flymake-mode-hook
     (:hook
-     #'(lambda ()
-         (:local-set
-          (append sideline-backends-right) 'sideline-flymake))
-     #'(lambda ()
-         (:with-map flymake-mode-map
-           (:keymap-set
-            "C-c !" #'consult-flymake))))))
+     (lambda ()
+       (:local-set
+        (append sideline-backends-right) 'sideline-flymake))
+     (lambda ()
+       (:with-map flymake-mode-map
+         (:keymap-set
+          "C-c !" consult-flymake))))))
 
 
 
@@ -190,8 +190,8 @@
 
 (setup prog-mode
   (:hook
-   #'electric-indent-local-mode ;; Auto reindentation.
-   #'smartparens-mode))         ;; Auto insert paired paren.
+   electric-indent-local-mode ;; Auto reindentation.
+   smartparens-mode))         ;; Auto insert paired paren.
 
 
 
@@ -203,7 +203,7 @@
 
 (setup prog-mode
   ;; Allow folding and unfolding of code blocks.
-  (:hook #'hs-minor-mode))
+  (:hook hs-minor-mode))
 
 
 
@@ -214,7 +214,7 @@
   (:autoload apheleia-mode))
 
 (setup prog-mode
-  (:hook #'apheleia-mode))
+  (:hook apheleia-mode))
 
 
 
@@ -230,10 +230,10 @@
 (setup eglot
   (:with-hook eglot-managed-mode-hook
     (:hook
-     #'eglot-booster-mode
-     #'(lambda ()
-         (:local-set
-          (append sideline-backends-left) 'sideline-lsp)))))
+     eglot-booster-mode
+     (lambda ()
+       (:local-set
+        (append sideline-backends-left) 'sideline-lsp)))))
 
 
 

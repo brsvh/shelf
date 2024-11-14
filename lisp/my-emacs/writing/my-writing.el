@@ -58,11 +58,11 @@
 (setup outline
   (:with-hook outline-mode-hook
     (:hook
-     #'hl-line-mode))) ;; Highlight current line.
+     hl-line-mode))) ;; Highlight current line.
 
 (setup text-mode
   (:hook
-   #'hl-line-mode)) ;; Highlight current line.
+   hl-line-mode)) ;; Highlight current line.
 
 
 
@@ -76,10 +76,10 @@
 
 (setup outline
   (:with-hook outline-mode-hook
-    (:hook #'electric-pair-local-mode)))
+    (:hook electric-pair-local-mode)))
 
 (setup text-mode
-  (:hook #'electric-pair-local-mode))
+  (:hook electric-pair-local-mode))
 
 
 
@@ -108,7 +108,7 @@
   (:with-mode pdf-view-mode
     (:file-match "\\.pdf\\'"))
   ;; Ensure `pdf-tools'.
-  (:advice-add pdf-view-mode :before #'pdf-loader-install))
+  (:advice-add pdf-view-mode :before pdf-loader-install))
 
 
 
@@ -132,10 +132,10 @@
 
 (setup outline
   (:with-hook outline-mode-hook
-    (:hook #'visual-line-mode)))
+    (:hook visual-line-mode)))
 
 (setup text-mode
-  (:hook #'visual-line-mode))
+  (:hook visual-line-mode))
 
 
 

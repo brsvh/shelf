@@ -45,7 +45,7 @@
 
 (setup eldoc-box
   (:with-hook emacs-lisp-mode-hook
-    (:hook #'eldoc-box-hover-at-point-mode)))
+    (:hook eldoc-box-hover-at-point-mode)))
 
 
 
@@ -55,7 +55,7 @@
 (setup flymake
   (:autoload flymake-mode)
   (:with-hook emacs-lisp-mode-hook
-    (:hook #'flymake-mode)))
+    (:hook flymake-mode)))
 
 
 
@@ -66,7 +66,7 @@
   (:snoc popper-reference-buffers
          "\\*Pp Macroexpand Output\\*")
   (:with-map emacs-lisp-mode-map
-    (:keymap-set "C-c C-v" #'pp-macroexpand-last-sexp)))
+    (:keymap-set "C-c C-v" pp-macroexpand-last-sexp)))
 
 
 
@@ -75,7 +75,7 @@
 
 (setup parinfer-rust-mode
   (:with-hook emacs-lisp-mode-hook
-    (:hook #'parinfer-rust-mode)))
+    (:hook parinfer-rust-mode)))
 
 
 

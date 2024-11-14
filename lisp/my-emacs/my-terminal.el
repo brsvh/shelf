@@ -51,8 +51,8 @@
 (setup simple
   (:with-map global-map
     (:keymap-set
-     "<remap> <async-shell-command>" #'with-editor-async-shell-command
-     "<remap> <shell-command>" #'with-editor-shell-command)))
+     "<remap> <async-shell-command>" with-editor-async-shell-command
+     "<remap> <shell-command>" with-editor-shell-command)))
 
 
 
@@ -64,10 +64,10 @@
   (:snoc popper-reference-buffers 'eat-mode)
   (:with-map ctl-c-a-map
     (:keymap-set
-     "s" #'eat))
+     "s" eat))
   (:with-map project-prefix-map
     (:keymap-set
-     "s" #'eat-project)))
+     "s" eat-project)))
 
 
 
@@ -81,7 +81,7 @@
    eshell-aliases-file (my-path my-etc-directory "eshell/aliases")
    eshell-directory-name (my-state-path "eshell/"))
   (:with-mode eshell-mode
-    (:hook #'with-editor-export-editor)))
+    (:hook with-editor-export-editor)))
 
 
 
