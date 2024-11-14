@@ -28,6 +28,7 @@
   embark-consult,
   embark-org-roam,
   envrc,
+  erc,
   flymake,
   flymake-eslint,
   form-feed,
@@ -77,6 +78,8 @@
   ox-tufte,
   pangu-spacing,
   parinfer-rust-mode,
+  pass,
+  password-store,
   pdf-tools,
   popper,
   project,
@@ -224,6 +227,7 @@ trivialBuild rec {
     embark-consult
     embark-org-roam
     envrc
+    erc
     flymake
     flymake-eslint
     form-feed
@@ -269,8 +273,10 @@ trivialBuild rec {
     org-side-tree
     ox-reveal
     ox-tufte
-    parinfer-rust-mode
     pangu-spacing
+    parinfer-rust-mode
+    pass
+    password-store
     pdf-tools
     popper
     project
