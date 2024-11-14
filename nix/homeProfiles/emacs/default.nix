@@ -134,6 +134,7 @@ in
         (require 'my-comint)
         (require 'my-dired)
         (require 'my-editor)
+        (require 'my-erc)
         (require 'my-mule)
         (require 'my-project)
         (require 'my-security)
