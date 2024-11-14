@@ -58,7 +58,7 @@
     (:snoc erc-modules 'services 'smiley)
     (:with-hook erc-before-connect
       (:hook
-       (lambda ()
+       (lambda (&rest _)
          (erc-update-modules))))))
 
 
