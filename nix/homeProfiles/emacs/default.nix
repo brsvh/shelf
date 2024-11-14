@@ -195,6 +195,22 @@ in
   };
 
   xdg = {
+    configFile = {
+      "emacs/authinfo.gpg" = {
+        source = my.root + "/etc/authinfo/authinfo.gpg";
+      };
+
+      "emacs/eshell" = {
+        recursive = true;
+        source = my.root + "/etc/eshell";
+      };
+
+      "emacs/snippets" = {
+        recursive = true;
+        source = my.root + "/etc/snippets";
+      };
+    };
+
     mimeApps = {
       defaultApplications = {
         "application/x-shellscript" = "emacsclient.desktop";
