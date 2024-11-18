@@ -27,6 +27,27 @@
         "type": "github"
       }
     },
+    "chinese-fonts-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731921778,
+        "narHash": "sha256-Am8xpYoUiv39KuLFQOWh4NQJVnh4z4OFFoZTFNR7lkM=",
+        "owner": "brsvh",
+        "repo": "chinese-fonts-overlay",
+        "rev": "881b7d6bb48a40a8217bc1e5149a2859d3e29189",
+        "type": "github"
+      },
+      "original": {
+        "owner": "brsvh",
+        "ref": "main",
+        "repo": "chinese-fonts-overlay",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1731098351,
@@ -573,6 +594,7 @@
     "root": {
       "inputs": {
         "browser": "browser",
+        "chinese-fonts-overlay": "chinese-fonts-overlay",
         "crane": "crane",
         "darwin": "darwin",
         "default-linux": "default-linux",

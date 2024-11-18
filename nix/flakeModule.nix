@@ -11,6 +11,7 @@ let
 
   inherit (inputs)
     browser
+    chinese-fonts-overlay
     devshellago
     home-manager
     nix-alien
@@ -85,9 +86,9 @@ let
     };
 
   overlays = [
+    chinese-fonts-overlay.overlays.default
     nix-alien.overlays.default
     self.overlays.epkgs
-    self.overlays.fonts
     self.overlays.nixpkgs
     (
       final: prev:
@@ -129,7 +130,6 @@ in
 
     overlays = {
       epkgs = final: prev: import my.overlays.epkgs final prev;
-      fonts = final: prev: import my.overlays.fonts final prev;
       nixpkgs = final: prev: import my.overlays.nixpkgs final prev;
     };
 

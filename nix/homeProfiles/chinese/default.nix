@@ -21,11 +21,12 @@
           enable = true;
 
           fonts = with pkgs; [
-            alibabaFonts.puhuiti-2
-            alibabaFonts.puhuiti-3
+            alibaba-fonts
+            foundertype-fonts
             lxgw-neoxihei
             lxgw-wenkai
-            trionestypeFonts.ZhuqueFangsong
+            trionestype-fonts
+            tsangertype-fonts
             windows-fonts
           ];
 

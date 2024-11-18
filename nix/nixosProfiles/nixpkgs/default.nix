@@ -6,6 +6,7 @@
 let
   inherit (inputs)
     browser
+    chinese-fonts-overlay
     nix-alien
     nixpkgs
     ;
@@ -25,9 +26,9 @@ in
     };
 
     overlays = [
+      chinese-fonts-overlay.overlays.default
       nix-alien.overlays.default
       self.overlays.epkgs
-      self.overlays.fonts
       self.overlays.nixpkgs
       (
         final: prev:

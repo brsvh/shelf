@@ -327,6 +327,16 @@
 
   # Overlays
   inputs = {
+    chinese-fonts-overlay = {
+      inputs = {
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+      };
+
+      url = "github:brsvh/chinese-fonts-overlay/main";
+    };
+
     rust-overlay = {
       inputs = {
         nixpkgs = {
