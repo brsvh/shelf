@@ -107,7 +107,7 @@
            ("\\.pdf\\'" "xdg-open")))))
     (:with-map dired-mode-map
       (:keymap-set
-       "M-<return>" #'did-open-xdg))))
+       "M-<return>" dired-open-xdg))))
 
 
 
