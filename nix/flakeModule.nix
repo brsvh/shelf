@@ -47,7 +47,6 @@ let
     let
       my' = (
         removeAttrs (rakeLeaves ./.) [
-          "all-modules"
           "channels"
           "packages"
           "templates"
