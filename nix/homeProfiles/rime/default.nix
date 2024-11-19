@@ -55,8 +55,8 @@ in
       xdg = {
         dataFile = {
           "fcitx5/rime" = {
-            source = oh-my-rime.outPath;
             recursive = true;
+            source = "${oh-my-rime}/";
           };
         };
       };
@@ -65,8 +65,8 @@ in
       xdg = {
         configFile = {
           "ibus/rime" = {
-            source = oh-my-rime.outPath;
             recursive = true;
+            source = "${oh-my-rime}/";
           };
         };
       };
