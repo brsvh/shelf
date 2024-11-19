@@ -39,6 +39,7 @@
 
 (cl-eval-when (compile)
   (require 'package)
+  (require 'project)
   (require 'server))
 
 ;; `popper-reference-buffers' is a variable defined in `popper', but it
@@ -358,7 +359,7 @@ These forms are supported:
 (defvar ctl-c-f-map (make-keymap)
   "Default keymap use to bind my files operating commands.")
 
-(defvar ctl-c-p-map (make-keymap)
+(defvar ctl-c-p-map project-prefix-map
   "Default keymap use to bind my project operating commands.")
 
 (defvar ctl-c-p-tab-map (make-keymap)
