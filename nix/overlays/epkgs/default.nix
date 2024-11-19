@@ -14,6 +14,7 @@ in
     let
       inherit (prev)
         emacsPackagesFor
+        writeText
         ;
 
       inherit (prev.lib)
@@ -27,6 +28,19 @@ in
         prevEpkgs.override {
           elpaPackages = prevEpkgs.elpaPackages // {
             setup = ignoreCompilationError prevEpkgs.elpaPackages.setup;
+          };
+
+          melpaPackages = prevEpkgs.melpaPackages // {
+            org-roam = prevEpkgs.melpaPackages.org-roam.overrideAttrs (
+              finalAttrs: prevAttrs: {
+                recipe = writeText "org-roam" ''
+                  (org-roam :fetcher github
+                            :repo "tarsiiformes/org-roam"
+                            :branch "sqlite-open"
+                            :files (:defaults "extensions/*"))
+                '';
+              }
+            );
           };
 
           manualPackages =
