@@ -30,11 +30,11 @@
     };
 
     nixpkgs-darwin = {
-      url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
+      url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
     };
 
     nixpkgs-stable = {
-      url = "github:NixOS/nixpkgs/nixos-24.05";
+      url = "github:NixOS/nixpkgs/nixos-24.11";
     };
 
     nixpkgs-unstable = {
@@ -182,7 +182,7 @@
         };
       };
 
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
     };
 
     home-manager-unstable = {
@@ -314,10 +314,6 @@
       inputs = {
         nixpkgs = {
           follows = "nixpkgs-unstable";
-        };
-
-        nixpkgs-stable = {
-          follows = "nixpkgs-stable";
         };
       };
 
