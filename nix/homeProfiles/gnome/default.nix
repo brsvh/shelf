@@ -64,6 +64,10 @@ in
             dynamic-workspaces = true;
           };
 
+          "org/gnome/session" = {
+            idle-delay = 0;
+          };
+
           "org/gnome/settings-daemon/plugins/power" = {
             sleep-inactive-ac-type = "nothing";
           };
