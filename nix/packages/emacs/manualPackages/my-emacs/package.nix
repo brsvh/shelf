@@ -137,6 +137,16 @@ let
     maintainers = with maintainers; [ brsvh ];
   };
 
+  dir-locals = writeText ".dir-locals.el" ''
+    ;;; Directory Local Variables            -*- no-byte-compile: t -*-
+    ;;; For more information see (info "(emacs) Directory Variables")
+
+    ((nil . ((fill-column . 72)))
+     (emacs-lisp-mode . ((elisp-flymake-byte-compile-load-path . load-path)))
+     (lisp-data-mode . ((indent-tabs-mode . nil)
+                        (sentence-end-double-space . t))))
+  '';
+
   mk = writeText "mk.el" ''
     (defmacro mk-subdirs-expr (path)
       `(setq load-path
@@ -320,6 +330,7 @@ trivialBuild rec {
     mkdir -p $out/share/emacs/site-lisp
     cp -r $src $out/share/emacs/site-lisp/my-emacs
     chmod -R u+w $out/share/emacs/site-lisp/my-emacs
+    cp ${dir-locals} $out/share/emacs/site-lisp/my-emacs/.dir-locals.el
 
     find $out/share/emacs -type f -name "*.el" -not -name ".dir-locals.el" -print0 \
       | xargs --verbose -0 -I {} -n 1 -P $NIX_BUILD_CORES sh -c \
