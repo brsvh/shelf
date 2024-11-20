@@ -36,6 +36,7 @@
 (require 'my-core)
 (require 'my-writing-markdown)
 (require 'my-writing-tex)
+(require 'my-writing-typst)
 (require 'my-writing-org)
 
 (cl-eval-when (compile)

@@ -78,6 +78,9 @@ in
           rustc
           rustfmt
           stylua
+          tinymist
+          typst
+          typstyle
           vscode-langservers-extracted
         ]
         ++ (with haskellPackages; [
@@ -213,6 +216,7 @@ in
 
     mimeApps = {
       defaultApplications = {
+        "application/pdf" = "emacsclient.desktop";
         "application/x-shellscript" = "emacsclient.desktop";
         "text/english" = "emacsclient.desktop";
         "text/plain" = "emacsclient.desktop";

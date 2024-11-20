@@ -101,6 +101,7 @@
   transient,
   tree-sitter-grammars,
   trivialBuild,
+  typst-ts-mode,
   valign,
   vertico,
   web-mode,
@@ -305,6 +306,7 @@ trivialBuild rec {
     tablist
     tabspaces
     transient
+    typst-ts-mode
     valign
     vertico
     web-mode
