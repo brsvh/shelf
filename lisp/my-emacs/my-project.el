@@ -44,6 +44,7 @@
   (require 'magit)
   (require 'org-project-capture)
   (require 'project)
+  (require 'project-treemacs)
   (require 'tab-bar)
   (require 'tabspaces)
   (require 'treemacs)
@@ -103,7 +104,10 @@
      "s" tabspaces-switch-to-buffer))
   (:set
    ;; Share *scratch* and *Messages* buffers.
-   tabspaces-include-buffers '("*scratch*" "*Messages*")
+   tabspaces-exclude-buffers '("*scratch*" "*Messages*")
+
+   ;; Don't share any buffers.
+   tabspaces-include-buffers nil
 
    ;; Inhibit create the project-todo.org
    tabspaces-initialize-project-with-todo nil
@@ -160,6 +164,9 @@
 ;;;
 ;; Filesystem:
 
+(setup project-treemacs
+  (:autoload project-treemacs-mode))
+
 (setup treemacs
   (:autoload
    treemacs
@@ -184,11 +191,19 @@
      treemacs-indentation 1
 
      ;; Show hidden files (.*).
-     treemacs-show-hidden-files t)
+     treemacs-show-hidden-files t
+
+     treemacs-persist-file (my-data-path "treemacs/state")
+     treemacs-last-error-persist-file (my-data-path "treemacs/error"))
+
     (:also-load
      treemacs-magit
      treemacs-nerd-icons
      treemacs-tab-bar)
+
+    ;; Enable integration with `project'.
+    (project-treemacs-mode +1)
+
     ;; Prefer to use nerd-icons theme.
     (treemacs-load-theme "nerd-icons")
 
@@ -206,7 +221,14 @@
     (treemacs-git-mode 'deferred)
 
     ;; Show commit differences between local and remote.
-    (treemacs-git-commit-diff-mode +1)))
+    (treemacs-git-commit-diff-mode +1)
+
+    ;; Follow project.
+    (treemacs-project-follow-mode +1))
+
+  (:after tabspaces
+    (:set
+     (append tabspaces-exclude-buffers) "Treemacs")))
 
 
 

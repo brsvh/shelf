@@ -83,6 +83,7 @@
   pdf-tools,
   popper,
   project,
+  project-treemacs,
   rainbow-delimiters,
   rainbow-mode,
   rg,
@@ -295,6 +296,7 @@ trivialBuild rec {
     pdf-tools
     popper
     project
+    project-treemacs
     rainbow-delimiters
     rainbow-mode
     rg
