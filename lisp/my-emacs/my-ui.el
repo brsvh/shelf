@@ -638,7 +638,7 @@
     (:keymap-set
      ;; When there are more than two windows, select the window to
      ;; switch to by number.
-     "<remap> <other-window>" #'switch-window
+     "<remap> <other-window>" switch-window
 
      ;; When there are re than two windows, select the window to
      ;; maximize to by number.

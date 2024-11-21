@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((diff-hl "1.10.0") (emacs "30.1") (envrc "0.12") (git-cliff "0.8.0") (magit "4.1.0") (org-project-capture "3.1.1") (project "0.11.1") (tabspaces "1.5"))
+;; Package-Requires: ((diff-hl "1.10.0") (emacs "30.1") (envrc "0.12") (git-cliff "0.8.0") (magit "4.1.0") (org-project-capture "3.1.1") (project "0.11.1") (tabspaces "1.5") (treemacs "3.1") (treemacs-magit "0") (treemacs-nerd-icons "0.0.1") (treemacs-tab-bar "0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -45,14 +45,33 @@
   (require 'project)
   (require 'tab-bar)
   (require 'tabspaces)
+  (require 'treemacs)
+  (require 'treemacs-async)
+  (require 'treemacs-magit)
+  (require 'treemacs-nerd-icons)
+  (require 'treemacs-tab-bar)
   (require 'vc-dir)
   (require 'vc-git)
   (require 'whitespace))
+
+(defvar ctl-c-p-t-map (make-keymap)
+  "Default keymap use to bind my project treemacs commands.")
+
+(defvar ctl-c-p-tab-map (make-keymap)
+  "Default keymap use to bind my project Tab operating commands.")
+
+(defvar ctl-c-v-g-map (make-keymap)
+  "Default keymap for to bind my version controling (Git) commands.")
 
 
 
 ;;;
 ;; Core:
+
+(setup my-maps
+  (keymap-set ctl-c-p-map "<tab>"  ctl-c-p-tab-map)
+  (keymap-set ctl-c-p-map "t"      ctl-c-p-t-map)
+  (keymap-set ctl-c-v-map "g"      ctl-c-v-g-map))
 
 (setup project
   (:when-loaded
@@ -134,6 +153,57 @@
     (keymap-set ctl-c-p-map "e" envrc-command-map))
   (:snoc popper-reference-buffers
          "\\*envrc\\*"))
+
+
+
+;;;
+;; Filesystem:
+
+(setup treemacs
+  (:autoload
+   treemacs
+   treemacs-bookmark
+   treemacs-find-file
+   treemacs-find-tag
+   treemacs-select-directory
+   treemacs-select-window)
+  (:with-map ctl-c-p-t-map
+    (:keymap-set
+     "b" treemacs-bookmark
+     "d" treemacs-select-directory
+     "f" treemacs-find-file
+     "o" treemacs
+     "s" treemacs-select-window
+     "t" treemacs-find-tag))
+  (:when-loaded
+    (:set
+     ;; Display a more compact indentation.
+     treemacs-indentation 1
+
+     ;; Show hidden files (.*).
+     treemacs-show-hidden-files t)
+    (:also-load
+     treemacs-magit
+     treemacs-nerd-icons
+     treemacs-tab-bar)
+    ;; Prefer to use nerd-icons theme.
+    (treemacs-load-theme "nerd-icons")
+
+    ;; Enable integration with `tab-bar'
+    (:after treemacs-tab-bar
+      (:set treemacs-set-scope-type 'Tabs))
+
+    ;; Watch the filesystem changes.
+    (treemacs-filewatch-mode +1)
+
+    ;; Follow the current file.
+    (treemacs-follow-mode +1)
+
+    ;; Watch the git status.
+    (treemacs-git-mode 'deferred)
+
+    ;; Show commit differences between local and remote.
+    (treemacs-git-commit-diff-mode +1)))
 
 
 

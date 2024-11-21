@@ -100,6 +100,10 @@
   tabspaces,
   transient,
   tree-sitter-grammars,
+  treemacs,
+  treemacs-magit,
+  treemacs-nerd-icons,
+  treemacs-tab-bar,
   trivialBuild,
   typst-ts-mode,
   valign,
@@ -306,6 +310,10 @@ trivialBuild rec {
     tablist
     tabspaces
     transient
+    treemacs
+    treemacs-magit
+    treemacs-nerd-icons
+    treemacs-tab-bar
     typst-ts-mode
     valign
     vertico

@@ -362,17 +362,11 @@ These forms are supported:
 (defvar ctl-c-p-map project-prefix-map
   "Default keymap use to bind my project operating commands.")
 
-(defvar ctl-c-p-tab-map (make-keymap)
-  "Default keymap use to bind my project Tab operating commands.")
-
 (defvar ctl-c-s-map (make-keymap)
   "Default keymap use to bind my search commands.")
 
 (defvar ctl-c-v-map (make-keymap)
   "Default keymap use to bind my version controling commands.")
-
-(defvar ctl-c-v-g-map (make-keymap)
-  "Default keymap for to bind my version controling (Git) commands.")
 
 (defvar ctl-c-w-map (make-keymap)
   "Default keymap use to bind my workspace commands.")
@@ -391,9 +385,7 @@ These forms are supported:
   (keymap-set ctl-c-map   "s"      ctl-c-s-map)
   (keymap-set ctl-c-map   "v"      ctl-c-v-map)
   (keymap-set ctl-c-map   "w"      ctl-c-w-map)
-  (keymap-set ctl-c-map   "<home>" ctl-c-home-map)
-  (keymap-set ctl-c-p-map "TAB"  ctl-c-p-tab-map)
-  (keymap-set ctl-c-v-map "g"    ctl-c-v-g-map))
+  (keymap-set ctl-c-map   "<home>" ctl-c-home-map))
 
 
 
