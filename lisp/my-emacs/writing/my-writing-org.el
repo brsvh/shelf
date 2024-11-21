@@ -213,11 +213,27 @@ If the PROPERTY already has the same VALUE, do nothing."
 ;;;
 ;; Appearance:
 
+(setup simple
+  (:autoload visual-line-mode))
+
 (setup org-side-tree
   (:autoload org-side-tree)
   ;; Show a indented side tree.
   (:with-hook org-side-tree-mode-hook
-    (:hook org-indent-mode)))
+    (:hook
+     org-indent-mode
+     visual-line-mode))
+  (:when-loaded
+    (:set
+     ;; FIXME temporarily set it to nil to fix timer errors, but why?
+     ;; > Error "Invalid search bound (wrong side of point)"
+     org-side-tree-add-overlays nil
+
+     ;; Display trees in right side.
+     org-side-tree-display-side 'right
+
+     ;; Always enable folding in Org-Side-Tree buffers.
+     org-side-tree-enable-folding t)))
 
 (setup valign
   (:autoload valign-mode))
