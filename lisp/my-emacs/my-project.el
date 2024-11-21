@@ -175,8 +175,10 @@
    treemacs-find-tag
    treemacs-select-directory
    treemacs-select-window)
+
   (:set
    (append my-switch-window-ignore-rules) 'treemacs-mode)
+
   (:with-map ctl-c-p-t-map
     (:keymap-set
      "b" treemacs-bookmark
@@ -229,6 +231,13 @@
   (:after tabspaces
     (:set
      (append tabspaces-exclude-buffers) "Treemacs")))
+
+(setup window
+  (:set
+   (append display-buffer-alist)
+   '( (major-mode . treemacs-mode)
+      (window-parameters . ( (mode-line-format . none)
+                             (no-other-window . t))))))
 
 
 

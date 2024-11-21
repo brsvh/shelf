@@ -286,9 +286,9 @@ If the PROPERTY already has the same VALUE, do nothing."
       ;; Prefer to show the select window under the current window.
       (display-buffer-reuse-window display-buffer-below-selected)
       ;; Hide Mode Line.
-      (window-parameters (mode-line-format . none))
+      (window-parameters . ( (mode-line-format . none)))
       ;; Set height to 1/3 of current frame.
-      (window-height 0.33))))
+      (window-height . 0.33))))
 
 (setup font-lock
   (:when-loaded
@@ -322,9 +322,9 @@ If the PROPERTY already has the same VALUE, do nothing."
       ;; Prefer to show the select window under the current window.
       (display-buffer-reuse-window display-buffer-below-selected)
       ;; Hide Mode Line.
-      (window-parameters (mode-line-format . none))
+      (window-parameters . ( (mode-line-format . none)))
       ;; Set height to 2/5 of current frame.
-      (window-height 0.4))))
+      (window-height . 0.4))))
 
 
 
@@ -545,8 +545,8 @@ If the PROPERTY already has the same VALUE, do nothing."
       (side . right)
       (slot . 0)
       (window-width . 0.33)
-      (window-parameters . ((no-other-window . t)
-                            (no-delete-other-windows . t)))))
+      (window-parameters . ( (no-other-window . t)
+                             (no-delete-other-windows . t)))))
   (:with-hook org-roam-mode-hook
     ;; Show citations.
     (:hook org-roam-bibtex-mode)))

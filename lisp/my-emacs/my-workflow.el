@@ -152,7 +152,7 @@
       ;; Prefer to show the select window under the current window.
       (display-buffer-reuse-window display-buffer-below-selected)
       ;; Hide Mode Line.
-      (window-parameters (mode-line-format . none))
+      (window-parameters . ( (mode-line-format . none)))
       ;; Set height to 2/5 of current frame.
       (window-height 0.4))))
 
