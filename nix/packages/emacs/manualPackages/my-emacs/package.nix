@@ -97,6 +97,7 @@
   svg-lib,
   svg-tag-mode,
   switch-window,
+  symbols-outline,
   tablist,
   tabspaces,
   transient,
@@ -309,6 +310,7 @@ trivialBuild rec {
     svg-lib
     svg-tag-mode
     switch-window
+    symbols-outline
     tablist
     tabspaces
     transient

@@ -37,6 +37,7 @@
   (require 'anzu)
   (require 'autorevert)
   (require 'consult)
+  (require 'consult-imenu)
   (require 'copyright)
   (require 'editorconfig)
   (require 'form-feed)
@@ -196,6 +197,14 @@ shebang line or file path may exist now."
 
 ;;;
 ;; Goto:
+
+(setup consult-imenu
+  (:autoload consult-imenu))
+
+(setup bindings
+  (:with-map goto-map
+    (:keymap-set
+     "<remap> <imenu>" consult-imenu)))
 
 (setup mwim
   (:with-map global-map

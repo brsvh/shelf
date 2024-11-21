@@ -72,6 +72,7 @@
   (require 'sideline-flymake)
   (require 'sideline-lsp)
   (require 'smartparens)
+  (require 'symbols-outline)
   (require 'xref))
 
 (defun my-inhibit-parinfer-rust-troublesome-modes (&rest _)
@@ -242,6 +243,25 @@
 
 (setup xref
   (:snoc popper-reference-buffers "\\*xref\\*"))
+
+
+
+;;;
+;; Symbols:
+
+(setup symbols-outline
+  (:autoload symbols-outline-follow-mode)
+  (:when-loaded
+    symbols-outline-window-position 'right))
+
+(setup eglot
+  (:with-hook eglot-managed-mode-hook
+    (lambda ()
+      (setq-local symbols-outline-fetch-fn
+                  #'symbols-outline-lsp-fetch)))
+  (:with-map prog-mode-map
+    (:keymap-set
+     "C-c m l" symbols-outline-show)))
 
 
 
