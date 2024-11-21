@@ -32,6 +32,7 @@
 ;;; Code:
 
 (require 'my-core)
+(require 'my-ui)
 
 (cl-eval-when (compile)
   (require 'diff-hl)
@@ -167,6 +168,8 @@
    treemacs-find-tag
    treemacs-select-directory
    treemacs-select-window)
+  (:set
+   (append my-switch-window-ignore-rules) 'treemacs-mode)
   (:with-map ctl-c-p-t-map
     (:keymap-set
      "b" treemacs-bookmark

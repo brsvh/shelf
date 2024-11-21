@@ -128,6 +128,28 @@
    (floor (frame-height) 3)
    (floor (frame-height) 3)))
 
+;; TODO support to match buffer name with a regular expression pattern.
+(defvar my-switch-window-ignore-rules nil
+  "A list of rules to ignore windows during selection.
+Each rule can be:
+- A string: Match window's buffer name exactly.
+- A symbol: Match buffer's `major-mode`.")
+
+(defun my-switch-window--ignore-p (window)
+  "Return t if WINDOW matches any rule in `my-switch-window-ignore-rules'."
+  (let* ((rules my-switch-window-ignore-rules)
+         (buffer (window-buffer window))
+         (name (buffer-name buffer))
+         (mode (buffer-local-value 'major-mode buffer)))
+    (or
+     (memq mode rules)
+     (member name rules))))
+
+(defun my-switch-window--list-filter (windows)
+  "Filter out all WINDOWS that should be ignored."
+  (cl-remove-if 'my-switch-window--ignore-p
+                windows))
+
 (defun my-tab-bar-local-buffer-p (buffer)
   "Return whether BUFFER is in the buffres of current tab."
   (memq buffer (frame-parameter nil 'buffer-list)))
@@ -629,6 +651,13 @@
 
 ;;;
 ;; Window:
+
+(setup switch-window
+  (:when-loaded
+    (:advice-add
+     switch-window--list
+     :filter-return
+     my-switch-window--list-filter)))
 
 (setup window
   (:set
