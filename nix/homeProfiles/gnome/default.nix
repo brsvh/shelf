@@ -62,6 +62,11 @@ in
 
           "org/gnome/mutter" = {
             dynamic-workspaces = true;
+            edge-tiling = true;
+
+            experimental-features = [
+              "scale-monitor-framebuffer"
+            ];
           };
 
           "org/gnome/session" = {

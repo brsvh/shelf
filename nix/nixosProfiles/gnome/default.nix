@@ -6,13 +6,13 @@
 }:
 let
   inherit (lib)
-    mkDefault
     mkForce
     ;
 in
 {
   imports = [
     my.nixosProfiles.dbus
+    my.nixosProfiles.dconf
     my.nixosProfiles.english
     my.nixosProfiles.ibus
     my.nixosProfiles.wayland
@@ -32,6 +32,49 @@ in
   };
 
   programs = {
+    dconf = {
+      profiles = {
+        gdm = {
+          databases = [
+            {
+              settings = {
+                "org/gnome/mutter" = {
+                  experimental-features = [
+                    "scale-monitor-framebuffer"
+                  ];
+                };
+              };
+            }
+          ];
+        };
+
+        user = {
+          databases = [
+            {
+              settings = {
+                "org/gnome/mutter" = {
+                  dynamic-workspaces = true;
+                  edge-tiling = true;
+
+                  experimental-features = [
+                    "scale-monitor-framebuffer"
+                  ];
+                };
+
+                "org/gnome/shell" = {
+                  enabled-extensions = [
+                    "appindicatorsupport@rgcjonas.gmail.com"
+                    "kimpanel@kde.org"
+                    "user-theme@gnome-shell-extensions.gcampax.github.com"
+                  ];
+                };
+              };
+            }
+          ];
+        };
+      };
+    };
+
     gnupg = {
       agent = {
         pinentryPackage = mkForce pkgs.pinentry-gnome3;
@@ -66,11 +109,6 @@ in
       desktopManager = {
         gnome = {
           enable = true;
-
-          extraGSettingsOverrides = mkDefault ''
-            [org/gnome/shell]
-            enabled-extensions=['kimpanel@kde.org', 'appindicatorsupport@rgcjonas.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']
-          '';
         };
       };
 
