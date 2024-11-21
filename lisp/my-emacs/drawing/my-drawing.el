@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((emacs "30.1") (my-drawing-mermaid "0.2.0"))
+;; Package-Requires: ((emacs "30.1"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

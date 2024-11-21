@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((eldoc-box "1.12.1") (emacs "30.1") (flymake "1.3.7") (my-core "0.2.0") (parinfer-rust-mode "0.9.0"))
+;; Package-Requires: ((eldoc-box "1.12.1") (emacs "30.1") (flymake "1.3.7") (parinfer-rust-mode "0.9.0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

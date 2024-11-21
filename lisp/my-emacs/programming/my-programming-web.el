@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((eglot "1.17") (emacs "30.1") (my-core "0.2.0") (rainbow-mode "1.0.6") (web-mode "17.3.20"))
+;; Package-Requires: ((eglot "1.17") (emacs "30.1") (rainbow-mode "1.0.6") (web-mode "17.3.20"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 

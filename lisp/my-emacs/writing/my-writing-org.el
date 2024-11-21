@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: extensions
-;; Package-Requires: ((citar "14.0.6") (citar-embark "1.0") (citar-org-roam "0.5.1") (consult-org-roam "0.1") (emacs "30.1") (embark "1.1") (my-core "0.2.0") (ob-mermaid "0") (org "9.7.11") (org-modern "1.5") (org-roam "2.2.2") (org-roam-bibtex "0.6.1") (org-side-tree "0.5") (ox-tufte "4.2.0") (valign "3.1.1"))
+;; Package-Requires: ((citar "14.0.6") (citar-embark "1.0") (citar-org-roam "0.5.1") (consult-org-roam "0.1") (emacs "30.1") (embark "1.1") (ob-mermaid "0") (org "9.7.11") (org-modern "1.5") (org-roam "2.2.2") (org-roam-bibtex "0.6.1") (org-side-tree "0.5") (ox-tufte "4.2.0") (valign "3.1.1"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
