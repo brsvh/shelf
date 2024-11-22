@@ -282,6 +282,13 @@ If the PROPERTY already has the same VALUE, do nothing."
 (setup window
   (:set
    (append display-buffer-alist)
+   '( (major-mode . org-side-tree-mode)
+      (display-buffer-reuse-mode-window display-buffer-in-side-window)
+      (side . right)
+      (window-parameters . ( (mode-line-format . none)
+                             (no-delete-other-window . t)
+                             (no-other-window . t))))
+   (append display-buffer-alist)
    '( "\\*Org todo\\*"
       ;; Prefer to show the select window under the current window.
       (display-buffer-reuse-window display-buffer-below-selected)
@@ -294,10 +301,10 @@ If the PROPERTY already has the same VALUE, do nothing."
   (:when-loaded
     (font-lock-add-keywords
      'org-mode
-     '(("[[:multibyte:]]\\( \\)[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)?[[:multibyte:]]?"
-        (1 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))
-       ("[[:multibyte:]]?\\( \\)?[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)[[:multibyte:]]"
-        (2 (prog1 () (compose-region (match-beginning 2) (match-end 2) "")))))
+     '( ("[[:multibyte:]]\\( \\)[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)?[[:multibyte:]]?"
+         (1 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))
+        ("[[:multibyte:]]?\\( \\)?[/+*_=~][^a-zA-Z0-9/+*_=~\n]+?[/+*_=~]\\( \\)[[:multibyte:]]"
+         (2 (prog1 () (compose-region (match-beginning 2) (match-end 2) "")))))
      'append)))
 
 
@@ -534,16 +541,16 @@ If the PROPERTY already has the same VALUE, do nothing."
    ;; Show back links, reference links, unreference links in Org Roam
    ;; buffer.
    org-roam-mode-sections
-   '((org-roam-backlinks-section :unique t)
-     org-roam-reflinks-section
-     org-roam-unlinked-references-section)
+   '( (org-roam-backlinks-section :unique t)
+      org-roam-reflinks-section
+      org-roam-unlinked-references-section)
 
    ;; Display the Org Roam buffer in the right window.
    (append display-buffer-alist)
    '( "\\*org-roam\\*"
       (display-buffer-reuse-window display-buffer-in-side-window)
       (side . right)
-      (slot . 0)
+      (slot . 1)
       (window-width . 0.33)
       (window-parameters . ( (no-other-window . t)
                              (no-delete-other-windows . t)))))

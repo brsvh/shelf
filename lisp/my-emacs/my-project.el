@@ -235,9 +235,13 @@
 (setup window
   (:set
    (append display-buffer-alist)
-   '( (major-mode . treemacs-mode)
-      (window-parameters . ( (mode-line-format . none)
-                             (no-other-window . t))))))
+   '("Treemacs"
+     (display-buffer-reuse-mode-window display-buffer-in-side-window)
+     (side . left)
+     (slot . -1)
+     (window-parameters . ( (mode-line-format . none)
+                            (no-delete-other-window . t)
+                            (no-other-window . t))))))
 
 
 
