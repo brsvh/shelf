@@ -380,10 +380,10 @@ Each rule can be:
    ;; Provide abbreviation completion when intending to complete text,
    ;; commands, variables, and symbols.
    completion-category-overrides
-   '((file (styles basic partial-completion))
-     (command (styles my-orderless-with-initialism))
-     (variable (styles my-orderless-with-initialism)
-               (symbol (styles my-orderless-with-initialism))))))
+   '( (file (styles basic partial-completion))
+      (command (styles my-orderless-with-initialism))
+      (variable (styles my-orderless-with-initialism)
+                (symbol (styles my-orderless-with-initialism))))))
 
 (setup orderless
   (:when-loaded
@@ -625,17 +625,17 @@ Each rule can be:
      modus-themes-prompts '(bold)
 
      ;; Change boldness of completion faces.
-     modus-themes-completions '((matches . (extrabold))
-                                (selection . (semibold
-                                              fitalic
-                                              text-also)))
+     modus-themes-completions '( (matches . (extrabold))
+                                 (selection . (semibold
+                                               fitalic
+                                               text-also)))
 
      ;; Set different font sizes for headings of various levels.
-     modus-themes-headings '((0 . (1.40 ultrabold))
-                             (1 . (1.30 extrabold))
-                             (2 . (1.20 heavy))
-                             (3 . (1.10 bold))
-                             (t . (1.05 semibold))))
+     modus-themes-headings '( (0 . (1.40 ultrabold))
+                              (1 . (1.30 extrabold))
+                              (2 . (1.20 heavy))
+                              (3 . (1.10 bold))
+                              (t . (1.05 semibold))))
     (:face internal-border ((t (:inherit fringe))))
     ;; Override the default faces of modus themes.
     (:snoc modus-themes-common-palette-overrides

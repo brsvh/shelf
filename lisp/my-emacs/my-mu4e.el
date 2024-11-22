@@ -52,10 +52,10 @@
 
      ;; Show less fields.
      mu4e-headers-fields
-     '(( :human-date . 25)
-       ( :flags . 8)
-       ( :from . 22)
-       ( :subject)))))
+     '( ( :human-date . 25)
+        ( :flags . 8)
+        ( :from . 22)
+        ( :subject)))))
 
 (setup mu4e-marker-icons
   (:autoload mu4e-marker-icons-mode)

@@ -104,7 +104,7 @@
      "s" tabspaces-switch-to-buffer))
   (:set
    ;; Share *scratch* and *Messages* buffers.
-   tabspaces-exclude-buffers '("*scratch*" "*Messages*")
+   tabspaces-exclude-buffers '( "*scratch*" "*Messages*")
 
    ;; Don't share any buffers.
    tabspaces-include-buffers nil
@@ -235,13 +235,13 @@
 (setup window
   (:set
    (append display-buffer-alist)
-   '("Treemacs"
-     (display-buffer-reuse-mode-window display-buffer-in-side-window)
-     (side . left)
-     (slot . -1)
-     (window-parameters . ( (mode-line-format . none)
-                            (no-delete-other-window . t)
-                            (no-other-window . t))))))
+   '( "Treemacs"
+      (display-buffer-reuse-mode-window display-buffer-in-side-window)
+      (side . left)
+      (slot . -1)
+      (window-parameters . ( (mode-line-format . none)
+                             (no-delete-other-window . t)
+                             (no-other-window . t))))))
 
 
 

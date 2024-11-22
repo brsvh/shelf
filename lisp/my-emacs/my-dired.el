@@ -94,17 +94,17 @@
          ;; Open files with some specified extensions by external
          ;; programs.
          dired-guess-shell-alist-user
-         '(("\\.\\(?:djvu\\|eps\\)\\'" "xdg-open")
-           ("\\.\\(?:jpg\\|jpeg\\|png\\|gif\\|xpm\\)\\'" "xdg-open")
-           ("\\.\\(?:mp3\\|flac\\)\\'" "xdg-open")
-           ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" "xdg-open")
-           ("\\.\\(?:xcf\\)\\'" "xdg-open")
-           ("\\.csv\\'" "xdg-open")
-           ("\\.docx\\'" "xdg-open")
-           ("\\.html?\\'" "xdg-open")
-           ("\\.md\\'" "xdg-open")
-           ("\\.tex\\'" "xdg-open")
-           ("\\.pdf\\'" "xdg-open")))))
+         '( ("\\.\\(?:djvu\\|eps\\)\\'" "xdg-open")
+            ("\\.\\(?:jpg\\|jpeg\\|png\\|gif\\|xpm\\)\\'" "xdg-open")
+            ("\\.\\(?:mp3\\|flac\\)\\'" "xdg-open")
+            ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" "xdg-open")
+            ("\\.\\(?:xcf\\)\\'" "xdg-open")
+            ("\\.csv\\'" "xdg-open")
+            ("\\.docx\\'" "xdg-open")
+            ("\\.html?\\'" "xdg-open")
+            ("\\.md\\'" "xdg-open")
+            ("\\.tex\\'" "xdg-open")
+            ("\\.pdf\\'" "xdg-open")))))
     (:with-map dired-mode-map
       (:keymap-set
        "M-<return>" dired-open-xdg))))

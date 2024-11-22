@@ -64,10 +64,10 @@ Allowable values for OS (not quoted) are `macOS', `osx', `windows',
   "Get the value of corresponds XDG Base Directory CONCEPT.
 Allowable concepts (not quoted) are `cache', `config', `data' and
  `state'."
-  (let* ((concepts '((cache . ("XDG_CACHE_HOME" . "~/.cache/"))
-                     (config . ("XDG_CONFIG_HOME" . "~/.config/"))
-                     (data . ("XDG_DATA_HOME" . "~/.local/share/"))
-                     (state . ("XDG_STATE_HOME" . "~/.local/state/")))))
+  (let* ((concepts '( (cache . ("XDG_CACHE_HOME" . "~/.cache/"))
+                      (config . ("XDG_CONFIG_HOME" . "~/.config/"))
+                      (data . ("XDG_DATA_HOME" . "~/.local/share/"))
+                      (state . ("XDG_STATE_HOME" . "~/.local/state/")))))
     `(let ((default-cons (cdr (assoc ',concept ',concepts))))
        (expand-file-name (or (getenv (car default-cons))
                              (cdr default-cons))))))

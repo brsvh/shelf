@@ -74,9 +74,9 @@
      ;; Manually generated AUCTeX style files
      (append TeX-style-private) (my-data-path "auctex/manual/"))
     (:snoc TeX-command-list
-           '("XeLaTeX" "xelatex -interaction=nonstopmode %s"
-             TeX-run-command t t
-             :help "Run XeLaTeX"))))
+           '( "XeLaTeX" "xelatex -interaction=nonstopmode %s"
+              TeX-run-command t t
+              :help "Run XeLaTeX"))))
 
 
 

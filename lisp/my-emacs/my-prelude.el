@@ -44,14 +44,14 @@
   file-name-handler-alist
   "The initial value of `file-name-handler-alist'.")
 
-(defvar my-prelude-frame-alist '((height . 40)
-                                 (horizontal-scroll-bars . nil)
-                                 (internal-border-width . 6)
-                                 (menu-bar-lines . nil)
-                                 (right-divider-width . 6)
-                                 (tool-bar-lines . nil)
-                                 (vertical-scroll-bars . nil)
-                                 (width . 120))
+(defvar my-prelude-frame-alist '( (height . 40)
+                                  (horizontal-scroll-bars . nil)
+                                  (internal-border-width . 6)
+                                  (menu-bar-lines . nil)
+                                  (right-divider-width . 6)
+                                  (tool-bar-lines . nil)
+                                  (vertical-scroll-bars . nil)
+                                  (width . 120))
   "Frame parameters for setup frame creation.")
 
 (defmacro my-prelude-autoload (func feature)

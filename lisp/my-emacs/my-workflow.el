@@ -70,8 +70,8 @@
      ;; - DONE, tasks already completed.
      ;; - CANC, tasks cancelled.
      ;; - FAIL, tasks abandoned.
-     org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "|"
-                                   "DONE(d)" "CANC(c)" "FAIL(f)")))))
+     org-todo-keywords '( (sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "|"
+                                    "DONE(d)" "CANC(c)" "FAIL(f)")))))
 
 
 
@@ -89,29 +89,30 @@
   (:when-loaded
     (:snoc
      org-agenda-custom-commands
-     '("c" "Agenda for today"
-       ((agenda ""
-                ((org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'deadline))
-                 (org-deadline-warning-days 0)))
-        (todo "NEXT"
-              ((org-agenda-skip-function
-                '(org-agenda-skip-entry-if 'deadline))
-               (org-agenda-prefix-format "  %i %-12:c [%e] ")
-               (org-agenda-overriding-header "\nTasks\n")))
-        (agenda nil
-                ((org-agenda-entry-types '(:deadline))
-                 (org-agenda-format-date "")
-                 (org-deadline-warning-days 7)
-                 (org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
-                 (org-agenda-overriding-header "\nDeadlines")))
-        (tags-todo "inbox"
-                   ((org-agenda-prefix-format "  %?-12t% s")
-                    (org-agenda-overriding-header "\nInbox\n")))
-        (tags "CLOSED>=\"<today>\""
-              ((org-agenda-overriding-header
-                "\nCompleted today\n"))))))))
+     '( "c"
+        "Agenda for today"
+        ((agenda ""
+                 ((org-agenda-skip-function
+                   '(org-agenda-skip-entry-if 'deadline))
+                  (org-deadline-warning-days 0)))
+         (todo "NEXT"
+               ((org-agenda-skip-function
+                 '(org-agenda-skip-entry-if 'deadline))
+                (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                (org-agenda-overriding-header "\nTasks\n")))
+         (agenda nil
+                 ((org-agenda-entry-types '(:deadline))
+                  (org-agenda-format-date "")
+                  (org-deadline-warning-days 7)
+                  (org-agenda-skip-function
+                   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                  (org-agenda-overriding-header "\nDeadlines")))
+         (tags-todo "inbox"
+                    ((org-agenda-prefix-format "  %?-12t% s")
+                     (org-agenda-overriding-header "\nInbox\n")))
+         (tags "CLOSED>=\"<today>\""
+               ((org-agenda-overriding-header
+                 "\nCompleted today\n"))))))))
 
 
 
@@ -172,9 +173,9 @@
     (:set
      org-agenda-tags-column 0
      org-agenda-block-separator ?─
-     org-agenda-time-grid '((daily today require-timed)
-                            (800 1000 1200 1400 1600 1800 2000)
-                            " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+     org-agenda-time-grid '( (daily today require-timed)
+                             (800 1000 1200 1400 1600 1800 2000)
+                             " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
      org-agenda-current-time-string
      "◀── now ─────────────────────────────────────────────────")))
 
