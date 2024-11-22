@@ -65,16 +65,6 @@
   (:hook
    hl-line-mode)) ;; Highlight current line.
 
-(setup window
-  (:set
-   (append display-buffer-alist)
-   '( "\\*Outline\\*"
-      (display-buffer-reuse-mode-window display-buffer-in-side-window)
-      (side . right)
-      (window-parameters . ( (mode-line-format . none)
-                             (no-delete-other-window . t)
-                             (no-other-window . t))))))
-
 
 
 ;;;

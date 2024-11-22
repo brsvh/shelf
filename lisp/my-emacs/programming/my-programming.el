@@ -249,19 +249,33 @@
 ;;;
 ;; Symbols:
 
-(setup symbols-outline
-  (:autoload symbols-outline-follow-mode)
+(setup my-ui
   (:when-loaded
-    symbols-outline-window-position 'right))
+    (:set
+     (append my-switch-window-ignore-rules)
+     'symbols-outline-mode)))
+
+(setup symbols-outline
+  (:autoload symbols-outline-follow-mode))
 
 (setup eglot
   (:with-hook eglot-managed-mode-hook
-    (lambda ()
-      (setq-local symbols-outline-fetch-fn
-                  #'symbols-outline-lsp-fetch)))
+    (:hook (lambda ()
+             (setq-local symbols-outline-fetch-fn
+                         #'symbols-outline-lsp-fetch))))
   (:with-map prog-mode-map
     (:keymap-set
      "C-c m l" symbols-outline-show)))
+
+(setup window
+  (:set
+   (append display-buffer-alist)
+   '( (derived-mode . symbols-outline-mode)
+      (display-buffer-reuse-mode-window display-buffer-in-side-window)
+      (side . right)
+      (window-parameters . ( (mode-line-format . none)
+                             (no-delete-other-window . t)
+                             (no-other-window . t))))))
 
 
 
