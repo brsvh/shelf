@@ -49,6 +49,7 @@
   (require 'tabspaces)
   (require 'treemacs)
   (require 'treemacs-async)
+  (require 'treemacs-customization)
   (require 'treemacs-magit)
   (require 'treemacs-nerd-icons)
   (require 'treemacs-tab-bar)
@@ -187,6 +188,29 @@
   (:when-loaded
     (:set treemacs-tag-follow-cleanup t)))
 
+(setup treemacs-customization
+  (:when-loaded
+    (:set
+     ;; Display a more compact indentation.
+     treemacs-indentation 1
+
+     ;; Inhibit select to treemacs buffer.
+     treemacs-is-never-other-window t
+
+     ;; Show hidden files (.*).
+     treemacs-show-hidden-files t
+
+     ;; Redirect persist files.
+     treemacs-persist-file (my-data-path "treemacs/state")
+     treemacs-last-error-persist-file (my-data-path "treemacs/error")
+
+     ;; Show at left.
+     treemacs-position 'left
+
+     ;; Keep treemacs silent.
+     treemacs-silent-refresh t
+     treemacs-silent-filewatch t)))
+
 (setup treemacs
   (:autoload
    treemacs
@@ -208,16 +232,6 @@
      "s" treemacs-select-window
      "t" treemacs-find-tag))
   (:when-loaded
-    (:set
-     ;; Display a more compact indentation.
-     treemacs-indentation 1
-
-     ;; Show hidden files (.*).
-     treemacs-show-hidden-files t
-
-     treemacs-persist-file (my-data-path "treemacs/state")
-     treemacs-last-error-persist-file (my-data-path "treemacs/error"))
-
     (:also-load
      treemacs-magit
      treemacs-nerd-icons
