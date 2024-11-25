@@ -44,6 +44,7 @@
   hl-todo,
   htmlize,
   ibuffer-project,
+  imenu-list,
   lib,
   linkFarm,
   lsp-mode,
@@ -97,7 +98,6 @@
   svg-lib,
   svg-tag-mode,
   switch-window,
-  symbols-outline,
   tablist,
   tabspaces,
   transient,
@@ -260,6 +260,7 @@ trivialBuild rec {
     hl-todo
     htmlize
     ibuffer-project
+    imenu-list
     lsp-mode
     lua-mode
     magit
@@ -310,7 +311,6 @@ trivialBuild rec {
     svg-lib
     svg-tag-mode
     switch-window
-    symbols-outline
     tablist
     tabspaces
     transient

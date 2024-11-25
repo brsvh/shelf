@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((apheleia "4.2") (company "0.10.2") (consult "1.8") (eglot "1.17") (eglot-booster "0.0.1") (eldoc "1.15.0") (eldoc-box "1.12.1") (emacs "30.1") (flymake "1.3.7") (hl-todo "3.8.1") (parinfer-rust-mode "0.9.0") (rainbow-delimiters "2.1.5") (sideline "0.2.0") (sideline-flymake "0.1.0") (sideline-lsp "0.1.0") (smartparens "1.11.0"))
+;; Package-Requires: ((apheleia "4.2") (company "0.10.2") (consult "1.8") (eglot "1.17") (eglot-booster "0.0.1") (eldoc "1.15.0") (eldoc-box "1.12.1") (emacs "30.1") (flymake "1.3.7") (hl-todo "3.8.1") (imenu-list "0.9") (parinfer-rust-mode "0.9.0") (rainbow-delimiters "2.1.5") (sideline "0.2.0") (sideline-flymake "0.1.0") (sideline-lsp "0.1.0") (smartparens "1.11.0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -64,15 +64,14 @@
   (require 'flymake)
   (require 'hl-line)
   (require 'hl-todo)
+  (require 'imenu-list)
   (require 'parinfer-rust-mode)
   (require 'prog-mode)
   (require 'rainbow-delimiters)
   (require 'sideline)
-  ;; (require 'sideline-eldoc)
   (require 'sideline-flymake)
   (require 'sideline-lsp)
   (require 'smartparens)
-  (require 'symbols-outline)
   (require 'xref))
 
 (defun my-inhibit-parinfer-rust-troublesome-modes (&rest _)
@@ -80,6 +79,22 @@
   (dolist (mode parinfer-rust-troublesome-modes)
     (when (fboundp mode)
       (apply mode '(-1)))))
+
+(defun my-imenu-list-display-buffer (buffer alist)
+  "Display the `imenu-list' buffer at the side.
+This function should be used with `display-buffer-alist'.
+See `display-buffer-alist' for a description of BUFFER and ALIST."
+  (or (get-buffer-window buffer)
+      (let ((window (ignore-errors
+                      (split-window (frame-root-window)
+                                    (imenu-list-split-size)
+                                    imenu-list-position))))
+        (when window
+          (window--display-buffer buffer window 'window alist)
+          (set-window-dedicated-p window t)
+          (set-window-parameter window 'no-other-window t)
+          (set-window-parameter window 'no-delete-other-window t)
+          window))))
 
 
 
@@ -124,16 +139,6 @@
 
 ;;;
 ;; Documentation:
-
-;; (setup sideline-eldoc
-;;   (:autoload sideline-eldoc))
-
-;; (setup eldoc
-;;   (:with-mode eldoc-mode
-;;     (:hook
-;;      (lambda ()
-;;          (:local-set
-;;           (append sideline-backends-left) 'sideline-eldoc)))))
 
 (setup eldoc-box
   (:autoload eldoc-box-hover-at-point-mode eldoc-box-hover-mode))
@@ -249,33 +254,26 @@
 ;;;
 ;; Symbols:
 
+(setup imenu-list
+  (:autoload imenu-list-smart-toggle)
+  (:when-loaded
+    (:advice-add
+     imenu-list-display-buffer :override my-imenu-list-display-buffer)
+    (:set
+     imenu-list-mode-line-format nil
+     imenu-list-position 'right
+     imenu-list-size 30)))
+
 (setup my-ui
   (:when-loaded
     (:set
      (append my-switch-window-ignore-rules)
-     'symbols-outline-mode)))
-
-(setup symbols-outline
-  (:autoload symbols-outline-follow-mode))
+     'imenu-list-major-mode)))
 
 (setup eglot
-  (:with-hook eglot-managed-mode-hook
-    (:hook (lambda ()
-             (setq-local symbols-outline-fetch-fn
-                         #'symbols-outline-lsp-fetch))))
   (:with-map prog-mode-map
     (:keymap-set
-     "C-c m l" symbols-outline-show)))
-
-(setup window
-  (:set
-   (append display-buffer-alist)
-   '( (derived-mode . symbols-outline-mode)
-      (display-buffer-reuse-mode-window display-buffer-in-side-window)
-      (side . right)
-      (window-parameters . ( (mode-line-format . none)
-                             (no-delete-other-window . t)
-                             (no-other-window . t))))))
+     "C-c m l" imenu-list-smart-toggle)))
 
 
 
