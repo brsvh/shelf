@@ -311,7 +311,7 @@ Each rule can be:
   (:first-ui spacious-padding-mode)
   (:when-loaded
     (:set
-     spacious-padding-subtle-mode-line nil)))
+     spacious-padding-subtle-mode-line t)))
 
 
 
