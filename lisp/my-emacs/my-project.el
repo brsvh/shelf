@@ -167,6 +167,26 @@
 (setup project-treemacs
   (:autoload project-treemacs-mode))
 
+(setup treemacs-async
+  (:autoload treemacs-git-mode))
+
+(setup treemacs-filewatch-mode
+  (:autoload treemacs-filewatch-mode))
+
+(setup treemacs-follow-mode
+  (:autoload treemacs-follow-mode))
+
+(setup treemacs-git-commit-diff-mode
+  (:autoload treemacs-git-commit-diff-mode))
+
+(setup treemacs-project-follow-mode
+  (:autoload treemacs-project-follow-mode))
+
+(setup treemacs-tag-follow-mode
+  (:autoload treemacs-tag-follow-mode)
+  (:when-loaded
+    (:set treemacs-tag-follow-cleanup t)))
+
 (setup treemacs
   (:autoload
    treemacs
@@ -224,6 +244,9 @@
 
     ;; Show commit differences between local and remote.
     (treemacs-git-commit-diff-mode +1)
+
+    ;; Follow the current tag.
+    (treemacs-tag-follow-mode +1)
 
     ;; Follow project.
     (treemacs-project-follow-mode +1))
