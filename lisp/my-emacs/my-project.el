@@ -49,16 +49,11 @@
   (require 'tabspaces)
   (require 'treemacs)
   (require 'treemacs-async)
-  (require 'treemacs-customization)
   (require 'treemacs-magit)
-  (require 'treemacs-nerd-icons)
   (require 'treemacs-tab-bar)
   (require 'vc-dir)
   (require 'vc-git)
   (require 'whitespace))
-
-(defvar ctl-c-p-t-map (make-keymap)
-  "Default keymap use to bind my project treemacs commands.")
 
 (defvar ctl-c-p-tab-map (make-keymap)
   "Default keymap use to bind my project Tab operating commands.")
@@ -72,9 +67,8 @@
 ;; Core:
 
 (setup my-maps
-  (keymap-set ctl-c-p-map "<tab>"  ctl-c-p-tab-map)
-  (keymap-set ctl-c-p-map "t"      ctl-c-p-t-map)
-  (keymap-set ctl-c-v-map "g"      ctl-c-v-g-map))
+  (keymap-set ctl-c-p-map "<tab>" ctl-c-p-tab-map)
+  (keymap-set ctl-c-v-map "g"     ctl-c-v-g-map))
 
 (setup project
   (:when-loaded
@@ -171,87 +165,24 @@
 (setup treemacs-async
   (:autoload treemacs-git-mode))
 
-(setup treemacs-filewatch-mode
-  (:autoload treemacs-filewatch-mode))
-
-(setup treemacs-follow-mode
-  (:autoload treemacs-follow-mode))
-
 (setup treemacs-git-commit-diff-mode
   (:autoload treemacs-git-commit-diff-mode))
 
 (setup treemacs-project-follow-mode
   (:autoload treemacs-project-follow-mode))
 
-(setup treemacs-tag-follow-mode
-  (:autoload treemacs-tag-follow-mode)
-  (:when-loaded
-    (:set treemacs-tag-follow-cleanup t)))
-
-(setup treemacs-customization
-  (:when-loaded
-    (:set
-     ;; Display a more compact indentation.
-     treemacs-indentation 1
-
-     ;; Inhibit select to treemacs buffer.
-     treemacs-is-never-other-window t
-
-     ;; Show hidden files (.*).
-     treemacs-show-hidden-files t
-
-     ;; Redirect persist files.
-     treemacs-persist-file (my-data-path "treemacs/state")
-     treemacs-last-error-persist-file (my-data-path "treemacs/error")
-
-     ;; Show at left.
-     treemacs-position 'left
-
-     ;; Keep treemacs silent.
-     treemacs-silent-refresh t
-     treemacs-silent-filewatch t)))
-
 (setup treemacs
-  (:autoload
-   treemacs
-   treemacs-bookmark
-   treemacs-find-file
-   treemacs-find-tag
-   treemacs-select-directory
-   treemacs-select-window)
-
-  (:set
-   (append my-switch-window-ignore-rules) 'treemacs-mode)
-
-  (:with-map ctl-c-p-t-map
-    (:keymap-set
-     "b" treemacs-bookmark
-     "d" treemacs-select-directory
-     "f" treemacs-find-file
-     "o" treemacs
-     "s" treemacs-select-window
-     "t" treemacs-find-tag))
   (:when-loaded
     (:also-load
      treemacs-magit
-     treemacs-nerd-icons
      treemacs-tab-bar)
 
     ;; Enable integration with `project'.
     (project-treemacs-mode +1)
 
-    ;; Prefer to use nerd-icons theme.
-    (treemacs-load-theme "nerd-icons")
-
     ;; Enable integration with `tab-bar'
     (:after treemacs-tab-bar
       (:set treemacs-set-scope-type 'Tabs))
-
-    ;; Watch the filesystem changes.
-    (treemacs-filewatch-mode +1)
-
-    ;; Follow the current file.
-    (treemacs-follow-mode +1)
 
     ;; Watch the git status.
     (treemacs-git-mode 'deferred)
@@ -259,26 +190,12 @@
     ;; Show commit differences between local and remote.
     (treemacs-git-commit-diff-mode +1)
 
-    ;; Follow the current tag.
-    (treemacs-tag-follow-mode +1)
-
     ;; Follow project.
     (treemacs-project-follow-mode +1))
 
   (:after tabspaces
     (:set
      (append tabspaces-exclude-buffers) "Treemacs")))
-
-(setup window
-  (:set
-   (append display-buffer-alist)
-   '( "Treemacs"
-      (display-buffer-reuse-mode-window display-buffer-in-side-window)
-      (side . left)
-      (slot . -1)
-      (window-parameters . ( (mode-line-format . none)
-                             (no-delete-other-window . t)
-                             (no-other-window . t))))))
 
 
 

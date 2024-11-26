@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((apheleia "4.2") (company "0.10.2") (consult "1.8") (eglot "1.17") (eglot-booster "0.0.1") (eldoc "1.15.0") (eldoc-box "1.12.1") (emacs "30.1") (flymake "1.3.7") (hl-todo "3.8.1") (imenu-list "0.9") (parinfer-rust-mode "0.9.0") (rainbow-delimiters "2.1.5") (sideline "0.2.0") (sideline-flymake "0.1.0") (sideline-lsp "0.1.0") (smartparens "1.11.0"))
+;; Package-Requires: ((apheleia "4.2") (company "0.10.2") (consult "1.8") (eglot "1.17") (eglot-booster "0.0.1") (eldoc "1.15.0") (eldoc-box "1.12.1") (emacs "30.1") (flymake "1.3.7") (hl-todo "3.8.1") (parinfer-rust-mode "0.9.0") (rainbow-delimiters "2.1.5") (sideline "0.2.0") (sideline-flymake "0.1.0") (sideline-lsp "0.1.0") (smartparens "1.11.0"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -64,7 +64,6 @@
   (require 'flymake)
   (require 'hl-line)
   (require 'hl-todo)
-  (require 'imenu-list)
   (require 'parinfer-rust-mode)
   (require 'prog-mode)
   (require 'rainbow-delimiters)
@@ -79,22 +78,6 @@
   (dolist (mode parinfer-rust-troublesome-modes)
     (when (fboundp mode)
       (apply mode '(-1)))))
-
-(defun my-imenu-list-display-buffer (buffer alist)
-  "Display the `imenu-list' buffer at the side.
-This function should be used with `display-buffer-alist'.
-See `display-buffer-alist' for a description of BUFFER and ALIST."
-  (or (get-buffer-window buffer)
-      (let ((window (ignore-errors
-                      (split-window (frame-root-window)
-                                    (imenu-list-split-size)
-                                    imenu-list-position))))
-        (when window
-          (window--display-buffer buffer window 'window alist)
-          (set-window-dedicated-p window t)
-          (set-window-parameter window 'no-other-window t)
-          (set-window-parameter window 'no-delete-other-window t)
-          window))))
 
 
 
@@ -248,32 +231,6 @@ See `display-buffer-alist' for a description of BUFFER and ALIST."
 
 (setup xref
   (:snoc popper-reference-buffers "\\*xref\\*"))
-
-
-
-;;;
-;; Symbols:
-
-(setup imenu-list
-  (:autoload imenu-list-smart-toggle)
-  (:when-loaded
-    (:advice-add
-     imenu-list-display-buffer :override my-imenu-list-display-buffer)
-    (:set
-     imenu-list-mode-line-format nil
-     imenu-list-position 'right
-     imenu-list-size 30)))
-
-(setup my-ui
-  (:when-loaded
-    (:set
-     (append my-switch-window-ignore-rules)
-     'imenu-list-major-mode)))
-
-(setup eglot
-  (:with-map prog-mode-map
-    (:keymap-set
-     "C-c m l" imenu-list-smart-toggle)))
 
 
 

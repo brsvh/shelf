@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((consult "1.8") (doom-modeline "4.2.0") (emacs "30.1") (embark "1.1") (embark-consult "1.1") (ibuffer-project "2.2") (marginalia "1.7") (modus-themes "4.5.0") (nerd-icons "0.1.0") (nerd-icons-ibuffer "1.0.0") (orderless "1.2") (popper "0.4.6") (sideline "0.2.0") (spacious-padding "0.5.0") (svg-tag-mode "0.3.2") (switch-window "1.6.1") (vertico "1.9"))
+;; Package-Requires: ((consult "1.8") (doom-modeline "4.2.0") (emacs "30.1") (embark "1.1") (embark-consult "1.1") (ibuffer-project "2.2") (imenu-list "0.9") (marginalia "1.7") (modus-themes "4.5.0") (nerd-icons "0.1.0") (nerd-icons-ibuffer "1.0.0") (orderless "1.2") (popper "0.4.6") (sideline "0.2.0") (spacious-padding "0.5.0") (svg-tag-mode "0.3.2") (switch-window "1.6.1") (treemacs "3.1") (treemacs-nerd-icons "0.0.1") (vertico "1.9"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -44,6 +44,7 @@
   (require 'help-fns)
   (require 'ibuffer)
   (require 'ibuffer-project)
+  (require 'imenu-list)
   (require 'marginalia)
   (require 'modus-themes)
   (require 'nerd-icons)
@@ -57,6 +58,9 @@
   (require 'svg-tag-mode)
   (require 'switch-window)
   (require 'tab-bar)
+  (require 'treemacs)
+  (require 'treemacs-customization)
+  (require 'treemacs-nerd-icons)
   (require 'vertico)
   (require 'vertico-directory)
   (require 'window)
@@ -67,6 +71,22 @@
   (if display
       (funcall func display)
     initial-window-system))
+
+(defun my-imenu-list-display-buffer (buffer alist)
+  "Display the `imenu-list' buffer at the side.
+This function should be used with `display-buffer-alist'.
+See `display-buffer-alist' for a description of BUFFER and ALIST."
+  (or (get-buffer-window buffer)
+      (let ((window (ignore-errors
+                      (split-window (frame-root-window)
+                                    (imenu-list-split-size)
+                                    imenu-list-position))))
+        (when window
+          (window--display-buffer buffer window 'window alist)
+          (set-window-dedicated-p window t)
+          (set-window-parameter window 'no-other-window t)
+          (set-window-parameter window 'no-delete-other-window t)
+          window))))
 
 (defun my-modus-themes-enable-p (&rest _)
   "Return non-nil if current theme is belong to Modus Themes, else nil."
@@ -183,6 +203,12 @@ Each rule can be:
                                orderless-literal
                                orderless-regexp)))
 
+(defvar ctl-c-b-t-map (make-keymap)
+  "Default keymap use to bind my treemacs commands.")
+
+(setup my-maps
+  (keymap-set ctl-c-b-map "t" ctl-c-b-t-map))
+
 
 
 ;;;
@@ -284,6 +310,77 @@ Each rule can be:
 
 
 ;;;
+;; File system:
+
+(setup treemacs-filewatch-mode
+  (:autoload treemacs-filewatch-mode))
+
+(setup treemacs-follow-mode
+  (:autoload treemacs-follow-mode))
+
+(setup treemacs-customization
+  (:when-loaded
+    (:set
+     ;; Display a more compact indentation.
+     treemacs-indentation 1
+
+     ;; Inhibit select to treemacs buffer.
+     treemacs-is-never-other-window t
+
+     ;; Show hidden files (.*).
+     treemacs-show-hidden-files t
+
+     ;; Redirect persist files.
+     treemacs-persist-file (my-data-path "treemacs/state")
+     treemacs-last-error-persist-file (my-data-path "treemacs/error")
+
+     ;; Show at left.
+     treemacs-position 'left
+
+     ;; Keep treemacs silent.
+     treemacs-silent-refresh t
+     treemacs-silent-filewatch t)))
+
+(setup treemacs
+  (:autoload
+   treemacs
+   treemacs-bookmark
+   treemacs-find-file
+   treemacs-select-directory
+   treemacs-select-window)
+  (:set (append my-switch-window-ignore-rules) 'treemacs-mode)
+  (:with-map ctl-c-b-t-map
+    (:keymap-set
+     "b" treemacs-bookmark
+     "d" treemacs-select-directory
+     "f" treemacs-find-file
+     "o" treemacs
+     "s" treemacs-select-window))
+  (:when-loaded
+    (:also-load treemacs-nerd-icons)
+    ;; Prefer to use nerd-icons theme.
+    (treemacs-load-theme "nerd-icons")
+
+    ;; Watch the filesystem changes.
+    (treemacs-filewatch-mode +1)
+
+    ;; Follow the current file.
+    (treemacs-follow-mode +1)))
+
+(setup window
+  (:set
+   (append display-buffer-alist)
+   '( "Treemacs"
+      (display-buffer-reuse-mode-window display-buffer-in-side-window)
+      (side . left)
+      (slot . -1)
+      (window-parameters . ( (mode-line-format . none)
+                             (no-delete-other-window . t)
+                             (no-other-window . t))))))
+
+
+
+;;;
 ;; Frame:
 
 (setup menu-bar
@@ -348,6 +445,25 @@ Each rule can be:
   (:when-loaded
     (:set
      savehist-file (my-state-path "history.el"))))
+
+
+
+;;;
+;; Index:
+
+(setup imenu-list
+  (:autoload imenu-list-smart-toggle)
+  (:set
+   (append my-switch-window-ignore-rules)
+   'imenu-list-major-mode)
+  (:when-loaded
+    (:advice-add
+     imenu-list-display-buffer :override my-imenu-list-display-buffer)
+    (:set
+     imenu-list-mode-line-format nil
+     imenu-list-position 'right
+     imenu-list-size 30))
+  (:keymap-set-into ctl-c-b-map "l" imenu-list-smart-toggle))
 
 
 

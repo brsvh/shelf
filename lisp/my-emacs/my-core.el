@@ -353,6 +353,9 @@ These forms are supported:
 (defvar ctl-c-a-map (make-keymap)
   "Default keymap use to bind my action commands.")
 
+(defvar ctl-c-b-map (make-keymap)
+  "Default keymap use to bind my buffer commands.")
+
 (defvar ctl-c-e-map (make-keymap)
   "Default keymap use to bind my editing commands.")
 
@@ -379,6 +382,7 @@ These forms are supported:
   (keymap-set ctl-c-map   "4"      ctl-c-4-map)
   (keymap-set ctl-c-map   "5"      ctl-c-5-map)
   (keymap-set ctl-c-map   "a"      ctl-c-a-map)
+  (keymap-set ctl-c-map   "b"      ctl-c-b-map)
   (keymap-set ctl-c-map   "e"      ctl-c-e-map)
   (keymap-set ctl-c-map   "f"      ctl-c-f-map)
   (keymap-set ctl-c-map   "p"      ctl-c-p-map)
