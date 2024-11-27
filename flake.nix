@@ -122,7 +122,7 @@
     flake-utils = {
       inputs = {
         systems = {
-          follows = "default-linux";
+          follows = "x86_64-linux";
         };
       };
 
@@ -346,10 +346,6 @@
 
   # Systems
   inputs = {
-    default-linux = {
-      url = "github:nix-systems/default-linux/main";
-    };
-
     x86_64-linux = {
       url = "github:nix-systems/x86_64-linux/main";
     };
