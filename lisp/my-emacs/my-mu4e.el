@@ -68,8 +68,6 @@
       (:keymap-unset "C-<tab>" t))))
 
 (setup mu4e-update
-  (:snoc
-   popper-reference-buffers "\\*mu4e-update\\*")
   (:when-loaded
     (:set
      ;; Hide annoying "mu4e Retrieving mail..." msg in mini buffer:
@@ -85,9 +83,14 @@
 
 (setup window
   (:set
-   (append display-buffer-alist)
-   '( "\\*mu4e-main\\*"
-      (display-buffer-same-window))))
+   ;; Inhibit *mu4e-main* create new window.
+   (append display-buffer-alist) '( "\\*mu4e-main\\*"
+                                    (display-buffer-same-window))
+
+   ;; Hide *mu4e-update* buffer.
+   (append display-buffer-alist) '( "\\*mu4e-update\\*"
+                                    display-buffer-no-window
+                                    (allow-no-window . t))))
 
 
 
