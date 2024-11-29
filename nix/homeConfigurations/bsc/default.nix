@@ -33,6 +33,7 @@
           address = "bsc@brsvh.org";
 
           aliases = [
+            "bsc@member.fsf.org"
             "open@brsvh.org"
             "register@brsvh.org"
           ];
