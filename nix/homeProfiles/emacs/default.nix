@@ -38,6 +38,8 @@ let
         ]
       )
   );
+
+  tsdkPath = "${pkgs.nodePackages.typescript}/lib/node_modules/typescript/lib/";
 in
 {
   imports = [
@@ -82,6 +84,7 @@ in
           typst
           typstyle
           vscode-langservers-extracted
+          vue-language-server
         ]
         ++ (with haskellPackages; [
           ghc
@@ -165,6 +168,13 @@ in
         (setup treesit-grammars
           (:snoc
            treesit-extra-load-path "${treeSitterGrammarsPath}"))
+
+        (setup my-programming-web
+          (:set
+           my-vue-language-server-options
+           '( "vue-language-server"
+              "--stdio"
+              :initializationOptions ( :typescript (:tsdk "${tsdkPath}")))))
 
         
 

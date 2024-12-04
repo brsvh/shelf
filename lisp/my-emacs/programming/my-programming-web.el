@@ -40,22 +40,55 @@
   (require 'sgml-mode)
   (require 'web-mode))
 
+(define-derived-mode astro-mode web-mode "Astro"
+  "Major mode to edit Astro.js file."
+  (setq-local web-mode-enable-front-matter-block t
+              web-mode-engine "astro"))
+
+(define-derived-mode vue-mode web-mode "Vue"
+  "Major mode to edit Vue.js file."
+  (setq-local web-mode-engine "vue"))
+
+(defvar my-html-language-server-options '( "vscode-html-language-server"
+                                           "--stdio")
+  "Options of html-language-server program.")
+
+(defvar my-vue-language-server-options '( "vue-language-server"
+                                          "--stdio")
+  "Options of vue-language-server program.")
+
 
 
 ;;;
 ;; Major modes:
 
+(setup astro-mode
+  (:with-mode astro-mode
+    (:file-match
+     "\\.astro\\'")))
+
 (setup css-mode
-  (:autoload css-ts-mode css-mode))
+  (:autoload css-ts-mode css-mode)
+  (:with-mode css-ts-mode
+    (:file-match
+     "\\.css\\'")))
 
 (setup html-ts-mode
-  (:autoload html-ts-mode))
+  (:autoload html-ts-mode)
+  (:with-mode html-ts-mode
+    (:file-match
+     "\\.html\\'")))
 
 (setup mhtml-mode
   (:autoload mhtml-mode))
 
 (setup sgml-mode
   (:autoload html-mode))
+
+(setup vue-mode
+  (:with-mode vue-mode
+    (:file-match
+     "\\.vue\\'")))
 
 (setup web-mode
   (:autoload web-mode))
@@ -66,23 +99,17 @@
 ;; Appearance:
 
 (setup rainbow-mode
-  (:autoload rainbow-mode))
-
-(setup css-mode
+  (:autoload rainbow-mode)
   (:with-mode css-ts-mode
     (:hook rainbow-mode))
   (:with-mode css-mode
-    (:hook rainbow-mode)))
-
-(setup mhtml-mode
+    (:hook rainbow-mode))
   (:with-mode mhtml-mode
-    (:hook rainbow-mode)))
-
-(setup sgml-mode
+    (:hook rainbow-mode))
   (:with-mode html-mode
-    (:hook rainbow-mode)))
-
-(setup web-mode
+    (:hook rainbow-mode))
+  (:with-mode vue-mode
+    (:hook vue-mode))
   (:with-mode web-mode
     (:hook rainbow-mode)))
 
@@ -96,12 +123,17 @@
   (:when-loaded
     (:snoc
      eglot-server-programs
-     '(html-ts-mode . ("vscode-html-language-server" "--stdio")))))
+     (cons 'html-ts-mode my-html-language-server-options)
+     (cons 'vue-mode my-vue-language-server-options))))
 
 (setup css-mode
   (:with-mode css-ts-mode
     (:hook eglot-ensure))
   (:with-mode css-mode
+    (:hook eglot-ensure)))
+
+(setup vue-mode
+  (:with-mode vue-mode
     (:hook eglot-ensure)))
 
 
