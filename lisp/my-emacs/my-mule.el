@@ -46,6 +46,37 @@
   (setq-local pangu-spacing-real-insert-separtor
               (not pangu-spacing-real-insert-separtor)))
 
+(defvar my-symbol-code-point-ranges
+  '( (#x23fb . #x23fe)
+     (#x2b58 . #x2b58)
+     (#x2665 . #x2665)
+     (#x26a1 . #x26a1)
+     (#xe000 . #xe00a)
+     (#xe0a0 . #xe0a2)
+     (#xe0a3 . #xe0a3)
+     (#xe0b0 . #xe0b3)
+     (#xe0b4 . #xe0c8)
+     (#xe0ca . #xe0ca)
+     (#xe0cc . #xe0d7)
+     (#xe000 . #xe0a9)
+     (#xf000 . #xf0eb)
+     (#xe5fa . #xe6b7)
+     (#xe700 . #xe8ef)
+     (#xea60 . #xec1e)
+     (#xed00 . #xefce)
+     (#xf000 . #xf2ff)
+     (#xf300 . #xf381)
+     (#xf000 . #xf305)
+     (#xf001 . #xf847)
+     (#xf0001 . #xf1af0))
+  "Unicode code point ranges of symbols.")
+
+(defun my/symbol-font-setup (&rest _)
+  "Setup my symbols font."
+  (interactive)
+  (dolist (range my-symbol-code-point-ranges)
+    (set-fontset-font t range (font-spec :family my-symbol-font-name))))
+
 
 
 ;;;
@@ -109,9 +140,7 @@
 (setup emacs
   (:when-gui
    (:set my-symbol-font-name "Symbols Nerd Font Mono")
-   (set-fontset-font t
-                     'symbol
-                     (font-spec :family my-symbol-font-name))))
+   (my/symbol-font-setup)))
 
 
 
