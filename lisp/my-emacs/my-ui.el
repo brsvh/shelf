@@ -449,6 +449,17 @@ Each rule can be:
 
 
 ;;;
+;; Icons:
+
+(setup nerd-icons
+  (:when-loaded
+    (:snoc
+     nerd-icons-mode-icon-alist
+     '( eat-mode nerd-icons-devicon "nf-dev-terminal"))))
+
+
+
+;;;
 ;; Index:
 
 (setup imenu-list
