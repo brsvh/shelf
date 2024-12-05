@@ -598,6 +598,23 @@ Each rule can be:
     (:advice-add
      keyboard-quit :before my-popper-close-with-keyboard-quit)
     (:after doom-modeline
+      (:advice-add
+       popper--modified-mode-line
+       :override
+       (lambda nil
+         (when popper-mode-line
+           (let ((mode-line-format
+                  '( "%e" ( :eval (doom-modeline-format--minimal)))))
+             (if (member popper-mode-line mode-line-format)
+                 mode-line-format
+               (append (cl-subseq mode-line-format
+                                  0
+                                  popper-mode-line-position)
+                       (list
+                        popper-mode-line
+                        (nthcdr popper-mode-line-position
+                                mode-line-format))))))))
+
       ;; Replace " POP " in `doom-modeline' with .
       (:set
        popper-mode-line
