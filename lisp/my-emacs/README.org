@@ -1,0 +1,7 @@
+#+AUTHOR: Burgess Chang
+#+CREATED: [2024-12-05 Thu 17:56]
+#+EMAIL: bsc@brsvh.org
+#+LAST_MODIFIED: [2024-12-05 Thu 18:04]
+#+TITLE: My GNU Emacs configuration
+
+[[https://github.com/brsvh/shelf/blob/8d4dd874c1fead5892a3cba20bc814a23a4201e1/my-emacs.png]]
