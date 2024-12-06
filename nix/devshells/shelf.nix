@@ -21,7 +21,17 @@ in
     name = "shelf";
 
     startup = {
-      "lefthook" = {
+      git-config = {
+        deps = [
+          "sops"
+        ];
+
+        text = ''
+          git config diff.sopsdiff.textconv "sops decrypt"
+        '';
+      };
+
+      lefthook = {
         deps = [
           "conform"
           "treefmt"
