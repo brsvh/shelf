@@ -30,7 +30,7 @@
             windows-fonts
           ];
 
-          sansSerif = "LXGW Neo XiHei";
+          sansSerif = "IBM Plex Sans SC";
           serif = "Zhuque Fangsong (technical preview)";
           monospace = "LXGW WenKai Mono";
         };
