@@ -116,10 +116,13 @@
         ;
 
       user = config.accounts.email.accounts."${username}";
+
+      maildir = "${config.accounts.email.maildirBasePath}/${username}";
     in
     {
       emacs = {
         extraInitConfig = ''
+          (require 'my-gnus)
           (require 'my-mu4e)
 
           (setup emacs
@@ -127,9 +130,15 @@
              user-full-name "${user.realName}"
              user-mail-address "${user.address}"))
 
+          (setup mail-source
+            (:when-loaded
+              (:set
+               mail-source-directory "${maildir}")))
+
           (setup message
             (:when-loaded
               (:set
+               message-directory "${maildir}"
                message-signature "${user.signature.text}")))
 
           (setup mu4e
@@ -178,6 +187,11 @@
               (:set
                send-mail-function 'sendmail-send-it
                sendmail-program "msmtp")))
+
+          (setup smime
+            (:when-loaded
+              (:set
+               smime-certificate-directory "${maildir}/certs/")))
         '';
       };
 
