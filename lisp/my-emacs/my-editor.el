@@ -50,6 +50,7 @@
   (require 'simple)
   (require 'subword)
   (require 'tabify)
+  (require 'tramp)
   (require 'yasnippet))
 
 
@@ -285,6 +286,17 @@ shebang line or file path may exist now."
   (:when-loaded
     (:snoc yas-snippet-dirs (my-path my-etc-directory "snippets/"))
     (:advice-add yas-load-directory :around my-silent-message)))
+
+
+
+;;;
+;; Tramp:
+
+(setup tramp
+  (:when-loaded
+    (:set
+     tramp-auto-save-directory (my-data-path "tramp/" "auto-save/")
+     tramp-persistency-file-name (my-state-path "tramp.el"))))
 
 
 
