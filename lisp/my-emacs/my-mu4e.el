@@ -89,7 +89,7 @@
 
    ;; Hide *mu4e-update* buffer.
    (append display-buffer-alist) '( "\\*mu4e-update\\*"
-                                    display-buffer-no-window
+                                    (display-buffer-no-window)
                                     (allow-no-window . t))))
 
 
