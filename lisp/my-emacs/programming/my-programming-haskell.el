@@ -6,7 +6,7 @@
 ;; Keywords: local
 ;; Package-Requires: ((eglot "1.17") (emacs "30.1") (haskell-ts-mode "1"))
 ;; URL: https://github.com/brsvh/my-emacs
-;; Version: 0.1.50
+;; Version: 0.2.0
 
 ;; This file is part of my-emacs.
 

@@ -6,7 +6,7 @@
 ;; Keywords: extensions
 ;; Package-Requires: ((emacs "30.1") (mu4e "1.12.7"))
 ;; URL: https://github.com/brsvh/my-emacs
-;; Version: 0.1.50
+;; Version: 0.2.0
 
 ;; This file is part of my-emacs.
 

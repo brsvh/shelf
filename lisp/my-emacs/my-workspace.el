@@ -6,7 +6,7 @@
 ;; Keywords: local
 ;; Package-Requires: ((activities "0.7.1")(emacs "30.1"))
 ;; URL: https://github.com/brsvh/shelf
-;; Version: 0.1.50
+;; Version: 0.2.0
 
 ;; This file is part of my-emacs.
 
