@@ -5,7 +5,9 @@
 /.direnv/**/*
 
 # nix
+/repl-result-out
 /result
+/result-*
 
 # nixago
 /.conform.yaml
