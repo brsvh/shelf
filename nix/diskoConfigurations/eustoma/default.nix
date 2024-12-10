@@ -3,12 +3,7 @@
     devices = {
       disk = {
         nvme0n1 = {
-          device = "/dev/nvme0n1";
-          type = "disk";
-
           content = {
-            type = "gpt";
-
             partitions = {
               efi = {
                 content = {
@@ -82,6 +77,16 @@
                       mountpoint = "/";
                       name = "nixos";
                     };
+
+                    "/src" = {
+                      mountOptions = [
+                        "compress=zstd:1"
+                        "ssd"
+                      ];
+
+                      mountpoint = "/src";
+                      name = "src";
+                    };
                   };
 
                   type = "btrfs";
@@ -91,7 +96,12 @@
                 size = "100%";
               };
             };
+
+            type = "gpt";
           };
+
+          device = "/dev/nvme0n1";
+          type = "disk";
         };
       };
     };

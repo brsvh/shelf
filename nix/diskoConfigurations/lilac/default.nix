@@ -3,11 +3,7 @@
     devices = {
       disk = {
         nvme0n1 = {
-          device = "/dev/nvme0n1";
-          type = "disk";
-
           content = {
-            type = "gpt";
             partitions = {
               efi = {
                 content = {
@@ -50,6 +46,7 @@
                       mountpoint = "/gnu";
                       name = "gnu";
                     };
+
                     "/home" = {
                       mountOptions = [
                         "compress=zstd:1"
@@ -59,6 +56,7 @@
                       mountpoint = "/home";
                       name = "home";
                     };
+
                     "/nix" = {
                       mountOptions = [
                         "compress=zstd:1"
@@ -69,6 +67,7 @@
                       mountpoint = "/nix";
                       name = "nix";
                     };
+
                     "/nixos" = {
                       mountOptions = [
                         "compress=zstd:1"
@@ -77,6 +76,16 @@
 
                       mountpoint = "/";
                       name = "nixos";
+                    };
+
+                    "/src" = {
+                      mountOptions = [
+                        "compress=zstd:1"
+                        "ssd"
+                      ];
+
+                      mountpoint = "/src";
+                      name = "src";
                     };
                   };
 
@@ -87,7 +96,12 @@
                 size = "100%";
               };
             };
+
+            type = "gpt";
           };
+
+          device = "/dev/nvme0n1";
+          type = "disk";
         };
       };
     };
