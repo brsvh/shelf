@@ -34,12 +34,8 @@ in
       }
       (mkIf withgui {
         environment = {
-          systemPackages = with pkgs; [
-            (nerdfonts.override {
-              fonts = [
-                "NerdFontsSymbolsOnly"
-              ];
-            })
+          systemPackages = with pkgs.nerd-fonts; [
+            symbols-only
           ];
         };
 

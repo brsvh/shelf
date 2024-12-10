@@ -15,7 +15,6 @@ let
     mapAttrsToList
     mdDoc
     mkOption
-    mkOptionType
     optional
     types
     ;
@@ -627,7 +626,7 @@ in
             };
 
             fonts = mkOption {
-              default = [ cfg.nerdFonts.package ];
+              default = cfg.nerdFonts.fonts;
 
               description = mdDoc ''
                 The fonts packages of symbol will be used.
@@ -636,140 +635,35 @@ in
               type = with types; listOf package;
             };
 
-            nerdFonts =
-              let
-                nerdFontPatches = [
-                  "0xProto"
-                  "3270"
-                  "Agave"
-                  "AnonymousPro"
-                  "Arimo"
-                  "AurulentSansMono"
-                  "BigBlueTerminal"
-                  "BitstreamVeraSansMono"
-                  "CascadiaCode"
-                  "CascadiaMono"
-                  "CodeNewRoman"
-                  "ComicShannsMono"
-                  "CommitMono"
-                  "Cousine"
-                  "D2Coding"
-                  "DaddyTimeMono"
-                  "DejaVuSansMono"
-                  "DroidSansMono"
-                  "EnvyCodeR"
-                  "FantasqueSansMono"
-                  "FiraCode"
-                  "FiraMono"
-                  "GeistMono"
-                  "Go-Mono"
-                  "Gohu"
-                  "Hack"
-                  "Hasklig"
-                  "HeavyData"
-                  "Hermit"
-                  "IBMPlexMono"
-                  "Inconsolata"
-                  "InconsolataGo"
-                  "InconsolataLGC"
-                  "IntelOneMono"
-                  "Iosevka"
-                  "IosevkaTerm"
-                  "IosevkaTermSlab"
-                  "JetBrainsMono"
-                  "Lekton"
-                  "LiberationMono"
-                  "Lilex"
-                  "MPlus"
-                  "MartianMono"
-                  "Meslo"
-                  "Monaspace"
-                  "Monofur"
-                  "Monoid"
-                  "Mononoki"
-                  "NerdFontsSymbolsOnly"
-                  "Noto"
-                  "OpenDyslexic"
-                  "Overpass"
-                  "ProFont"
-                  "ProggyClean"
-                  "Recursive"
-                  "RobotoMono"
-                  "ShareTechMono"
-                  "SourceCodePro"
-                  "SpaceMono"
-                  "Terminus"
-                  "Tinos"
-                  "Ubuntu"
-                  "UbuntuMono"
-                  "UbuntuSans"
-                  "VictorMono"
-                  "ZedMono"
-                  "iA-Writer"
+            nerdFonts = {
+              defaultFont = mkOption {
+                default = "Symbols Nerd Font";
+
+                description = mdDoc ''
+                  The default Nerd Font name.
+                '';
+
+                type = types.str;
+              };
+
+              defaultMonoFont = mkOption {
+                default = "Symbols Nerd Font Mono";
+
+                description = mdDoc ''
+                  The default monospace Nerd Font name.
+                '';
+
+                type = types.str;
+              };
+
+              fonts = mkOption {
+                default = with pkgs.nerd-fonts; [
+                  symbols-only
                 ];
 
-                nerdFontPatch = mkOptionType {
-                  inherit (types.str)
-                    merge
-                    ;
-
-                  check = x: elem x nerdFontPatches;
-                  description = "Nerd font patch";
-                  descriptionClass = "noun";
-                  name = "nerdFontPatch";
-                };
-              in
-              {
-                defaultFont = mkOption {
-                  default = "Symbols Nerd Font";
-
-                  description = mdDoc ''
-                    The default Nerd Font name.
-                  '';
-
-                  type = types.str;
-                };
-
-                defaultMonoFont = mkOption {
-                  default = "Symbols Nerd Font Mono";
-
-                  description = mdDoc ''
-                    The default monospace Nerd Font name.
-                  '';
-
-                  type = types.str;
-                };
-
-                package = mkOption {
-                  default =
-                    with pkgs;
-                    (nerdfonts.override {
-                      fonts = cfg.nerdFonts.includePatches;
-                    });
-
-                  type = types.package;
-                };
-
-                patches = mkOption {
-                  default = nerdFontPatches;
-                  internal = true;
-                  readOnly = true;
-                  type = with types; listOf str;
-                };
-
-                includePatches = mkOption {
-                  default = [ "NerdFontsSymbolsOnly" ];
-
-                  description = mdDoc ''
-                    Which Nerd Font will be included.
-
-                    Each value must be in the attrNames of https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/data/fonts/nerdfonts/shas.nix.
-                  '';
-
-                  example = "[\"SourceCodePro\"]";
-                  type = with types; listOf nerdFontPatch;
-                };
+                type = with types; listOf package;
               };
+            };
           };
       };
 
