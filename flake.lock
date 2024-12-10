@@ -1,32 +1,5 @@
 {
   "nodes": {
-    "browser": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "x86_64-linux"
-        ]
-      },
-      "locked": {
-        "lastModified": 1732331501,
-        "narHash": "sha256-GCB/nB8DpiBMX6P4C7jnzhbH0jQ66VYbGEu7/wvCx3I=",
-        "owner": "nix-community",
-        "repo": "browser-previews",
-        "rev": "c32157a44f5d34bb35e0fcd8e164786ed8580fcd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "main",
-        "repo": "browser-previews",
-        "type": "github"
-      }
-    },
     "chinese-fonts-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -577,7 +550,6 @@
     },
     "root": {
       "inputs": {
-        "browser": "browser",
         "chinese-fonts-overlay": "chinese-fonts-overlay",
         "crane": "crane",
         "darwin": "darwin",

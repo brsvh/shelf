@@ -44,24 +44,6 @@
 
   # Libraries
   inputs = {
-    browser = {
-      inputs = {
-        flake-utils = {
-          follows = "flake-utils";
-        };
-
-        nixpkgs = {
-          follows = "nixpkgs";
-        };
-
-        systems = {
-          follows = "x86_64-linux";
-        };
-      };
-
-      url = "github:nix-community/browser-previews/main";
-    };
-
     darwin = {
       inputs = {
         nixpkgs = {
