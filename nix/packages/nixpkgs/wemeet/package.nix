@@ -33,15 +33,9 @@
   libsForQt5,
   gcc,
   pkg-config,
-  libgcc,
-  libglvnd,
-  zlib,
-  systemdLibs,
-  nspr,
-  expat,
-  glib,
   fetchFromGitHub,
   cmake,
+  ninja,
   wireplumber,
   libportal,
   xdg-desktop-portal,
@@ -52,18 +46,19 @@
 let
   wemeet-wayland-screenshare = stdenv.mkDerivation {
     pname = "wemeet-wayland-screenshare";
-    version = "0-unstable-2024-11-30";
+    version = "0-unstable-2024-12-07";
 
     src = fetchFromGitHub {
       owner = "xuwd1";
       repo = "wemeet-wayland-screenshare";
-      rev = "4d9875270e111f27c5c02e68e9188fe5a4616756";
-      hash = "sha256-on1MFTFQMzMoK6uwjRs3DGnyHWV8ozfATxvlwM4bhZY=";
+      rev = "d2f0f3b3ac0dce2c890d68c38e8f253ea7ab23ca";
+      hash = "sha256-HptibtvhRVKQZe0fjy315QU2iM59B/glPH+0t/tM/ns=";
       fetchSubmodules = true;
     };
 
     nativeBuildInputs = [
       cmake
+      ninja
       pkg-config
     ];
 
@@ -71,7 +66,7 @@ let
       wireplumber
       libportal
       xdg-desktop-portal
-      libsForQt5.qt5.qtwayland
+      libsForQt5.qtwayland
       libsForQt5.xwaylandvideobridge
       opencv
       pipewire
@@ -80,27 +75,13 @@ let
       xorg.libX11
     ];
 
-    cmakeFlags = [ "-DCMAKE_BUILD_TYPE=Release" ];
-
     dontWrapQtApps = true;
-
-    installPhase = ''
-      runHook preInstall
-
-      install -Dm755 ./libhook.so $out/lib/libhook.so
-
-      runHook postInstall
-    '';
 
     meta = {
       description = "Hooked WeMeet that enables screenshare on Wayland";
       homepage = "https://github.com/xuwd1/wemeet-wayland-screenshare";
       license = lib.licenses.mit;
       maintainers = with lib.maintainers; [ aucub ];
-      platforms = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
     };
   };
   libwemeetwrap = stdenv.mkDerivation {
@@ -121,39 +102,9 @@ let
     ];
 
     buildInputs = [
-      alsa-lib
-      libgcc
-      stdenv.cc.libc
-      libglvnd
+      openssl
       libpulseaudio
       xorg.libX11
-      xorg.libXcomposite
-      xorg.libXdamage
-      xorg.xset
-      xorg.libXfixes
-      xorg.libXinerama
-      xorg.libXrandr
-      openssl
-      libsForQt5.qt5.qtbase
-      libsForQt5.qt5.qtdeclarative
-      libsForQt5.qt5.qtsvg
-      libsForQt5.qt5.qtwebchannel
-      libsForQt5.qt5.qtwebengine
-      libsForQt5.qt5.qtx11extras
-      libsForQt5.qt5.qtwayland
-      zlib
-      wayland
-      nss
-      curl
-      systemdLibs
-      dbus
-      nspr
-      xorg.libXtst
-      freetype
-      expat
-      fontconfig
-      harfbuzz
-      glib
     ];
 
     buildPhase = ''
@@ -162,7 +113,9 @@ let
       read -ra openssl_args < <(pkg-config --libs openssl)
       read -ra libpulse_args < <(pkg-config --cflags --libs libpulse)
       # Comment out `-D WRAP_FORCE_SINK_HARDWARE` to disable the patch that forces wemeet detects sink as hardware sink
-      gcc $CFLAGS -Wall -Wextra -fPIC -shared "''${openssl_args[@]}" "''${libpulse_args[@]}" -o libwemeetwrap.so wrap.c -D WRAP_FORCE_SINK_HARDWARE
+      gcc $CFLAGS -Wall -Wextra -fPIC -shared \
+        "''${openssl_args[@]}" "''${libpulse_args[@]}" \
+        -o libwemeetwrap.so wrap.c -D WRAP_FORCE_SINK_HARDWARE
 
       runHook postBuild
     '';
@@ -178,28 +131,27 @@ let
     meta = {
       license = lib.licenses.unfree;
       maintainers = with lib.maintainers; [ aucub ];
-      platforms = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
     };
   };
+  selectSystem =
+    attrs:
+    attrs.${stdenv.hostPlatform.system}
+      or (throw "wemeet: ${stdenv.hostPlatform.system} is not supported");
 in
 stdenv.mkDerivation {
   pname = "wemeet";
   version = "3.19.2.400";
 
-  src =
-    if stdenv.hostPlatform.system == "aarch64-linux" then
-      fetchurl {
-        url = "https://updatecdn.meeting.qq.com/cos/867a8a2e99a215dcd4f60fe049dbe6cf/TencentMeeting_0300000000_3.19.2.400_arm64_default.publish.officialwebsite.deb";
-        hash = "sha256-avN+PHKKC58lMC5wd0yVLD0Ct7sbb4BtXjovish0ULU=";
-      }
-    else
-      fetchurl {
-        url = "https://updatecdn.meeting.qq.com/cos/fb7464ffb18b94a06868265bed984007/TencentMeeting_0300000000_3.19.2.400_x86_64_default.publish.officialwebsite.deb";
-        hash = "sha256-PSGc4urZnoBxtk1cwwz/oeXMwnI02Mv1pN2e9eEf5kE=";
-      };
+  src = selectSystem {
+    x86_64-linux = fetchurl {
+      url = "https://updatecdn.meeting.qq.com/cos/fb7464ffb18b94a06868265bed984007/TencentMeeting_0300000000_3.19.2.400_x86_64_default.publish.officialwebsite.deb";
+      hash = "sha256-PSGc4urZnoBxtk1cwwz/oeXMwnI02Mv1pN2e9eEf5kE=";
+    };
+    aarch64-linux = fetchurl {
+      url = "https://updatecdn.meeting.qq.com/cos/867a8a2e99a215dcd4f60fe049dbe6cf/TencentMeeting_0300000000_3.19.2.400_arm64_default.publish.officialwebsite.deb";
+      hash = "sha256-avN+PHKKC58lMC5wd0yVLD0Ct7sbb4BtXjovish0ULU=";
+    };
+  };
 
   nativeBuildInputs = [
     dpkg
@@ -242,8 +194,7 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out
-    cp -r opt/wemeet/* $out
+    cp -r opt/wemeet $out
     cp -r usr/* $out
     rm $out/lib/libcurl.so
     substituteInPlace $out/share/applications/wemeetapp.desktop \
@@ -275,12 +226,15 @@ stdenv.mkDerivation {
       --set XKB_CONFIG_ROOT "${xkeyboard_config}/share/X11/xkb" \
       --set LC_ALL "zh_CN.UTF-8" \
       --prefix LD_LIBRARY_PATH : "$out/x11-wayland/1050/lib/${
-        if stdenv.hostPlatform.system == "aarch64-linux" then "aarch64-linux-gnu" else "x86_64-linux-gnu"
-      }:$out/lib:$out/plugins:$out/resources:$out/translations:${xorg.libXext}/lib:${xorg.libXdamage}/lib:${opencv}/lib" \
+        selectSystem {
+          x86_64-linux = "x86_64-linux-gnu";
+          aarch64-linux = "aarch64-linux-gnu";
+        }
+      }:$out/lib:$out/plugins:$out/resources:$out/translations:${xorg.libXext}/lib:${xorg.libXdamage}/lib:${opencv}/lib:${xorg.libXrandr}/lib" \
       --prefix PATH : "$out/bin" \
       --prefix QT_PLUGIN_PATH : "$out/plugins" \
       --run "mkdir -p \$HOME/.local/share/wemeetapp" \
-      --prefix LD_PRELOAD : "${libwemeetwrap}/lib/libwemeetwrap.so:${wemeet-wayland-screenshare}/lib/libhook.so" \
+      --prefix LD_PRELOAD : "${libwemeetwrap}/lib/libwemeetwrap.so:${wemeet-wayland-screenshare}/lib/wemeet/libhook.so" \
       --set USER_RUN_DIR "/run/user/$(id -u)" \
       --set FONTCONFIG_DIR "$CONFIG_DIR/fontconfig" \
       --set KDE_GLOBALS_FILE "$CONFIG_DIR/kdeglobals" \
@@ -291,7 +245,7 @@ stdenv.mkDerivation {
   '';
 
   meta = {
-    description = "Wemeet - Tencent Video Conferencing";
+    description = "Tencent Video Conferencing";
     homepage = "https://wemeet.qq.com";
     platforms = [
       "x86_64-linux"
