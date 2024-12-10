@@ -73,11 +73,25 @@
   (require 'smartparens)
   (require 'xref))
 
-(defun my-inhibit-parinfer-rust-troublesome-modes (&rest _)
+(defun my-parinfer-rust-inhibit-troublesome-modes (&rest _)
   "Disable all `parinfer-rust-troublesome-modes' to inhibit warnings."
   (dolist (mode parinfer-rust-troublesome-modes)
     (when (fboundp mode)
       (apply mode '(-1)))))
+
+(defun my-parinfer-rust--check-for-indentation (&rest _)
+  "Check to see if running in paren mode will cause a change in the buffer.
+
+If a change is detected in the buffer, prompt the user to see if they still want
+`parinfer-rust-mode' enabled."
+  (when (and (parinfer-rust--execute-change-buffer-p "paren")
+             (not buffer-read-only))
+    (if (y-or-n-p
+         (format "Parinfer needs to modify indentation in the buffer %s to work.  Continue? "
+                 (current-buffer)))
+        (let ((parinfer-rust--mode "paren"))
+          (parinfer-rust--execute))
+      t)))
 
 
 
@@ -169,11 +183,19 @@
   (:also-load smartparens-config))
 
 (setup parinfer-rust-mode
-  (:autoload parinfer-rust-mode parinfer-rust-mode-enable)
-  (:advice-add
-   parinfer-rust-mode-enable
-   :before
-   my-inhibit-parinfer-rust-troublesome-modes)
+  (:autoload
+   parinfer-rust--check-for-indentation
+   parinfer-rust-mode
+   parinfer-rust-mode-enable)
+  ;; Disable unavailable minor modes before enable `parinfer-rust-mode'.
+  (:advice-add parinfer-rust-mode-enable
+               :before
+               my-parinfer-rust-inhibit-troublesome-modes)
+  ;; Inhibit the annoying indentation modification prompts when in
+  ;; read-only buffer.
+  (:advice-add parinfer-rust--check-for-indentation
+               :override
+               my-parinfer-rust--check-for-indentation)
   (:when-loaded
     (:set parinfer-rust-preferred-mode "paren")))
 
