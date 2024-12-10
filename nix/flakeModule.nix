@@ -10,7 +10,6 @@ let
     ;
 
   inherit (inputs)
-    browser
     chinese-fonts-overlay
     devshellago
     home-manager
@@ -90,24 +89,6 @@ let
     nix-alien.overlays.default
     self.overlays.epkgs
     self.overlays.nixpkgs
-    (
-      final: prev:
-      let
-        inherit (prev.stdenv)
-          system
-          ;
-      in
-      if system == "x86_64-linux" then
-        {
-          inherit (browser.packages.${system})
-            google-chrome
-            google-chrome-beta
-            google-chrome-dev
-            ;
-        }
-      else
-        { }
-    )
   ];
 in
 {
