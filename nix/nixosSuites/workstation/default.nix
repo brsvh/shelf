@@ -4,7 +4,6 @@
 }:
 {
   imports = [
-    my.nixosProfiles.flatpak
     my.nixosProfiles.kernel-zen
     my.nixosProfiles.network-manager
     my.nixosProfiles.pipewire
