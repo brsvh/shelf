@@ -137,6 +137,7 @@ in
 
         
 
+        (require 'my-browser)
         (require 'my-comint)
         (require 'my-dired)
         (require 'my-editor)
