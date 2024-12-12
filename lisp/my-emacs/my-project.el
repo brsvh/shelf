@@ -97,28 +97,30 @@
      "o" tabspaces-open-or-create-project-and-workspace
      "r" tabspaces-remove-current-buffer
      "s" tabspaces-switch-to-buffer))
-  (:set
-   ;; Share *scratch* and *Messages* buffers.
-   tabspaces-exclude-buffers '( "*scratch*" "*Messages*")
+  (:when-loaded
+    (:also-load magit)
+    (:set
+     ;; Share *scratch* and *Messages* buffers.
+     tabspaces-exclude-buffers '( "*scratch*" "*Messages*")
 
-   ;; Don't share any buffers.
-   tabspaces-include-buffers nil
+     ;; Don't share any buffers.
+     tabspaces-include-buffers nil
 
-   ;; Inhibit create the project-todo.org
-   tabspaces-initialize-project-with-todo nil
+     ;; Inhibit create the project-todo.org
+     tabspaces-initialize-project-with-todo nil
 
-   ;; Inhibit bind default key-bindings of `tabspaces'.
-   tabspaces-keymap-prefix nil
+     ;; Inhibit bind default key-bindings of `tabspaces'.
+     tabspaces-keymap-prefix nil
 
-   ;; Let `tabspaces' save opened sessions.
-   tabspaces-session t
-   tabspaces-session-file (my-state-path* "tabspaces/sessons.eld")
+     ;; Let `tabspaces' save opened sessions.
+     tabspaces-session t
+     tabspaces-session-file (my-state-path* "tabspaces/sessons.eld")
 
-   ;; But don't auto restore.
-   tabspaces-session-auto-restore nil
+     ;; But don't auto restore.
+     tabspaces-session-auto-restore nil
 
-   ;; I prefer to use `consult-buffer'.
-   tabspaces-use-filtered-buffers-as-default nil)
+     ;; I prefer to use `consult-buffer'.
+     tabspaces-use-filtered-buffers-as-default nil))
   (:with-hook tab-bar-mode-hook
     (:hook tabspaces-mode)))
 
