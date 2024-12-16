@@ -88,6 +88,7 @@
   rainbow-delimiters,
   rainbow-mode,
   rg,
+  rime,
   setup,
   sideline,
   sideline-flymake,
@@ -302,6 +303,7 @@ trivialBuild rec {
     rainbow-delimiters
     rainbow-mode
     rg
+    rime
     setup
     sideline
     sideline-flymake

@@ -85,7 +85,11 @@
 (setup mule-cmds
   (set-default-coding-systems 'utf-8)
   (set-language-environment "utf-8")
-  (prefer-coding-system 'utf-8))
+  (prefer-coding-system 'utf-8)
+  (:when-loaded
+    (:also-load rime)
+    (:set
+     default-input-method "rime")))
 
 (setup emacs
   (:when-gui

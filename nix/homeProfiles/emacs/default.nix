@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   my,
   pkgs,
@@ -66,6 +67,7 @@ in
           emacs-lsp-booster
           graphviz
           guile
+          librime
           lua-language-server
           mailutils
           mermaid-cli
@@ -166,16 +168,22 @@ in
            parinfer-rust-library "${parinferRustEmacsPath}/libparinfer_rust.so"
            parinfer-rust-library-directory "${parinferRustEmacsPath}/lib/"))
 
+        (setup rime
+          (:when-loaded
+            (:set
+             rime-user-data-dir "${config.rime.dataDirectory}")))
+
         (setup treesit-grammars
           (:snoc
            treesit-extra-load-path "${treeSitterGrammarsPath}"))
 
         (setup my-programming-web
-          (:set
-           my-vue-language-server-options
-           '( "vue-language-server"
-              "--stdio"
-              :initializationOptions ( :typescript (:tsdk "${tsdkPath}")))))
+          (:when-loaded
+            (:set
+             my-vue-language-server-options
+             '( "vue-language-server"
+                "--stdio"
+                :initializationOptions ( :typescript (:tsdk "${tsdkPath}"))))))
 
         
 
