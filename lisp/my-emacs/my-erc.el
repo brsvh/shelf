@@ -34,6 +34,8 @@
 
 (cl-eval-when (compile)
   (require 'erc)
+  (require 'erc-goodies)
+  (require 'erc-log)
   (require 'erc-services))
 
 

@@ -85,6 +85,7 @@
   popper,
   project,
   project-treemacs,
+  python3Packages,
   rainbow-delimiters,
   rainbow-mode,
   rg,
@@ -214,6 +215,10 @@ trivialBuild rec {
   pname = "my-emacs";
 
   buildInputs = propagatedUserEnvPkgs;
+
+  nativeBuildInputs = with python3Packages; [
+    python
+  ];
 
   propagatedUserEnvPkgs = [
     activities

@@ -35,10 +35,11 @@
   (require 'typst-ts-mode))
 
 (defun my-writing-typst-find-grammar (&rest _)
-  "Find 'libtree-sitter-typst.so'."
+  "Find `libtree-sitter-typst' library."
   (cl-some
    (lambda (dir)
      (let ((files (directory-files dir t)))
+       ;; TODO support other OS.
        (cl-find-if (lambda (file)
                      (string-equal (file-name-nondirectory file)
                                    "libtree-sitter-typst.so"))

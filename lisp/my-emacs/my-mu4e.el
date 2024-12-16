@@ -101,7 +101,7 @@
   (:autoload mu4e-alert-enable-notifications)
   (:when-loaded
     (:when-os (linux)
-      (:set mu4e-alert-set-default-style 'notifications)
+      (mu4e-alert-set-default-style 'notifications)
       (mu4e-alert-enable-notifications))))
 
 (setup mu4e

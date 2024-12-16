@@ -50,6 +50,7 @@
   (require 'treemacs)
   (require 'treemacs-async)
   (require 'treemacs-magit)
+  (require 'treemacs-scope)
   (require 'treemacs-tab-bar)
   (require 'vc-dir)
   (require 'vc-git)
@@ -184,7 +185,7 @@
 
     ;; Enable integration with `tab-bar'
     (:after treemacs-tab-bar
-      (:set treemacs-set-scope-type 'Tabs))
+      (treemacs-set-scope-type 'Tabs))
 
     ;; Watch the git status.
     (treemacs-git-mode 'deferred)
