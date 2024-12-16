@@ -128,7 +128,7 @@ in
 
         ;; Author: Burgess Chang <bsc@brsvh.org>
         ;; Keywords: local
-        ;; Package-Requires: ((emacs "29.1"))
+        ;; Package-Requires: ((emacs "30.1") (my-prelude "0.2.0"))
         ;; Version: 0.1.0
       '';
 
@@ -203,7 +203,7 @@ in
 
         ;; Author: Burgess Chang <bsc@brsvh.org>
         ;; Keywords: local
-        ;; Package-Requires: ((emacs "29.1"))
+        ;; Package-Requires: ((emacs "30.1") (my-emacs "0.2.0"))
         ;; Version: 0.1.0
       '';
 
