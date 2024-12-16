@@ -139,6 +139,13 @@ in
 
         
 
+        (setup rime
+          (:when-loaded
+            (:set
+             rime-user-data-dir "${config.rime.dataDirectory}")))
+
+        
+
         (require 'my-browser)
         (require 'my-comint)
         (require 'my-dired)
@@ -167,11 +174,6 @@ in
            parinfer-rust-auto-download nil
            parinfer-rust-library "${parinferRustEmacsPath}/libparinfer_rust.so"
            parinfer-rust-library-directory "${parinferRustEmacsPath}/lib/"))
-
-        (setup rime
-          (:when-loaded
-            (:set
-             rime-user-data-dir "${config.rime.dataDirectory}")))
 
         (setup treesit-grammars
           (:snoc

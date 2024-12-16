@@ -35,6 +35,7 @@
 (require 'my-core)
 
 (cl-eval-when (compile)
+  (require 'rime)
   (require 'rx)
   (require 'pangu-spacing))
 
@@ -86,10 +87,8 @@
   (set-default-coding-systems 'utf-8)
   (set-language-environment "utf-8")
   (prefer-coding-system 'utf-8)
-  (:when-loaded
-    (:also-load rime)
-    (:set
-     default-input-method "rime")))
+  (:also-load rime)
+  (set-input-method "rime"))
 
 (setup emacs
   (:when-gui
@@ -123,6 +122,17 @@
      "C-SPC" pangu-spacing-mode))
   (:when-loaded
     (:set pangu-spacing-real-insert-separtor t)))
+
+(setup rime
+  (:when-loaded
+    (:when-gui
+     (:face
+      rime-candidate-num-face ((t ( :inherit font-lock-keyword-face  :bold nil)))
+      rime-comment-face (( t ( :inherit font-lock-comment-face)))
+      rime-default-face (( t ( :inherit default))))
+     (:set
+      rime-posframe-properties '( :internal-border-width 2)
+      rime-show-candidate 'posframe))))
 
 
 
