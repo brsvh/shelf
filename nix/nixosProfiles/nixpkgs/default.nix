@@ -27,7 +27,7 @@ in
     overlays = [
       chinese-fonts-overlay.overlays.default
       nix-alien.overlays.default
-      self.overlays.epkgs
+      self.overlays.emacs
       self.overlays.nixpkgs
     ];
   };

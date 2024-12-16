@@ -87,7 +87,7 @@ let
   overlays = [
     chinese-fonts-overlay.overlays.default
     nix-alien.overlays.default
-    self.overlays.epkgs
+    self.overlays.emacs
     self.overlays.nixpkgs
   ];
 in
@@ -110,7 +110,7 @@ in
     lib = shelf-lib;
 
     overlays = {
-      epkgs = final: prev: import my.overlays.epkgs final prev;
+      emacs = final: prev: import my.overlays.emacs final prev;
       nixpkgs = final: prev: import my.overlays.nixpkgs final prev;
     };
 
@@ -181,7 +181,7 @@ in
 
             overlays = [
               rust-overlay.overlays.default
-              self.overlays.epkgs
+              self.overlays.emacs
               self.overlays.nixpkgs
             ];
           };
