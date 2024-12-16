@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  my,
   osConfig,
   pkgs,
   ...
@@ -50,8 +51,16 @@ let
     (hmIbus && hmEngine) || (osIbus && osEngine);
 in
 {
+  imports = [
+    my.homeModules.rime
+  ];
+
   config = mkMerge [
     (mkIf withFcitx5 {
+      rime = {
+        dataDirectory = "${config.xdg.dataHome}/fcitx5/rime";
+      };
+
       xdg = {
         dataFile = {
           "fcitx5/rime" = {
@@ -62,6 +71,10 @@ in
       };
     })
     (mkIf withIbus {
+      rime = {
+        dataDirectory = "${config.xdg.configHome}/ibus/rime";
+      };
+
       xdg = {
         configFile = {
           "ibus/rime" = {
