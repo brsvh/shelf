@@ -80,15 +80,13 @@
   "Setup my geometric shapes font."
   (interactive)
   (dolist (range my-geometric-shape-ranges)
-    (set-fontset-font t range (font-spec :family my-font-name
-                                         :size my-font-size))))
+    (set-fontset-font t range (font-spec :family my-font-name))))
 
 (defun my/symbol-font-setup (&rest _)
   "Setup my symbols font."
   (interactive)
   (dolist (range my-symbol-code-point-ranges)
-    (set-fontset-font t range (font-spec :family my-symbol-font-name
-                                         :size my-font-size))))
+    (set-fontset-font t range (font-spec :family my-symbol-font-name))))
 
 
 
