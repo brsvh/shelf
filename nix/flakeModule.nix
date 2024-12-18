@@ -193,5 +193,11 @@ in
       };
 
       formatter = pkgs.treefmt;
+
+      packages = {
+        inherit (pkgs)
+          wemeet
+          ;
+      };
     };
 }

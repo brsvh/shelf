@@ -46,13 +46,13 @@
 let
   wemeet-wayland-screenshare = stdenv.mkDerivation {
     pname = "wemeet-wayland-screenshare";
-    version = "0-unstable-2024-12-07";
+    version = "0-unstable-2024-12-15";
 
     src = fetchFromGitHub {
       owner = "xuwd1";
       repo = "wemeet-wayland-screenshare";
-      rev = "d2f0f3b3ac0dce2c890d68c38e8f253ea7ab23ca";
-      hash = "sha256-HptibtvhRVKQZe0fjy315QU2iM59B/glPH+0t/tM/ns=";
+      rev = "a1c8cc5a015a275256eef672f7df70a1e78e4c78";
+      hash = "sha256-uHgc4mJg0S6m9WRZ6kU1d0JwEOBDLPY1QlYCzpiEs1M=";
       fetchSubmodules = true;
     };
 
@@ -162,6 +162,9 @@ stdenv.mkDerivation {
   buildInputs = [
     nss
     xorg.libX11
+    xorg.libSM
+    xorg.libICE
+    xorg.libXtst
     desktop-file-utils
     libpulseaudio
     libgcrypt
@@ -169,9 +172,6 @@ stdenv.mkDerivation {
     systemd
     udev
     libGL
-    xorg.libSM
-    xorg.libICE
-    xorg.libXtst
     libGL
     fontconfig
     freetype
@@ -214,46 +214,36 @@ stdenv.mkDerivation {
 
   preFixup = ''
     wrapProgram $out/bin/wemeetapp \
-      --set XDG_SESSION_TYPE "x11" \
-      --set EGL_PLATFORM "x11" \
-      --set LP_NUM_THREADS "2" \
-      --set QT_QPA_PLATFORM "xcb" \
-      --set QT_STYLE_OVERRIDE "fusion" \
-      --set QT_AUTO_SCREEN_SCALE_FACTOR "1" \
-      --set IBUS_USE_PORTAL "1" \
-      --unset WAYLAND_DISPLAY \
-      --set TZ "Asia/Shanghai" \
-      --set XKB_CONFIG_ROOT "${xkeyboard_config}/share/X11/xkb" \
-      --set LC_ALL "zh_CN.UTF-8" \
-      --prefix LD_LIBRARY_PATH : "$out/x11-wayland/1050/lib/${
-        selectSystem {
-          x86_64-linux = "x86_64-linux-gnu";
-          aarch64-linux = "aarch64-linux-gnu";
-        }
-      }:$out/lib:$out/plugins:$out/resources:$out/translations:${xorg.libXext}/lib:${xorg.libXdamage}/lib:${opencv}/lib:${xorg.libXrandr}/lib" \
-      --prefix PATH : "$out/bin" \
-      --prefix QT_PLUGIN_PATH : "$out/plugins" \
+      --set LP_NUM_THREADS 2 \
+      --set QT_QPA_PLATFORM xcb \
+      --set IBUS_USE_PORTAL 1 \
+      --set XKB_CONFIG_ROOT ${xkeyboard_config}/share/X11/xkb \
+      --prefix LD_LIBRARY_PATH : ${
+        lib.optionalString (
+          stdenv.hostPlatform.system == "aarch64-linux"
+        ) "$out/x11-wayland/1050/lib/aarch64-linux-gnu"
+      }:$out/lib:$out/plugins:$out/resources:$out/translations:${xorg.libXext}/lib:${xorg.libXdamage}/lib:${opencv}/lib:${xorg.libXrandr}/lib \
+      --prefix PATH : $out/bin \
+      --prefix QT_PLUGIN_PATH : $out/plugins \
       --run "mkdir -p \$HOME/.local/share/wemeetapp" \
-      --prefix LD_PRELOAD : "${libwemeetwrap}/lib/libwemeetwrap.so:${wemeet-wayland-screenshare}/lib/wemeet/libhook.so" \
-      --set USER_RUN_DIR "/run/user/$(id -u)" \
-      --set FONTCONFIG_DIR "$CONFIG_DIR/fontconfig" \
-      --set KDE_GLOBALS_FILE "$CONFIG_DIR/kdeglobals" \
-      --set LD_PRELOAD_WRAP "$LD_PRELOAD:${libwemeetwrap}/lib/libwemeetwrap.so" \
-      --set CONFIG_DIR "''${XDG_CONFIG_HOME:-$HOME/.config}" \
-      --set KDE_ICON_CACHE_FILE "''${XDG_CACHE_HOME:-$HOME/.cache}/icon-cache.kcache" \
-      --set WEMEET_APP_DIR "''${XDG_DATA_HOME:-$HOME/.local/share}/wemeetapp"
+      --prefix LD_PRELOAD : ${libwemeetwrap}/lib/libwemeetwrap.so:${wemeet-wayland-screenshare}/lib/wemeet/libhook.so \
+      --set USER_RUN_DIR /run/user/$(id -u) \
+      --set FONTCONFIG_DIR $CONFIG_DIR/fontconfig \
+      --set LD_PRELOAD_WRAP $LD_PRELOAD:${libwemeetwrap}/lib/libwemeetwrap.so \
+      --set CONFIG_DIR ''${XDG_CONFIG_HOME:-$HOME/.config} \
+      --set WEMEET_APP_DIR ''${XDG_DATA_HOME:-$HOME/.local/share}/wemeetapp
   '';
 
   meta = {
     description = "Tencent Video Conferencing";
     homepage = "https://wemeet.qq.com";
+    license = lib.licenses.unfree;
+    mainProgram = "wemeetapp";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
     ];
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    license = lib.licenses.unfree;
     maintainers = with lib.maintainers; [ aucub ];
-    mainProgram = "wemeetapp";
   };
 }
