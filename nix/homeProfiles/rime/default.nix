@@ -19,7 +19,7 @@ let
     ;
 
   inherit (inputs)
-    oh-my-rime
+    rime-ice
     ;
 
   withFcitx5 =
@@ -65,7 +65,7 @@ in
         dataFile = {
           "fcitx5/rime" = {
             recursive = true;
-            source = "${oh-my-rime}/";
+            source = "${rime-ice}/";
           };
         };
       };
@@ -79,7 +79,7 @@ in
         configFile = {
           "ibus/rime" = {
             recursive = true;
-            source = "${oh-my-rime}/";
+            source = "${rime-ice}/";
           };
         };
       };

@@ -531,20 +531,20 @@
         "type": "github"
       }
     },
-    "oh-my-rime": {
+    "rime-ice": {
       "flake": false,
       "locked": {
-        "lastModified": 1733411839,
-        "narHash": "sha256-S95BMkVIbWYjqJgfRPSk5ntcEuaU58JmKiG33R0+gdg=",
-        "owner": "Mintimate",
-        "repo": "oh-my-rime",
-        "rev": "a7545a69a4e4912929e22e2a81d1b63b38a84403",
+        "lastModified": 1734070592,
+        "narHash": "sha256-D6VcJWDnfhCHd3B/QR/Pot+6oNs6a77g8hWKU38nZgw=",
+        "owner": "iDvel",
+        "repo": "rime-ice",
+        "rev": "522ef78bf7ed567d3a1bd4f51d0991685e6a0f52",
         "type": "github"
       },
       "original": {
-        "owner": "Mintimate",
+        "owner": "iDvel",
         "ref": "main",
-        "repo": "oh-my-rime",
+        "repo": "rime-ice",
         "type": "github"
       }
     },
@@ -581,7 +581,7 @@
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "oh-my-rime": "oh-my-rime",
+        "rime-ice": "rime-ice",
         "rust-overlay": "rust-overlay",
         "sops": "sops",
         "x86_64-linux": "x86_64-linux"

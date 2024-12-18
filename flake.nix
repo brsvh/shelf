@@ -287,9 +287,9 @@
       url = "github:nix-community/nixago-extensions/master";
     };
 
-    oh-my-rime = {
+    rime-ice = {
       flake = false;
-      url = "github:Mintimate/oh-my-rime/main";
+      url = "github:iDvel/rime-ice/main";
     };
 
     sops = {
