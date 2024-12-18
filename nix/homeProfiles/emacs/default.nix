@@ -2,6 +2,7 @@
   config,
   lib,
   my,
+  osConfig,
   pkgs,
   ...
 }:
@@ -9,6 +10,7 @@ let
   inherit (builtins)
     attrValues
     map
+    toString
     ;
 
   inherit (lib)
@@ -23,6 +25,8 @@ let
     stdenv
     tree-sitter-grammars
     ;
+
+  eustoma = osConfig.networking.hostName == "eustoma";
 
   parinferRustEmacsPath = "${pkgs.parinfer-rust-emacs}/lib";
 
@@ -138,6 +142,16 @@ in
         (require 'my-core)
 
         
+
+        (setup my-lib
+          (:when-loaded
+            (:when-gui
+             (:set
+              my-chinese-font-name "${config.fonts.fontconfig.languages.chinese.monospace}"
+              my-latin-font-name "${config.fonts.fontconfig.languages.english.monospace}"
+              my-symbol-font-name "${config.fonts.fontconfig.symbol.defaultMonoFont}"
+              my-font-name "${config.fonts.fontconfig.languages.english.monospace}"
+              my-font-size ${toString (if eustoma then 14 else config.fonts.size)}))))
 
         (setup rime
           (:when-loaded

@@ -47,6 +47,10 @@
   (setq-local pangu-spacing-real-insert-separtor
               (not pangu-spacing-real-insert-separtor)))
 
+(defvar my-geometric-shape-ranges
+  '( (#x25A0 . #x25FF))
+  "Unicode code point ranges of geometric shapes.")
+
 (defvar my-symbol-code-point-ranges
   '( (#x23fb . #x23fe)
      (#x2b58 . #x2b58)
@@ -72,11 +76,19 @@
      (#xf0001 . #xf1af0))
   "Unicode code point ranges of symbols.")
 
+(defun my/geometric-shape-font-setup (&rest _)
+  "Setup my geometric shapes font."
+  (interactive)
+  (dolist (range my-geometric-shape-ranges)
+    (set-fontset-font t range (font-spec :family my-font-name
+                                         :size my-font-size))))
+
 (defun my/symbol-font-setup (&rest _)
   "Setup my symbols font."
   (interactive)
   (dolist (range my-symbol-code-point-ranges)
-    (set-fontset-font t range (font-spec :family my-symbol-font-name))))
+    (set-fontset-font t range (font-spec :family my-symbol-font-name
+                                         :size my-font-size))))
 
 
 
@@ -92,12 +104,12 @@
 
 (setup emacs
   (:when-gui
-   (:set my-font-name "IBM Plex Mono"
-         my-font-size 13)
    (set-face-attribute 'default
                        nil
-                       :font (font-spec :family my-font-name))
-   (:set-default word-wrap-by-category t)))
+                       :font (font-spec :family my-font-name
+                                        :size my-font-size))
+   (my/geometric-shape-font-setup))
+  (:set-default word-wrap-by-category t))
 
 
 
@@ -105,10 +117,11 @@
 
 (setup emacs
   (:when-gui
-   (:set my-chinese-font-name "LXGW WenKai Mono")
    (set-fontset-font t
                      'cjk-misc
-                     (font-spec :family my-chinese-font-name))
+                     (font-spec
+                      :family my-chinese-font-name
+                      :size my-font-size))
    (set-fontset-font t
                      'han
                      (font-spec :family my-chinese-font-name))))
@@ -141,7 +154,6 @@
 
 (setup emacs
   (:when-gui
-   (:set my-latin-font-name "IBM Plex Mono")
    (set-fontset-font t
                      'latin
                      (font-spec :family my-latin-font-name))))
@@ -153,7 +165,6 @@
 
 (setup emacs
   (:when-gui
-   (:set my-symbol-font-name "Symbols Nerd Font Mono")
    (my/symbol-font-setup)))
 
 
