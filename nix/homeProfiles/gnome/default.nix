@@ -24,8 +24,6 @@ let
     mkTuple
     ;
 
-  eustoma = osConfig.networking.hostName == "eustoma";
-
   withIbus = osConfig.i18n.inputMethod.enable && osConfig.i18n.inputMethod.type == "ibus";
 
   withGnome = osConfig.services.xserver.desktopManager.gnome.enable or false;
@@ -97,7 +95,6 @@ in
       gtk = {
         cursorTheme = {
           name = mkForce "Adwaita";
-          size = mkForce (if eustoma then 20 else 16);
           package = mkForce pkgs.adwaita-icon-theme;
         };
 
