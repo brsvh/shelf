@@ -111,6 +111,13 @@
    (my/geometric-shape-font-setup))
   (:set-default word-wrap-by-category t))
 
+(setup face-remap
+  (:autoload variable-pitch-mode)
+  (:when-loaded
+    (:face
+     fixed-pitch nil :font (font-spec :family my-monospace-font-name)
+     variable-pitch nil :font (font-spec :family my-sans-serif-font-name))))
+
 
 
 ;;; Chinese:

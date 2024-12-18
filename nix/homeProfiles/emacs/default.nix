@@ -148,9 +148,17 @@ in
             (:when-gui
              (:set
               my-chinese-font-name "${config.fonts.fontconfig.languages.chinese.monospace}"
+              my-chinese-monospace-font-name "${config.fonts.fontconfig.languages.chinese.monospace}"
+              my-chinese-sans-serif-font-name "${config.fonts.fontconfig.languages.chinese.sansSerif}"
               my-latin-font-name "${config.fonts.fontconfig.languages.english.monospace}"
+              my-latin-monospace-font-name "${config.fonts.fontconfig.languages.english.monospace}"
+              my-latin-sans-serif-font-name "${config.fonts.fontconfig.languages.english.sansSerif}"
               my-symbol-font-name "${config.fonts.fontconfig.symbol.defaultMonoFont}"
+              my-symbol-sans-serif-font-name "${config.fonts.fontconfig.symbol.defaultFont}"
+              my-symbol-monospace-font-name "${config.fonts.fontconfig.symbol.defaultMonoFont}"
               my-font-name "${config.fonts.fontconfig.languages.english.monospace}"
+              my-monospace-font-name "${config.fonts.fontconfig.languages.english.monospace}"
+              my-sans-serif-font-name "${config.fonts.fontconfig.languages.english.sansSerif}"
               my-font-size ${toString (if eustoma then 14 else config.fonts.size)}))))
 
         (setup rime

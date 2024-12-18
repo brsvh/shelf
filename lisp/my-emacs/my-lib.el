@@ -240,6 +240,18 @@ Allowable concepts (not quoted) are `cache', `config', `data' and
   :type 'string)
 
 ;;;###autoload
+(defcustom my-monospace-font-name "IBM Plex Mono"
+  "Name of my monospace font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
+(defcustom my-sans-serif-font-name "IBM Plex Sans"
+  "Name of my sans-serif font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
 (defcustom my-font-size 14
   "Name of my default font."
   :group 'my-fonts
@@ -252,14 +264,50 @@ Allowable concepts (not quoted) are `cache', `config', `data' and
   :type 'string)
 
 ;;;###autoload
+(defcustom my-latin-monospace-font-name "IBM Plex Mono"
+  "Name of my latin monospace font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
+(defcustom my-latin-sans-serif-font-name "IBM Plex Sans"
+  "Name of my latin sans-serif font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
 (defcustom my-chinese-font-name "LXGW WenKai Mono"
   "Name of my chinese font."
   :group 'my-fonts
   :type 'string)
 
 ;;;###autoload
+(defcustom my-chinese-monospace-font-name "LXGW WenKai Mono"
+  "Name of my chinese monospace font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
+(defcustom my-chinese-sans-serif-font-name "IBM Plex Sans SC"
+  "Name of my chinese sans-serif font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
 (defcustom my-symbol-font-name "Symbols Nerd Font Mono"
   "Name of my symbol font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
+(defcustom my-symbol-sans-serif-font-name "Symbols Nerd Font"
+  "Name of my sans-serif font."
+  :group 'my-fonts
+  :type 'string)
+
+;;;###autoload
+(defcustom my-symbol-monospace-font-name "Symbols Nerd Font Mono"
+  "Name of my symbol monospace font."
   :group 'my-fonts
   :type 'string)
 
