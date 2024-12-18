@@ -21,6 +21,7 @@
           enable = true;
 
           fonts = with pkgs; [
+            TH-fonts
             alibaba-fonts
             foundertype-fonts
             lxgw-neoxihei
