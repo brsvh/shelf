@@ -308,6 +308,13 @@ These forms are supported:
     :debug '(sexp form)
     :indent 1)
 
+  (setup-define :when-pgtk
+    (lambda (&rest body)
+      `(when (equal initial-window-system 'pgtk)
+         ,@body))
+    :documentation "Evaluate BODY when window system is `pgtk'."
+    :debug '(form))
+
   (setup-define :when-tui
     (lambda (&rest body)
       `(unless (display-graphic-p)

@@ -98,7 +98,12 @@
   (set-language-environment "utf-8")
   (prefer-coding-system 'utf-8)
   (:also-load rime)
-  (set-input-method "rime"))
+  (set-input-method "rime")
+  ;; Prevent the system-wide input method.
+  (:when-pgtk
+   (:set pgtk-use-im-context-on-new-connection nil)
+   ;; Ensure GTK IM Module is disabled in current session.
+   (pgtk-use-im-context nil)))
 
 (setup emacs
   (:when-gui
