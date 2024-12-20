@@ -35,6 +35,7 @@ in
       # file
       choose
       eza
+      file
       hex
       rnr
 

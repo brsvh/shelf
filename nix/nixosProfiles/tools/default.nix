@@ -21,6 +21,9 @@ in
 
   environment = {
     systemPackages = with pkgs; [
+      # file
+      file
+
       # network
       curl
       dogdns
