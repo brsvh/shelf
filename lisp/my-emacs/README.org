@@ -1,7 +1,7 @@
 #+AUTHOR: Burgess Chang
 #+CREATED: [2024-12-05 Thu 17:56]
 #+EMAIL: bsc@brsvh.org
-#+LAST_MODIFIED: [2024-12-09 Mon 20:27]
+#+LAST_MODIFIED: [2024-12-23 Mon 09:19]
 #+TITLE: My GNU Emacs configuration
 
 * Features
@@ -94,6 +94,7 @@ Supported writing formats:
 - ~eglot-booster~
 - ~eldoc~
 - ~eldoc-box~
+- ~emacs-rime~
 - ~embark~
 - ~embark-consult~
 - ~embark-org-roam~
@@ -160,6 +161,8 @@ Supported writing formats:
 - ~sideline~
 - ~sideline-flymake~
 - ~sideline-lsp~
+- ~slime~
+- ~slime-company
 - ~smartparens~
 - ~spacious-padding~
 - ~svg-lib~

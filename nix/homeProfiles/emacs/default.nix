@@ -85,6 +85,7 @@ in
           rust-analyzer
           rustc
           rustfmt
+          sbcl
           stylua
           tinymist
           typst

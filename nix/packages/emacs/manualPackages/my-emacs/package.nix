@@ -94,6 +94,8 @@
   sideline,
   sideline-flymake,
   sideline-lsp,
+  slime,
+  slime-company,
   smartparens,
   spacious-padding,
   stdenv,
@@ -313,6 +315,8 @@ trivialBuild rec {
     sideline
     sideline-flymake
     sideline-lsp
+    slime
+    slime-company
     smartparens
     spacious-padding
     svg-lib

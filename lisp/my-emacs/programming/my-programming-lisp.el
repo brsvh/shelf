@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((emacs "30.1") (parinfer-rust-mode "0.9.0"))
+;; Package-Requires: ((emacs "30.1") (parinfer-rust-mode "0.9.0") (slime "2.31"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -32,12 +32,40 @@
 (require 'my-core)
 
 (cl-eval-when (compile)
+  (require 'inf-lisp)
+  (require 'lisp-mode)
   (require 'parinfer-rust-mode))
 
 
 
 ;;;
+;; Core:
+
+(setup slime
+  (:autoload slime slime-setup)
+  (:when-loaded
+    (:set
+     slime-contribs '( slime-company slime-fancy))))
+
+(setup lisp-mode
+  (:when-loaded
+    (:with-hook lisp-mode-hook
+      (:hook
+       (lambda nil
+         (:after inf-lisp
+           (when (executable-find "sbcl")
+             (:set inferior-lisp-program "sbcl")))
+         (unless (memq 'slime-lisp-mode-hook lisp-mode-hook)
+           (:also-load slime-autoloads slime)
+           (slime-setup)))))))
+
+
+
+;;;
 ;; Parens editing:
+
+(setup parinfer-rust-mode
+  (:autoload parinfer-rust-mode))
 
 (setup lisp-mode
   (:hook parinfer-rust-mode))
