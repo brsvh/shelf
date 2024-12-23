@@ -34,7 +34,9 @@
 (cl-eval-when (compile)
   (require 'inf-lisp)
   (require 'lisp-mode)
-  (require 'parinfer-rust-mode))
+  (require 'parinfer-rust-mode)
+  (require 'slime)
+  (require 'slime-repl))
 
 
 
@@ -45,7 +47,12 @@
   (:autoload slime slime-setup)
   (:when-loaded
     (:set
-     slime-contribs '( slime-company slime-fancy))))
+     slime-contribs '( slime-asdf
+                       slime-company
+                       slime-fancy
+                       slime-mrepl
+                       slime-quicklisp
+                       slime-references))))
 
 (setup lisp-mode
   (:when-loaded
@@ -62,6 +69,15 @@
 
 
 ;;;
+;; Documentation:
+
+(setup slime
+  (:snoc popper-reference-buffers
+         "\\*slime-description\\*"))
+
+
+
+;;;
 ;; Parens editing:
 
 (setup parinfer-rust-mode
@@ -69,6 +85,14 @@
 
 (setup lisp-mode
   (:hook parinfer-rust-mode))
+
+
+
+;;; REPL:
+
+(setup slime-repl
+  (:snoc popper-reference-buffers
+         'slime-repl-mode))
 
 
 
