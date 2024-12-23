@@ -51,6 +51,9 @@ in
       nix-tree
       nvd
 
+      # nixpkgs
+      nixpkgs-review
+
       # process
       procs
 
