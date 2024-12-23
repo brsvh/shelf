@@ -39,7 +39,7 @@
   wireplumber,
   libportal,
   xdg-desktop-portal,
-  opencv,
+  opencv4WithoutCuda,
   pipewire,
   fetchgit,
 }:
@@ -68,7 +68,7 @@ let
       xdg-desktop-portal
       libsForQt5.qtwayland
       libsForQt5.xwaylandvideobridge
-      opencv
+      opencv4WithoutCuda
       pipewire
       xorg.libXdamage
       xorg.libXrandr
@@ -85,6 +85,7 @@ let
     };
   };
   libwemeetwrap = stdenv.mkDerivation {
+    # for mitigating file transfer crashes
     pname = "libwemeetwrap";
     version = "1.0";
 
@@ -172,7 +173,6 @@ stdenv.mkDerivation {
     systemd
     udev
     libGL
-    libGL
     fontconfig
     freetype
     openssl
@@ -196,12 +196,13 @@ stdenv.mkDerivation {
 
     cp -r opt/wemeet $out
     cp -r usr/* $out
-    rm $out/lib/libcurl.so
+    rm -f $out/lib/libcurl.so
     substituteInPlace $out/share/applications/wemeetapp.desktop \
       --replace-fail "/opt/wemeet/wemeetapp.sh" "wemeetapp" \
       --replace-fail "/opt/wemeet/wemeet.svg" "wemeet"
-    sed -i "s|^Prefix.*|Prefix = $out/lib|" $out/bin/qt.conf
-    mv $out/icons $out/share/icons
+    substituteInPlace $out/bin/qt.conf \
+      --replace-fail "Prefix = ../" "Prefix = $out/lib"
+    cp -r $out/icons $out/share/icons || true
     install -Dm0644 $out/wemeet.svg $out/share/icons/hicolor/scalable/apps/wemeet.svg
     ln -s $out/bin/raw/xcast.conf $out/bin/xcast.conf
     ln -s $out/plugins $out/lib/plugins
@@ -212,26 +213,26 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
+  # set LP_NUM_THREADS limit the number of cores used by rendering
+  # set XDG_SESSION_TYPE; set EGL_PLATFORM; unset WAYLAND_DISPLAY getting border shadows to work
+  # set QT_AUTO_SCREEN_SCALE_FACTOR avoid using pop-ups to block system pop-ups
+  # set QT_STYLE_OVERRIDE solve the color of the font is not visible when using the included Qt
+  # set IBUS_USE_PORTAL fix ibus
   preFixup = ''
     wrapProgram $out/bin/wemeetapp \
       --set LP_NUM_THREADS 2 \
+      --set XDG_SESSION_TYPE x11 \
+      --set EGL_PLATFORM x11 \
+      --unset WAYLAND_DISPLAY \
       --set QT_QPA_PLATFORM xcb \
+      --set QT_AUTO_SCREEN_SCALE_FACTOR 1 \
+      --set QT_STYLE_OVERRIDE fusion \
       --set IBUS_USE_PORTAL 1 \
       --set XKB_CONFIG_ROOT ${xkeyboard_config}/share/X11/xkb \
-      --prefix LD_LIBRARY_PATH : ${
-        lib.optionalString (
-          stdenv.hostPlatform.system == "aarch64-linux"
-        ) "$out/x11-wayland/1050/lib/aarch64-linux-gnu"
-      }:$out/lib:$out/plugins:$out/resources:$out/translations:${xorg.libXext}/lib:${xorg.libXdamage}/lib:${opencv}/lib:${xorg.libXrandr}/lib \
+      --prefix LD_LIBRARY_PATH : $out/lib:$out/plugins:$out/resources:$out/translations:${xorg.libXext}/lib:${xorg.libXdamage}/lib:${opencv4WithoutCuda}/lib:${xorg.libXrandr}/lib \
       --prefix PATH : $out/bin \
       --prefix QT_PLUGIN_PATH : $out/plugins \
-      --run "mkdir -p \$HOME/.local/share/wemeetapp" \
-      --prefix LD_PRELOAD : ${libwemeetwrap}/lib/libwemeetwrap.so:${wemeet-wayland-screenshare}/lib/wemeet/libhook.so \
-      --set USER_RUN_DIR /run/user/$(id -u) \
-      --set FONTCONFIG_DIR $CONFIG_DIR/fontconfig \
-      --set LD_PRELOAD_WRAP $LD_PRELOAD:${libwemeetwrap}/lib/libwemeetwrap.so \
-      --set CONFIG_DIR ''${XDG_CONFIG_HOME:-$HOME/.config} \
-      --set WEMEET_APP_DIR ''${XDG_DATA_HOME:-$HOME/.local/share}/wemeetapp
+      --prefix LD_PRELOAD : ${libwemeetwrap}/lib/libwemeetwrap.so:${wemeet-wayland-screenshare}/lib/wemeet/libhook.so
   '';
 
   meta = {
