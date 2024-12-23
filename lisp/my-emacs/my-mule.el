@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((emacs "30.1") (pangu-spacing "0.4"))
+;; Package-Requires: ((emacs "30.1") (pangu-spacing "0.4") (rime "1.0.5"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -33,9 +33,9 @@
 ;;; Code:
 
 (require 'my-core)
+(require 'rime)
 
 (cl-eval-when (compile)
-  (require 'rime)
   (require 'rx)
   (require 'pangu-spacing))
 
@@ -97,8 +97,7 @@
   (set-default-coding-systems 'utf-8)
   (set-language-environment "utf-8")
   (prefer-coding-system 'utf-8)
-  (:also-load rime)
-  (set-input-method "rime")
+  (:set-default default-input-method "rime")
   ;; Prevent the system-wide input method.
   (:when-pgtk
    (:set pgtk-use-im-context-on-new-connection nil)
