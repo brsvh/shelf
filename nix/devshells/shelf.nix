@@ -109,6 +109,10 @@ in
           tab_width = 2;
           max_line_length = 120;
         };
+
+        "*.org" = {
+          tab_width = 8;
+        };
       };
 
       engine =

@@ -272,7 +272,8 @@ If the PROPERTY already has the same VALUE, do nothing."
     (:hook org-modern-mode))
   (:when-loaded
     (:set
-     org-modern-star '( "●" "◉" "◎" "⊙" "○")
+     org-modern-star '( "●" "◉" "◎" "○")
+     org-modern-replace-stars '( "●" "◉" "◎" "○")
      ;; Prefer to use `valign'.
      org-modern-table nil))
   ;; Align variable-pitch font, CJK characters and images in tables.
@@ -395,6 +396,9 @@ If the PROPERTY already has the same VALUE, do nothing."
 (setup org
   (:with-hook org-mode-hook
     (:hook
+     ;; Ensure `tab-width' is 8.
+     (lambda nil
+       (setq-local tab-width 8))
      ;; Auto insert paried '*', '/', '=', and '~'.
      (lambda ()
        (electric-pair-local-mode +1)
