@@ -1,7 +1,7 @@
 #+AUTHOR: Burgess Chang
 #+CREATED: [2024-12-05 Thu 17:56]
 #+EMAIL: bsc@brsvh.org
-#+LAST_MODIFIED: [2024-12-23 Mon 09:19]
+#+LAST_MODIFIED: [2024-12-23 Mon 11:21]
 #+TITLE: My GNU Emacs configuration
 
 * Features
@@ -162,7 +162,7 @@ Supported writing formats:
 - ~sideline-flymake~
 - ~sideline-lsp~
 - ~slime~
-- ~slime-company
+- ~slime-company~
 - ~smartparens~
 - ~spacious-padding~
 - ~svg-lib~
