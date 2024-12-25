@@ -128,9 +128,7 @@
   (:when-gui
    (set-fontset-font t
                      'cjk-misc
-                     (font-spec
-                      :family my-chinese-font-name
-                      :size my-font-size))
+                     (font-spec :family my-chinese-font-name))
    (set-fontset-font t
                      'han
                      (font-spec :family my-chinese-font-name))))
