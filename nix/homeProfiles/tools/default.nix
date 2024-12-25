@@ -37,9 +37,8 @@ in
       eza
       file
       hex
+      multipath-tools
       rnr
-
-      # monitor
 
       # network
       curl
