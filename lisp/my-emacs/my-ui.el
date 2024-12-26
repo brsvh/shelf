@@ -132,15 +132,6 @@ See `display-buffer-alist' for a description of BUFFER and ALIST."
                     (substring word 1)
                     (my-orderless-consult-suffix)))))))
 
-(defun my-popper-close-with-keyboard-quit (&rest _)
-  "Close popper window via `keyboard-quit'."
-  (when (and (called-interactively-p 'interactive)
-             (not (region-active-p))
-             popper-open-popup-alist)
-    (let ((window (caar popper-open-popup-alist)))
-      (when (window-live-p window)
-        (delete-window window)))))
-
 (defun my-popper-fit-window-height (win)
   "Determine the height of WIN by fitting it to the buffer's content."
   (fit-window-to-buffer
@@ -605,9 +596,6 @@ Each rule can be:
     (:set
      popper-group-function #'popper-group-by-directory
      popper-window-height #'my-popper-fit-window-height)
-    ;; Close popups with `keyboard-quit'.
-    (:advice-add
-     keyboard-quit :before my-popper-close-with-keyboard-quit)
     (:after doom-modeline
       (:advice-add
        popper--modified-mode-line
