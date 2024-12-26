@@ -139,6 +139,18 @@ See `display-buffer-alist' for a description of BUFFER and ALIST."
    (floor (frame-height) 2.5)
    (floor (frame-height) 2.5)))
 
+(defun my-popper-tab-line--format (tab tabs)
+  "Format of TAB & TABS in popper tab-line."
+  (let ((name (tab-line-tab-name-format-default tab tabs))
+        (idx (cl-position tab tabs)))
+    (propertize
+     (format " %s %s" (char-to-string (+ idx #x0031)) name)
+     'face (if (eq tab (current-buffer))
+               (if (mode-line-window-selected-p)
+                   'tab-line-tab-current
+                 'tab-line-tab-inactive)
+             'tab-line-tab-inactive))))
+
 ;; TODO support to match buffer name with a regular expression pattern.
 (defvar my-switch-window-ignore-rules nil
   "A list of rules to ignore windows during selection.
@@ -577,7 +589,9 @@ Each rule can be:
     (:set
      popper-echo-dispatch-keys
      '( "M-1" "M-2" "M-3" "M-4" "M-5"
-        "M-6" "M-7" "M-8" "M-9" "M-0"))))
+        "M-6" "M-7" "M-8" "M-9" "M-0"))
+    (:advice-add
+     popper-tab-line--format :override my-popper-tab-line--format)))
 
 (setup popper
   (:first-ui popper-mode popper-tab-line-mode)
