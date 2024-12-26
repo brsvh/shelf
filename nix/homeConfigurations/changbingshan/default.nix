@@ -71,7 +71,7 @@
           passwordCommand = "pass show ${imap.host}/${userName}";
 
           primary = true;
-          realName = "Bingshan Chang";
+          realName = "Bingshan Chang (常秉善)";
 
           signature = {
             text = ''
