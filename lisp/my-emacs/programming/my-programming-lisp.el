@@ -56,12 +56,11 @@
 
 (setup lisp-mode
   (:when-loaded
+    (when (executable-find "sbcl")
+      (:set inferior-lisp-program "sbcl"))
     (:with-hook lisp-mode-hook
       (:hook
        (lambda nil
-         (:after inf-lisp
-           (when (executable-find "sbcl")
-             (:set inferior-lisp-program "sbcl")))
          (unless (memq 'slime-lisp-mode-hook lisp-mode-hook)
            (:also-load slime-autoloads slime)
            (slime-setup)))))))
