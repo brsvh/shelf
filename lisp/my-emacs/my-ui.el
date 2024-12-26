@@ -136,8 +136,8 @@ See `display-buffer-alist' for a description of BUFFER and ALIST."
   "Determine the height of WIN by fitting it to the buffer's content."
   (fit-window-to-buffer
    win
-   (floor (frame-height) 3)
-   (floor (frame-height) 3)))
+   (floor (frame-height) 2.5)
+   (floor (frame-height) 2.5)))
 
 ;; TODO support to match buffer name with a regular expression pattern.
 (defvar my-switch-window-ignore-rules nil
