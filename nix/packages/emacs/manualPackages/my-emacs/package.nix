@@ -24,6 +24,7 @@
   eglot-booster,
   eldoc,
   eldoc-box,
+  emacs-gc-stats,
   embark,
   embark-consult,
   embark-org-roam,
@@ -248,6 +249,7 @@ trivialBuild rec {
     eglot-booster
     eldoc
     eldoc-box
+    emacs-gc-stats
     embark
     embark-consult
     embark-org-roam
