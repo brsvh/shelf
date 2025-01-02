@@ -47,6 +47,10 @@
   (:autoload slime slime-setup)
   (:when-loaded
     (:set
+     ;; Auto connect slime.
+     slime-auto-start 'always
+
+     ;; Contrib features will be loaded.
      slime-contribs '( slime-asdf
                        slime-company
                        slime-fancy
@@ -91,7 +95,10 @@
 
 (setup slime-repl
   (:snoc popper-reference-buffers
-         'slime-repl-mode))
+         'slime-repl-mode)
+  (:when-loaded
+    (:set
+     slime-repl-history-file (my-state-path* "slime/" "history.eld"))))
 
 
 
