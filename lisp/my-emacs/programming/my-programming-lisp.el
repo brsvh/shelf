@@ -75,8 +75,13 @@
 ;; Documentation:
 
 (setup slime
+  (:autoload slime-documentation)
   (:snoc popper-reference-buffers
-         "\\*slime-description\\*"))
+         "\\*slime-description\\*")
+  (:when-loaded
+    (:with-map slime-doc-map
+      (:keymap-set
+       "C-h" slime-documentation))))
 
 
 
