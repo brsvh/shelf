@@ -29,10 +29,6 @@ let
     propagatedUserEnvPkgs = [
       slime
     ];
-
-    postInstall = ''
-      install *.lisp $LISPDIR
-    '';
   };
 in
 slime-doc-contribs.overrideAttrs (
@@ -41,6 +37,7 @@ slime-doc-contribs.overrideAttrs (
       (prevAttrs.postInstall or "")
       + ''
         install *.lisp $LISPDIR
+        cp -r $src/cl-def-properties $LISPDIR/cl-def-properties
       '';
   }
 )
