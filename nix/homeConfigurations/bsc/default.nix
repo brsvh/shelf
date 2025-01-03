@@ -1,6 +1,7 @@
 {
   config,
   my,
+  pkgs,
   ...
 }:
 {
@@ -105,6 +106,11 @@
 
   home = {
     homeDirectory = "/home/${config.home.username}";
+
+    packages = with pkgs; [
+      taisei
+    ];
+
     stateVersion = "25.05";
     username = "bsc";
   };
