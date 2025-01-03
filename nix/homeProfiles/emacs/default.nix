@@ -52,6 +52,7 @@ in
     my.homeProfiles.direnv
     my.homeProfiles.email
     my.homeProfiles.git
+    my.homeProfiles.lisp
     my.homeProfiles.texlive
     my.homeProfiles.tools
   ];
@@ -85,7 +86,6 @@ in
           rust-analyzer
           rustc
           rustfmt
-          sbcl
           stylua
           tinymist
           typst
