@@ -23,6 +23,8 @@ let
     {
       collectors = callLibs ./collectors.nix;
 
+      filesystem = callLibs ./filesystem.nix;
+
       importers = callLibs ./importers.nix;
     }
   );

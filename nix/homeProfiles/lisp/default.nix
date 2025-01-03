@@ -5,6 +5,10 @@
   ...
 }:
 let
+  inherit (my.lib.filesystem)
+    directoryFileName
+    ;
+
   epkgs = pkgs.emacsPackagesFor config.programs.emacs.package;
 
   slime =
@@ -12,14 +16,14 @@ let
       pkg = epkgs.slime;
     in
     # MELPA package.
-    "${pkg}/share/emacs/site-lisp/elpa/${pkg.pname}-${pkg.version}";
+    directoryFileName "${pkg}/share/emacs/site-lisp/elpa/${pkg.pname}-${pkg.version}";
 
   slime-doc-contribs =
     let
       pkg = epkgs.slime-doc-contribs;
     in
     # Package build by Trivial Builder.
-    "${pkg}/share/emacs/site-lisp";
+    directoryFileName "${pkg}/share/emacs/site-lisp";
 in
 {
   imports = [
@@ -35,7 +39,7 @@ in
 
         (require :swank)
 
-        (push #p"${slime-doc-contribs}/" swank::*load-path*)
+        (push #p"${slime-doc-contribs}" swank::*load-path*)
       '';
 
       enable = true;
