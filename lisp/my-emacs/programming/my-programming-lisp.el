@@ -4,7 +4,7 @@
 
 ;; Author: Burgess Chang <bsc@brsvh.org>
 ;; Keywords: local
-;; Package-Requires: ((emacs "30.1") (parinfer-rust-mode "0.9.0") (slime "2.31") (slime-doc-contribs "0.1"))
+;; Package-Requires: ((emacs "30.1") (parinfer-rust-mode "0.9.0") (slime "2.31"))
 ;; URL: https://github.com/brsvh/shelf
 ;; Version: 0.2.0
 
@@ -54,8 +54,6 @@
      slime-contribs '( slime-asdf
                        slime-company
                        slime-fancy
-                       slime-help
-                       slime-info
                        slime-mrepl
                        slime-quicklisp
                        slime-references))))

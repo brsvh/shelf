@@ -97,7 +97,6 @@
   sideline-lsp,
   slime,
   slime-company,
-  slime-doc-contribs,
   smartparens,
   spacious-padding,
   stdenv,
@@ -320,7 +319,6 @@ trivialBuild rec {
     sideline-lsp
     slime
     slime-company
-    slime-doc-contribs
     smartparens
     spacious-padding
     svg-lib
