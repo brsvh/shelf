@@ -37,7 +37,9 @@ slime-doc-contribs.overrideAttrs (
       (prevAttrs.postInstall or "")
       + ''
         install *.lisp $LISPDIR
-        cp -r $src/cl-def-properties $LISPDIR/cl-def-properties
+        mkdir -p $LISPDIR/cl-def-properties
+        install cl-def-properties/*.lisp $LISPDIR/cl-def-properties
+        install cl-def-properties/*.asd $LISPDIR/cl-def-properties
       '';
   }
 )
