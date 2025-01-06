@@ -41,6 +41,29 @@ in
                 '';
               }
             );
+
+            slime = prevEpkgs.melpaPackages.slime.overrideAttrs (
+              finalAttrs: prevAttrs: {
+                recipe = writeText "slime" ''
+                  (slime
+                   :fetcher github
+                   :repo "brsvh/slime"
+                   :branch "xdgify"
+                   :files ("*.el"
+                           ("lib" "lib/hyperspec.el")
+                           "swank"
+                           "*.lisp"
+                           "*.asd"
+                           "doc/slime.texi"
+                           "doc/slime.info"
+                           "doc/dir"
+                           "ChangeLog"
+                           ("contrib" "contrib/*")
+                           (:exclude "contrib/test" "contrib/Makefile")))
+
+                '';
+              }
+            );
           };
 
           manualPackages =
