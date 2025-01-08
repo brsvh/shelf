@@ -58,6 +58,7 @@
   (require 'svg-tag-mode)
   (require 'switch-window)
   (require 'tab-bar)
+  (require 'tab-line)
   (require 'treemacs)
   (require 'treemacs-customization)
   (require 'treemacs-nerd-icons)
