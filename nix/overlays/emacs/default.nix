@@ -14,7 +14,7 @@ in
     let
       inherit (prev)
         emacsPackagesFor
-        writeText
+        fetchpatch
         ;
 
       inherit (prev.lib)
@@ -31,37 +31,15 @@ in
           };
 
           melpaPackages = prevEpkgs.melpaPackages // {
-            org-roam = prevEpkgs.melpaPackages.org-roam.overrideAttrs (
-              finalAttrs: prevAttrs: {
-                recipe = writeText "org-roam" ''
-                  (org-roam :fetcher github
-                            :repo "tarsiiformes/org-roam"
-                            :branch "sqlite-open"
-                            :files (:defaults "extensions/*"))
-                '';
-              }
-            );
-
             slime = prevEpkgs.melpaPackages.slime.overrideAttrs (
               finalAttrs: prevAttrs: {
-                recipe = writeText "slime" ''
-                  (slime
-                   :fetcher github
-                   :repo "brsvh/slime"
-                   :branch "xdgify"
-                   :files ("*.el"
-                           ("lib" "lib/hyperspec.el")
-                           "swank"
-                           "*.lisp"
-                           "*.asd"
-                           "doc/slime.texi"
-                           "doc/slime.info"
-                           "doc/dir"
-                           "ChangeLog"
-                           ("contrib" "contrib/*")
-                           (:exclude "contrib/test" "contrib/Makefile")))
-
-                '';
+                patches = prevAttrs.patches or [ ] ++ [
+                  (fetchpatch {
+                    name = "0001-xdgify-slime-home.patch";
+                    url = "https://github.com/brsvh/slime/commit/4bd27a3832dd31aca835d58a6215b3d29b2ab2d0.patch";
+                    hash = "sha256-IQhq48iAe8nknC7hTQI3LdJBZI5oQr12LccPAfcu12g=";
+                  })
+                ];
               }
             );
           };
