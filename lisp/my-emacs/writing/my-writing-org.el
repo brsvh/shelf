@@ -73,10 +73,10 @@
 POM is an marker, or buffer position."
   (interactive)
   (when (derived-mode-p 'org-mode)
-    (let ((datetime (org-entry-get POM "CREATED")))
+    (let ((datetime (org-entry-get POM "created")))
       (unless datetime
         (setq datetime (format-time-string "[%Y-%m-%d %a %H:%M]"))
-        (org-entry-put POM "CREATED" datetime))
+        (org-entry-put POM "created" datetime))
       datetime)))
 
 (defun my/org-add-created ()
@@ -99,6 +99,17 @@ POM is an marker, or buffer position."
         (org-entry-put POM "CUSTOM_ID" id)
         (org-id-add-location id (buffer-file-name (buffer-base-buffer))))
       id)))
+
+(defun my/org-downcase-keywords ()
+  "Ensure use lowercase keywords in a `org-mode' buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((case-fold-search nil)
+          (rexp "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"))
+      (while (re-search-forward rexp nil 'noerror)
+        (replace-match (downcase (match-string-no-properties 1))
+                       'fixedcase nil nil 1)))))
 
 (defun my/org-add-custom-id ()
   "Add CUSTOM_ID properites for all headings in current buffer."
@@ -172,14 +183,15 @@ If the PROPERTY already has the same VALUE, do nothing."
   (interactive)
   (when (derived-mode-p 'org-mode)
     (let ((ts (format-time-string "[%Y-%m-%d %a %H:%M]")))
-      (my-org-set-buffer-level-property "LAST_MODIFIED" ts 'force))))
+      (my-org-set-buffer-level-property "last_modified" ts 'force))))
 
 (defun my-org-setup-save-functions (&rest _)
   "Run `my-org-save-functions'."
   (add-hook 'before-save-hook #'my/org-add-created nil t)
   (add-hook 'before-save-hook #'my/org-add-custom-id nil t)
   (add-hook 'before-save-hook #'my/org-add-created-property nil t)
-  (add-hook 'before-save-hook #'my/org-update-last-modified-property nil t))
+  (add-hook 'before-save-hook #'my/org-update-last-modified-property nil t)
+  (add-hook 'before-save-hook #'my/org-downcase-keywords nil t))
 
 (defun my-writing-org-roam-db-fake-sync (fn &rest args)
   "Fake db sync around FN with ARGS."
