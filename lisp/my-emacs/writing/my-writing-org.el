@@ -67,38 +67,179 @@
   (require 'valign)
   (require 'window))
 
-(defun my/org-add-created-at-point (&optional POM)
-  "Insert CREATED property for the entry at POM.
+(defmacro my/org-defun (symbol args &rest body)
+  "Define an function with ARGS and named SYMBOL with my/org- prefix."
+  (declare (doc-string 3)
+           (debug (sexp sexp def-body))
+           (indent 2))
+  (let* ((fn (intern (format "my/org-%s" symbol)))
+         (doc (if (and body (stringp (car body)))
+                  (pop body)
+                "A command for `org-mode'.")))
+    `(defun ,fn ,args
+       ,doc
+       (interactive)
+       (when (derived-mode-p 'org-mode)
+         ,@body))))
+
+(defmacro my-org-defun (symbol args &rest body)
+  "Define an function with ARGS and named SYMBOL with my-org- prefix."
+  (declare (doc-string 3)
+           (debug (sexp sexp def-body))
+           (indent 2))
+  (let* ((fn (intern (format "my-org-%s" symbol)))
+         (doc (if (and body (stringp (car body)))
+                  (pop body)
+                "A function for `org-mode'.")))
+    `(defun ,fn ,args
+       ,doc
+       (when (derived-mode-p 'org-mode)
+         ,@body))))
+
+(my-org-defun top-level-min ()
+  "Return the minimum point value of top-level text."
+  (point-min))
+
+(my-org-defun top-level-max ()
+  "Return the maximum point value of top-level text."
+  (save-excursion
+    (goto-char (my-org-top-level-min))
+    (if (re-search-forward org-outline-regexp-bol nil t)
+        (pos-bol)
+      (point-max))))
+
+(my-org-defun top-level-keyword-name-begin (keyword)
+  "Return the position of the beginning of KEYWORD name."
+  (save-excursion
+    (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                          (regexp-quote keyword))))
+      (goto-char (my-org-top-level-min))
+      (when (re-search-forward regexp (my-org-top-level-max) t)
+        (match-beginning 1)))))
+
+(my-org-defun top-level-keyword-name-end (keyword)
+  "Return the position of the end of KEYWORD name."
+  (save-excursion
+    (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                          (regexp-quote keyword))))
+      (goto-char (my-org-top-level-min))
+      (when (re-search-forward regexp (my-org-top-level-max) t)
+        (match-end 1)))))
+
+(my-org-defun top-level-keyword-value-begin (keyword)
+  "Return the position of the beginning of KEYWORD value."
+  (save-excursion
+    (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                          (regexp-quote keyword))))
+      (goto-char (my-org-top-level-min))
+      (when (re-search-forward regexp (my-org-top-level-max) t)
+        (match-beginning 2)))))
+
+(my-org-defun top-level-keyword-value-end (keyword)
+  "Return the position of the end of KEYWORD value."
+  (save-excursion
+    (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                          (regexp-quote keyword))))
+      (goto-char (my-org-top-level-min))
+      (when (re-search-forward regexp (my-org-top-level-max) t)
+        (match-end 2)))))
+
+(my-org-defun top-level-last-keyword-end ()
+  "Return the position of the end of last keyword."
+  (save-excursion
+    (let ((regexp "^#\\+\\([^:]+\\):\\s-*\\(.*\\)$"))
+      (goto-char (my-org-top-level-max))
+      (if (re-search-backward regexp (my-org-top-level-min) t)
+          (match-end 2)
+        (my-org-top-level-min)))))
+
+(my-org-defun top-level-keyword-p (keyword)
+  "Return true if the KEYWORD exists."
+  (save-excursion
+    (goto-char (my-org-top-level-min))
+    (when (re-search-forward (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                                     (regexp-quote keyword))
+                             (my-org-top-level-max)
+                             t)
+      (match-string-no-properties 1))))
+
+(my-org-defun get-top-level-keyword-value (keyword)
+  "Return the value of top-level KEYWORD."
+  (save-excursion
+    (goto-char (my-org-top-level-min))
+    (when (re-search-forward (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                                     (regexp-quote keyword))
+                             (my-org-top-level-max)
+                             t)
+      (match-string-no-properties 2))))
+
+(my-org-defun set-top-level-keyword-value (keyword value)
+  "Set the value of  top-level KEYWORD to VALUE."
+  (save-excursion
+    (let* ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
+                           (regexp-quote keyword)))
+           (found nil))
+      (goto-char (my-org-top-level-min))
+      (if (re-search-forward regexp (my-org-top-level-max) t)
+          (replace-match (format "#+%s: %s" keyword value) t t)
+        (goto-char (my-org-top-level-last-keyword-end))
+        (if (= (point) (point-min))
+            (insert (format "#+%s: %s\n" keyword value))
+          (insert (format "\n#+%s: %s" keyword value)))))))
+
+(my/org-defun put-created-at-at-point (&optional pom)
+  "Insert CREATED_AT property for the entry at POM.
 
 POM is an marker, or buffer position."
-  (interactive)
-  (when (derived-mode-p 'org-mode)
-    (let ((datetime (org-entry-get POM "created")))
-      (unless datetime
-        (setq datetime (format-time-string "[%Y-%m-%d %a %H:%M]"))
-        (org-entry-put POM "created" datetime))
-      datetime)))
+  (or pom (setq pom (point)))
+  (org-with-point-at pom
+    (let ((at (org-entry-get pom "CREATED_AT"))
+          (ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
+      (unless at
+        (org-entry-put nil "CREATED_AT" ts))
+      nil)))
 
-(defun my/org-add-created ()
-  "Add CREATED properites for all headings in current buffer."
-  (interactive)
-  (when (derived-mode-p 'org-mode)
-    (org-map-entries #'my/org-add-created-at-point)))
+(my/org-defun add-top-level-created-at ()
+  "Insert CREATED_AT keyword at top-level."
+  (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
+    (unless (my-org-top-level-keyword-p "created_at")
+      (my-org-set-top-level-keyword-value "created_at" ts))))
 
-;; Ideas from Matthew Lee Hinman's blog.
-;; https://writequit.org/articles/emacs-org-mode-generate-ids.html
-(defun my/org-add-custom-id-at-point (&optional POM)
-  "Insert CUSTOM_ID property for the entry at POM.
+(my/org-defun add-created-at ()
+  "Insert CREATED_AT property for all entires."
+  (my/org-put-top-level-created-at)
+  (org-map-entries #'my/org-put-created-at-at-point))
+
+(my/org-defun put-id-at-point (&optional pom)
+  "Insert ID property for the entry at POM.
 
 POM is an marker, or buffer position."
-  (interactive)
-  (when (derived-mode-p 'org-mode)
-    (let ((id (org-entry-get POM "CUSTOM_ID")))
+  (or pom (setq pom (point)))
+  (org-with-point-at pom
+    (let ((id (org-entry-get nil "ID")))
       (unless (and id (org-uuidgen-p id))
         (setq id (org-id-new))
-        (org-entry-put POM "CUSTOM_ID" id)
+        (org-entry-put nil "ID" id)
         (org-id-add-location id (buffer-file-name (buffer-base-buffer))))
       id)))
+
+(my/org-defun add-top-level-id ()
+  "Insert CREATED_AT keyword at top-level."
+  (let ((id (my-org-get-top-level-keyword-value "id"))))
+  (unless (and id (org-uuidgen-p id))
+    (setq id (org-id-new))
+    (my-org-set-top-level-keyword-value "id" id)
+    (org-id-add-location id (buffer-file-name (buffer-base-buffer))))
+  id)
+
+(my/org-defun add-id ()
+  "Insert ID property for all entires."
+  (org-map-entries #'my/org-put-id-at-point))
+
+(my/org-defun add-top-level-last-modified ()
+  "Insert LAST_MODIFIED keyword at top-level."
+  (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
+    (my-org-set-top-level-keyword-value "last_modified" ts)))
 
 (defun my/org-downcase-keywords ()
   "Ensure use lowercase keywords in a `org-mode' buffer."
@@ -111,86 +252,11 @@ POM is an marker, or buffer position."
         (replace-match (downcase (match-string-no-properties 1))
                        'fixedcase nil nil 1)))))
 
-(defun my/org-add-custom-id ()
-  "Add CUSTOM_ID properites for all headings in current buffer."
-  (interactive)
-  (when (derived-mode-p 'org-mode)
-    (org-map-entries #'my/org-add-custom-id-at-point)))
-
-(defun my-org-get-heading-min ()
-  "Return the position of first heading, or nil if none."
-  (save-excursion
-    (goto-char (point-min))
-    (when (re-search-forward org-outline-regexp-bol nil t)
-      (pos-bol))))
-
-(defun my-org-get-property-end ()
-  "Return the position at the end of the last buffer-level property.
-If no properties are found, return `point-min`."
-  (save-excursion
-    (goto-char (point-min))
-    (let ((end (point-min)))
-      (while (looking-at-p "^#\\+\\(\\w+\\):")
-        (setq end (line-end-position))
-        (forward-line 1))
-      end)))
-
-(defun my-org-get-buffer-level-property (property)
-  "Return the position of a buffer level PROPERTY, or nil if not found."
-  (save-excursion
-    (goto-char (point-min))
-    (when (re-search-forward (format "^#\\+%s:" property)
-                             (or (my-org-get-heading-min) (point-max))
-                             t)
-      (match-beginning 0))))
-
-(defun my-org-set-buffer-level-property (property value &optional force pos)
-  "Set the buffer-level PROPERTY to VALUE in `org-mode' buffer.
-
-If FORCE is non-nil, override existing value.
-
-If POS is provided, use that position; otherwise, automatically seek.
-
-If the PROPERTY already has the same VALUE, do nothing."
-  (save-excursion
-    (let ((pos (or pos (my-org-get-buffer-level-property property)))
-          (regexp (format "^#\\+%s:\\(.*\\)$" property)))
-      (if pos
-          (progn
-            (goto-char pos)
-            (let ((current-value (progn
-                                   (re-search-forward regexp)
-                                   (string-trim (match-string 1)))))
-              (when (or force (not current-value))
-                (delete-region (line-beginning-position)
-                               (line-end-position))
-                (insert (format "#+%s: %s" property value)))))
-        (goto-char (my-org-get-property-end))
-        (unless (or (eq (point) (point-min))
-                    (looking-back "^\\s-*$" nil))
-          (insert "\n"))
-        (insert (format "#+%s: %s" property value))))))
-
-(defun my/org-add-created-property (&rest _)
-  "Update the buffer-level CREATED property."
-  (interactive)
-  (when (derived-mode-p 'org-mode)
-    (let ((ts (format-time-string "[%Y-%m-%d %a %H:%M]")))
-      (my-org-set-buffer-level-property "CREATED" ts))))
-
-(defun my/org-update-last-modified-property (&rest _)
-  "Update the buffer-level LAST_MODIFIED property."
-  (interactive)
-  (when (derived-mode-p 'org-mode)
-    (let ((ts (format-time-string "[%Y-%m-%d %a %H:%M]")))
-      (my-org-set-buffer-level-property "last_modified" ts 'force))))
-
 (defun my-org-setup-save-functions (&rest _)
   "Run `my-org-save-functions'."
-  (add-hook 'before-save-hook #'my/org-add-created nil t)
-  (add-hook 'before-save-hook #'my/org-add-custom-id nil t)
-  (add-hook 'before-save-hook #'my/org-add-created-property nil t)
-  (add-hook 'before-save-hook #'my/org-update-last-modified-property nil t)
+  (add-hook 'before-save-hook #'my/org-add-created-at nil t)
+  (add-hook 'before-save-hook #'my/org-add-id nil t)
+  (add-hook 'before-save-hook #'my/org-add-top-level-last-modified nil t)
   (add-hook 'before-save-hook #'my/org-downcase-keywords nil t))
 
 (defun my-writing-org-roam-db-fake-sync (fn &rest args)
