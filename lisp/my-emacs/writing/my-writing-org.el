@@ -207,7 +207,7 @@ POM is an marker, or buffer position."
 
 (my/org-defun add-created-at ()
   "Insert CREATED_AT property for all entires."
-  (my/org-put-top-level-created-at)
+  (my/org-add-top-level-created-at)
   (org-map-entries #'my/org-put-created-at-at-point))
 
 (my/org-defun put-id-at-point (&optional pom)
