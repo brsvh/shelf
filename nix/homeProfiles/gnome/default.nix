@@ -185,18 +185,20 @@ in
               let
                 cfg = osConfig.i18n.inputMethod.ibus;
               in
-              [
-                (mkTuple [
-                  "xkb"
-                  "us"
-                ])
-              ]
-              ++ (optionals cfg.chinese.enable [
-                (mkTuple [
-                  "ibus"
-                  cfg.chinese.engineName
-                ])
-              ]);
+              if cfg.chinese.enable then
+                [
+                  (mkTuple [
+                    "ibus"
+                    cfg.chinese.engineName
+                  ])
+                ]
+              else
+                [
+                  (mkTuple [
+                    "xkb"
+                    "us"
+                  ])
+                ];
           };
 
         };
