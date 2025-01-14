@@ -31,6 +31,7 @@
         extraGroups = [
           "audio"
           "davfs2"
+          "dialout"
           "disk"
           "docker"
           "input"

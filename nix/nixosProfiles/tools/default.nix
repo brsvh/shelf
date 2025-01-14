@@ -41,6 +41,9 @@ in
       gnugrep
       ripgrep
 
+      # serial port
+      picocom
+
       # terminal multiplexer
       screen
     ];

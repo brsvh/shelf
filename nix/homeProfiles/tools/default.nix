@@ -62,6 +62,9 @@ in
       gnugrep
       igrep
 
+      # serial port
+      picocom
+
       # terminal
       screen
 
