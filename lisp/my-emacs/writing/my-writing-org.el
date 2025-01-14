@@ -48,6 +48,7 @@
   (require 'org)
   (require 'org-capture)
   (require 'org-clock)
+  (require 'org-element)
   (require 'org-id)
   (require 'org-indent)
   (require 'org-macs)
@@ -107,6 +108,13 @@
     (if (re-search-forward org-outline-regexp-bol nil t)
         (pos-bol)
       (point-max))))
+
+(my-org-defun epom-in-top-level-p (epom)
+  "Return t if EPOM in top-level region, otherwise nil."
+  (org-with-point-at epom
+    (let* ((point (point)))
+      (and (>= point (my-org-top-level-min))
+           (<= point (my-org-top-level-max))))))
 
 (my-org-defun top-level-keyword-name-begin (keyword)
   "Return the position of the beginning of KEYWORD name."
@@ -210,30 +218,94 @@ POM is an marker, or buffer position."
   (my/org-add-top-level-created-at)
   (org-map-entries #'my/org-put-created-at-at-point))
 
+(my-org-defun get-id (&optional epom create prefix inherit)
+  "Get the ID of the entry at EPOM.
+
+If EPOM is between the beginning and end of top-level, instead of
+getting ID keyword.
+
+EPOM is an element, marker, or buffer position.  If EPOM is nil,
+refer to the entry at point.
+
+If INHERIT is non-nil, ID properties inherited from parent
+entries are considered.  Otherwise, only ID properties on the
+entry itself are considered.
+
+When CREATE is nil, return the ID of the entry if found,
+otherwise nil.  When CREATE is non-nil, create an ID if none has
+been found, and return the new ID.  PREFIX will be passed through
+to `org-id-new'."
+  (or epom (setq epom (point)))
+  (let ((file (or org-id-overriding-file-name
+                  (buffer-file-name (buffer-base-buffer))))
+        (id (if (my-org-epom-in-top-level-p epom)
+                (my-org-get-top-level-keyword-value "id")
+              (org-entry-get epom "ID" (and inherit t)))))
+    (cond
+     ((and id (stringp id) (string-match "\\S-" id))
+      id)
+     (create
+      (setq id (org-id-new prefix))
+      (if (my-org-epom-in-top-level-p epom)
+          (my-org-set-top-level-keyword-value "id" id)
+        (org-entry-put epom "ID" id))
+      (org-with-point-at epom
+        (org-id-add-location id file))
+      id))))
+
+(my-org-defun set-id (value &optional epom)
+  "Set the value of ID of the entry at EPOM."
+  (or epom (setq epom (point)))
+  (let ((file (or org-id-overriding-file-name
+                  (buffer-file-name (buffer-base-buffer)))))
+    (if (my-org-epom-in-top-level-p epom)
+        (my-org-set-top-level-keyword-value "id" value)
+      (org-entry-put epom "ID" value))
+    (org-with-point-at epom
+      (org-id-add-location value file))
+    value))
+
+(my/org-defun create-id (&optional force)
+  "Create an ID for the current entry and return it.
+If the entry already has an ID, just return it.
+With optional argument FORCE, force the creation of a new ID."
+  (if force
+      (let ((file (or org-id-overriding-file-name
+                      (buffer-file-name (buffer-base-buffer))))
+            (id (org-id-new)))
+        (setq id (org-id-new))
+        (my-org-set-id id))
+    (my-org-get-id (point) 'create)))
+
 (my/org-defun put-id-at-point (&optional pom)
   "Insert ID property for the entry at POM.
 
 POM is an marker, or buffer position."
   (or pom (setq pom (point)))
   (org-with-point-at pom
-    (let ((id (org-entry-get nil "ID")))
+    (let ((file (or org-id-overriding-file-name
+                    (buffer-file-name (buffer-base-buffer))))
+          (id (org-entry-get nil "ID")))
       (unless (and id (org-uuidgen-p id))
         (setq id (org-id-new))
         (org-entry-put nil "ID" id)
-        (org-id-add-location id (buffer-file-name (buffer-base-buffer))))
+        (org-id-add-location id file))
       id)))
 
 (my/org-defun add-top-level-id ()
   "Insert CREATED_AT keyword at top-level."
-  (let ((id (my-org-get-top-level-keyword-value "id"))))
-  (unless (and id (org-uuidgen-p id))
-    (setq id (org-id-new))
-    (my-org-set-top-level-keyword-value "id" id)
-    (org-id-add-location id (buffer-file-name (buffer-base-buffer))))
-  id)
+  (let ((file (or org-id-overriding-file-name
+                  (buffer-file-name (buffer-base-buffer))))
+        (id (my-org-get-top-level-keyword-value "id")))
+    (unless (and id (org-uuidgen-p id))
+      (setq id (org-id-new))
+      (my-org-set-top-level-keyword-value "id" id)
+      (org-id-add-location id file))
+    id))
 
 (my/org-defun add-id ()
-  "Insert ID property for all entires."
+  "Insert ID property for top-level and all entires."
+  (my/org-add-top-level-id)
   (org-map-entries #'my/org-put-id-at-point))
 
 (my/org-defun add-top-level-last-modified ()
@@ -241,7 +313,7 @@ POM is an marker, or buffer position."
   (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
     (my-org-set-top-level-keyword-value "last_modified" ts)))
 
-(defun my/org-downcase-keywords ()
+(my/org-defun downcase-keywords ()
   "Ensure use lowercase keywords in a `org-mode' buffer."
   (interactive)
   (save-excursion
@@ -251,6 +323,109 @@ POM is an marker, or buffer position."
       (while (re-search-forward rexp nil 'noerror)
         (replace-match (downcase (match-string-no-properties 1))
                        'fixedcase nil nil 1)))))
+
+(my-org-defun roam-capture--setup-target-location ()
+  "Initialize the buffer, and goto the location of the new capture.
+Return the ID of the location."
+  (let (p new-file-p)
+    (pcase (org-roam-capture--get-target)
+      (`(file ,path)
+       (setq path (org-roam-capture--target-truepath path)
+             new-file-p (org-roam-capture--new-file-p path))
+       (when new-file-p (org-roam-capture--put :new-file path))
+       (set-buffer (org-capture-target-buffer path))
+       (widen)
+       (setq p (goto-char (point-min))))
+      (`(file+olp ,path ,olp)
+       (setq path (org-roam-capture--target-truepath path)
+             new-file-p (org-roam-capture--new-file-p path))
+       (when new-file-p (org-roam-capture--put :new-file path))
+       (set-buffer (org-capture-target-buffer path))
+       (setq p (point-min))
+       (let ((m (org-roam-capture-find-or-create-olp olp)))
+         (goto-char m))
+       (widen))
+      (`(file+head ,path ,head)
+       (setq path (org-roam-capture--target-truepath path)
+             new-file-p (org-roam-capture--new-file-p path))
+       (set-buffer (org-capture-target-buffer path))
+       (when new-file-p
+         (org-roam-capture--put :new-file path)
+         (insert (org-roam-capture--fill-template head 'ensure-newline)))
+       (widen)
+       (setq p (goto-char (point-min))))
+      (`(file+head+olp ,path ,head ,olp)
+       (setq path (org-roam-capture--target-truepath path)
+             new-file-p (org-roam-capture--new-file-p path))
+       (set-buffer (org-capture-target-buffer path))
+       (widen)
+       (when new-file-p
+         (org-roam-capture--put :new-file path)
+         (insert (org-roam-capture--fill-template head 'ensure-newline)))
+       (setq p (point-min))
+       (let ((m (org-roam-capture-find-or-create-olp olp)))
+         (goto-char m)))
+      (`(file+datetree ,path ,tree-type)
+       (setq path (org-roam-capture--target-truepath path))
+       (require 'org-datetree)
+       (widen)
+       (set-buffer (org-capture-target-buffer path))
+       (unless (file-exists-p path)
+         (org-roam-capture--put :new-file path))
+       (funcall
+        (pcase tree-type
+          (`week #'org-datetree-find-iso-week-create)
+          (`month #'org-datetree-find-month-create)
+          (_ #'org-datetree-find-date-create))
+        (calendar-gregorian-from-absolute
+         (cond
+          (org-overriding-default-time
+           ;; Use the overriding default time.
+           (time-to-days org-overriding-default-time))
+          ((org-capture-get :default-time)
+           (time-to-days (org-capture-get :default-time)))
+          ((org-capture-get :time-prompt)
+           ;; Prompt for date.  Bind `org-end-time-was-given' so
+           ;; that `org-read-date-analyze' handles the time range
+           ;; case and returns `prompt-time' with the start value.
+           (let* ((org-time-was-given nil)
+                  (org-end-time-was-given nil)
+                  (prompt-time (org-read-date
+                                nil t nil "Date for tree entry:")))
+             (org-capture-put
+              :default-time
+              (if (or org-time-was-given
+                      (= (time-to-days prompt-time) (org-today)))
+                  prompt-time
+                ;; Use 00:00 when no time is given for another
+                ;; date than today?
+                (apply #'encode-time 0 0
+                       org-extend-today-until
+                       (cl-cdddr (decode-time prompt-time)))))
+             (time-to-days prompt-time)))
+          (t
+           ;; Current date, possibly corrected for late night
+           ;; workers.
+           (org-today)))))
+       (setq p (point)))
+      (`(node ,title-or-id)
+       ;; first try to get ID, then try to get title/alias
+       (let ((node (or (org-roam-node-from-id title-or-id)
+                       (org-roam-node-from-title-or-alias title-or-id)
+                       (user-error "No node with title or id \"%s\"" title-or-id))))
+         (set-buffer (org-capture-target-buffer (org-roam-node-file node)))
+         (goto-char (org-roam-node-point node))
+         (setq p (org-roam-node-point node)))))
+    ;; Setup `org-id' for the current capture target and return it back to the
+    ;; caller.
+    (save-excursion
+      (goto-char p)
+      (if-let ((id (my-org-get-id p)))
+          (setf (org-roam-node-id org-roam-capture--node) id)
+        (my-org-set-id (org-roam-node-id org-roam-capture--node)))
+      (prog1
+          (org-id-get)
+        (run-hooks 'org-roam-capture-new-node-hook)))))
 
 (defun my-org-setup-save-functions (&rest _)
   "Run `my-org-save-functions'."
@@ -518,6 +693,8 @@ POM is an marker, or buffer position."
 
 (setup org-id
   (:when-loaded
+    (:advice-add org-id-get :override my-org-get-id)
+    (:advice-add org-id-get-create :override my/org-create-id)
     (:set
      org-id-locations-file (my-data-path "org/" "id-locations.el")
      ;; Link to entry with ID.
@@ -606,6 +783,13 @@ POM is an marker, or buffer position."
      (my-path org-roam-directory "citations.bib")))
   (:with-mode org-roam-mode
     (:hook consult-org-roam-mode)))
+
+(setup org-roam-capture
+  (:when-loaded
+    (:advice-add
+     org-roam-capture--setup-target-location
+     :override
+     my-org-roam-capture--setup-target-location)))
 
 (setup org-roam-db
   (:set org-roam-db-location (my-path org-roam-directory "roam.db"))
