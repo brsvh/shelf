@@ -68,40 +68,11 @@
   (require 'valign)
   (require 'window))
 
-(defmacro my/org-defun (symbol args &rest body)
-  "Define an function with ARGS and named SYMBOL with my/org- prefix."
-  (declare (doc-string 3)
-           (debug (sexp sexp def-body))
-           (indent 2))
-  (let* ((fn (intern (format "my/org-%s" symbol)))
-         (doc (if (and body (stringp (car body)))
-                  (pop body)
-                "A command for `org-mode'.")))
-    `(defun ,fn ,args
-       ,doc
-       (interactive)
-       (when (derived-mode-p 'org-mode)
-         ,@body))))
-
-(defmacro my-org-defun (symbol args &rest body)
-  "Define an function with ARGS and named SYMBOL with my-org- prefix."
-  (declare (doc-string 3)
-           (debug (sexp sexp def-body))
-           (indent 2))
-  (let* ((fn (intern (format "my-org-%s" symbol)))
-         (doc (if (and body (stringp (car body)))
-                  (pop body)
-                "A function for `org-mode'.")))
-    `(defun ,fn ,args
-       ,doc
-       (when (derived-mode-p 'org-mode)
-         ,@body))))
-
-(my-org-defun top-level-min ()
+(defun my-org-top-level-min ()
   "Return the minimum point value of top-level text."
   (point-min))
 
-(my-org-defun top-level-max ()
+(defun my-org-top-level-max ()
   "Return the maximum point value of top-level text."
   (save-excursion
     (goto-char (my-org-top-level-min))
@@ -109,14 +80,14 @@
         (pos-bol)
       (point-max))))
 
-(my-org-defun epom-in-top-level-p (epom)
+(defun my-org-epom-in-top-level-p (epom)
   "Return t if EPOM in top-level region, otherwise nil."
   (org-with-point-at epom
     (let* ((point (point)))
       (and (>= point (my-org-top-level-min))
            (<= point (my-org-top-level-max))))))
 
-(my-org-defun top-level-keyword-name-begin (keyword)
+(defun my-org-top-level-keyword-name-begin (keyword)
   "Return the position of the beginning of KEYWORD name."
   (save-excursion
     (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
@@ -125,7 +96,7 @@
       (when (re-search-forward regexp (my-org-top-level-max) t)
         (match-beginning 1)))))
 
-(my-org-defun top-level-keyword-name-end (keyword)
+(defun my-org-top-level-keyword-name-end (keyword)
   "Return the position of the end of KEYWORD name."
   (save-excursion
     (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
@@ -134,7 +105,7 @@
       (when (re-search-forward regexp (my-org-top-level-max) t)
         (match-end 1)))))
 
-(my-org-defun top-level-keyword-value-begin (keyword)
+(defun my-org-top-level-keyword-value-begin (keyword)
   "Return the position of the beginning of KEYWORD value."
   (save-excursion
     (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
@@ -143,7 +114,7 @@
       (when (re-search-forward regexp (my-org-top-level-max) t)
         (match-beginning 2)))))
 
-(my-org-defun top-level-keyword-value-end (keyword)
+(defun my-org-top-level-keyword-value-end (keyword)
   "Return the position of the end of KEYWORD value."
   (save-excursion
     (let ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
@@ -152,7 +123,7 @@
       (when (re-search-forward regexp (my-org-top-level-max) t)
         (match-end 2)))))
 
-(my-org-defun top-level-last-keyword-end ()
+(defun my-org-top-level-last-keyword-end ()
   "Return the position of the end of last keyword."
   (save-excursion
     (let ((regexp "^#\\+\\([^:]+\\):\\s-*\\(.*\\)$"))
@@ -161,7 +132,7 @@
           (match-end 2)
         (my-org-top-level-min)))))
 
-(my-org-defun top-level-keyword-p (keyword)
+(defun my-org-top-level-keyword-p (keyword)
   "Return true if the KEYWORD exists."
   (save-excursion
     (goto-char (my-org-top-level-min))
@@ -171,7 +142,7 @@
                              t)
       (match-string-no-properties 1))))
 
-(my-org-defun get-top-level-keyword-value (keyword)
+(defun my-org-get-top-level-keyword-value (keyword)
   "Return the value of top-level KEYWORD."
   (save-excursion
     (goto-char (my-org-top-level-min))
@@ -181,7 +152,7 @@
                              t)
       (match-string-no-properties 2))))
 
-(my-org-defun set-top-level-keyword-value (keyword value)
+(defun my-org-set-top-level-keyword-value (keyword value)
   "Set the value of  top-level KEYWORD to VALUE."
   (save-excursion
     (let* ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
@@ -195,7 +166,7 @@
             (insert (format "#+%s: %s\n" keyword value))
           (insert (format "\n#+%s: %s" keyword value)))))))
 
-(my/org-defun put-created-at-at-point (&optional pom)
+(defun my/org-put-created-at-at-point (&optional pom)
   "Insert CREATED_AT property for the entry at POM.
 
 POM is an marker, or buffer position."
@@ -207,18 +178,18 @@ POM is an marker, or buffer position."
         (org-entry-put nil "CREATED_AT" ts))
       nil)))
 
-(my/org-defun add-top-level-created-at ()
+(defun my/org-add-top-level-created-at ()
   "Insert CREATED_AT keyword at top-level."
   (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
     (unless (my-org-top-level-keyword-p "created_at")
       (my-org-set-top-level-keyword-value "created_at" ts))))
 
-(my/org-defun add-created-at ()
+(defun my/org-add-created-at ()
   "Insert CREATED_AT property for all entires."
   (my/org-add-top-level-created-at)
   (org-map-entries #'my/org-put-created-at-at-point))
 
-(my-org-defun get-id (&optional epom create prefix inherit)
+(defun my-org-get-id (&optional epom create prefix inherit)
   "Get the ID of the entry at EPOM.
 
 If EPOM is between the beginning and end of top-level, instead of
@@ -236,36 +207,37 @@ otherwise nil.  When CREATE is non-nil, create an ID if none has
 been found, and return the new ID.  PREFIX will be passed through
 to `org-id-new'."
   (or epom (setq epom (point)))
-  (let ((file (or org-id-overriding-file-name
-                  (buffer-file-name (buffer-base-buffer))))
-        (id (if (my-org-epom-in-top-level-p epom)
-                (my-org-get-top-level-keyword-value "id")
-              (org-entry-get epom "ID" (and inherit t)))))
-    (cond
-     ((and id (stringp id) (string-match "\\S-" id))
-      id)
-     (create
-      (setq id (org-id-new prefix))
-      (if (my-org-epom-in-top-level-p epom)
-          (my-org-set-top-level-keyword-value "id" id)
-        (org-entry-put epom "ID" id))
-      (org-with-point-at epom
-        (org-id-add-location id file))
-      id))))
+  (org-with-point-at epom
+    (let ((file (or org-id-overriding-file-name
+                    (buffer-file-name (buffer-base-buffer))))
+          (id (if (my-org-epom-in-top-level-p epom)
+                  (my-org-get-top-level-keyword-value "id")
+                (org-entry-get epom "ID" (and inherit t)))))
+      (cond
+       ((and id (stringp id) (string-match "\\S-" id))
+        id)
+       (create
+        (setq id (org-id-new prefix))
+        (if (my-org-epom-in-top-level-p epom)
+            (my-org-set-top-level-keyword-value "id" id)
+          (org-entry-put epom "ID" id))
 
-(my-org-defun set-id (value &optional epom)
+        (org-id-add-location id file)
+        id)))))
+
+(defun my-org-set-id (value &optional epom)
   "Set the value of ID of the entry at EPOM."
   (or epom (setq epom (point)))
-  (let ((file (or org-id-overriding-file-name
-                  (buffer-file-name (buffer-base-buffer)))))
-    (if (my-org-epom-in-top-level-p epom)
-        (my-org-set-top-level-keyword-value "id" value)
-      (org-entry-put epom "ID" value))
-    (org-with-point-at epom
-      (org-id-add-location value file))
-    value))
+  (org-with-point-at epom
+    (let ((file (or org-id-overriding-file-name
+                    (buffer-file-name (buffer-base-buffer)))))
+      (if (my-org-epom-in-top-level-p epom)
+          (my-org-set-top-level-keyword-value "id" value)
+        (org-entry-put epom "ID" value))
+      (org-id-add-location value file)
+      value)))
 
-(my/org-defun create-id (&optional force)
+(defun my/org-create-id (&optional force)
   "Create an ID for the current entry and return it.
 If the entry already has an ID, just return it.
 With optional argument FORCE, force the creation of a new ID."
@@ -277,7 +249,7 @@ With optional argument FORCE, force the creation of a new ID."
         (my-org-set-id id))
     (my-org-get-id (point) 'create)))
 
-(my/org-defun put-id-at-point (&optional pom)
+(defun my/org-put-id-at-point (&optional pom)
   "Insert ID property for the entry at POM.
 
 POM is an marker, or buffer position."
@@ -292,7 +264,7 @@ POM is an marker, or buffer position."
         (org-id-add-location id file))
       id)))
 
-(my/org-defun add-top-level-id ()
+(defun my/org-add-top-level-id ()
   "Insert CREATED_AT keyword at top-level."
   (let ((file (or org-id-overriding-file-name
                   (buffer-file-name (buffer-base-buffer))))
@@ -303,17 +275,17 @@ POM is an marker, or buffer position."
       (org-id-add-location id file))
     id))
 
-(my/org-defun add-id ()
+(defun my/org-add-id ()
   "Insert ID property for top-level and all entires."
   (my/org-add-top-level-id)
   (org-map-entries #'my/org-put-id-at-point))
 
-(my/org-defun add-top-level-last-modified ()
+(defun my/org-add-top-level-last-modified ()
   "Insert LAST_MODIFIED keyword at top-level."
   (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
     (my-org-set-top-level-keyword-value "last_modified" ts)))
 
-(my/org-defun downcase-keywords ()
+(defun my/org-downcase-keywords ()
   "Ensure use lowercase keywords in a `org-mode' buffer."
   (interactive)
   (save-excursion
@@ -324,7 +296,7 @@ POM is an marker, or buffer position."
         (replace-match (downcase (match-string-no-properties 1))
                        'fixedcase nil nil 1)))))
 
-(my-org-defun roam-capture--setup-target-location ()
+(defun my-org-roam-capture--setup-target-location ()
   "Initialize the buffer, and goto the location of the new capture.
 Return the ID of the location."
   (let (p new-file-p)
