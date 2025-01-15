@@ -170,6 +170,7 @@
   "Insert CREATED_AT property for the entry at POM.
 
 POM is an marker, or buffer position."
+  (interactive)
   (or pom (setq pom (point)))
   (org-with-point-at pom
     (let ((at (org-entry-get pom "CREATED_AT"))
@@ -180,12 +181,14 @@ POM is an marker, or buffer position."
 
 (defun my/org-add-top-level-created-at ()
   "Insert CREATED_AT keyword at top-level."
+  (interactive)
   (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
     (unless (my-org-top-level-keyword-p "created_at")
       (my-org-set-top-level-keyword-value "created_at" ts))))
 
 (defun my/org-add-created-at ()
   "Insert CREATED_AT property for all entires."
+  (interactive)
   (my/org-add-top-level-created-at)
   (org-map-entries #'my/org-put-created-at-at-point))
 
@@ -241,6 +244,7 @@ to `org-id-new'."
   "Create an ID for the current entry and return it.
 If the entry already has an ID, just return it.
 With optional argument FORCE, force the creation of a new ID."
+  (interactive)
   (if force
       (let ((file (or org-id-overriding-file-name
                       (buffer-file-name (buffer-base-buffer))))
@@ -253,6 +257,7 @@ With optional argument FORCE, force the creation of a new ID."
   "Insert ID property for the entry at POM.
 
 POM is an marker, or buffer position."
+  (interactive)
   (or pom (setq pom (point)))
   (org-with-point-at pom
     (let ((file (or org-id-overriding-file-name
@@ -266,6 +271,7 @@ POM is an marker, or buffer position."
 
 (defun my/org-add-top-level-id ()
   "Insert CREATED_AT keyword at top-level."
+  (interactive)
   (let ((file (or org-id-overriding-file-name
                   (buffer-file-name (buffer-base-buffer))))
         (id (my-org-get-top-level-keyword-value "id")))
@@ -277,11 +283,13 @@ POM is an marker, or buffer position."
 
 (defun my/org-add-id ()
   "Insert ID property for top-level and all entires."
+  (interactive)
   (my/org-add-top-level-id)
   (org-map-entries #'my/org-put-id-at-point))
 
 (defun my/org-add-top-level-last-modified ()
   "Insert LAST_MODIFIED keyword at top-level."
+  (interactive)
   (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
     (my-org-set-top-level-keyword-value "last_modified" ts)))
 
