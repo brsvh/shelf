@@ -57,7 +57,6 @@ in
       procs
 
       # search
-      agrep
       findutils
       gnugrep
       igrep

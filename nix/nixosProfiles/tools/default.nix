@@ -35,7 +35,6 @@ in
       nvd
 
       # search
-      agrep
       fd
       findutils
       gnugrep
