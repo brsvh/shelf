@@ -124,10 +124,6 @@
         nixpkgs = {
           follows = "nixpkgs";
         };
-
-        nixpkgs-stable = {
-          follows = "nixpkgs-stable";
-        };
       };
 
       url = "github:cachix/git-hooks.nix/master";

@@ -8,13 +8,11 @@ let
     ;
 in
 {
-  hardware = {
+  services = {
     pulseaudio = {
       enable = mkForce false;
     };
-  };
 
-  services = {
     pipewire = {
       enable = true;
 
