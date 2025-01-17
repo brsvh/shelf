@@ -172,25 +172,28 @@
 POM is an marker, or buffer position."
   (interactive)
   (or pom (setq pom (point)))
-  (org-with-point-at pom
-    (let ((at (org-entry-get pom "CREATED_AT"))
-          (ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
-      (unless at
-        (org-entry-put nil "CREATED_AT" ts))
-      nil)))
+  (when (derived-mode-p 'org-mode)
+    (org-with-point-at pom
+      (let ((at (org-entry-get pom "CREATED_AT"))
+            (ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
+        (unless at
+          (org-entry-put nil "CREATED_AT" ts))
+        nil))))
 
 (defun my/org-add-top-level-created-at ()
   "Insert CREATED_AT keyword at top-level."
   (interactive)
-  (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
-    (unless (my-org-top-level-keyword-p "created_at")
-      (my-org-set-top-level-keyword-value "created_at" ts))))
+  (when (derived-mode-p 'org-mode)
+    (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
+      (unless (my-org-top-level-keyword-p "created_at")
+        (my-org-set-top-level-keyword-value "created_at" ts)))))
 
 (defun my/org-add-created-at ()
   "Insert CREATED_AT property for all entires."
   (interactive)
-  (my/org-add-top-level-created-at)
-  (org-map-entries #'my/org-put-created-at-at-point))
+  (when (derived-mode-p 'org-mode)
+    (my/org-add-top-level-created-at)
+    (org-map-entries #'my/org-put-created-at-at-point)))
 
 (defun my-org-get-id (&optional epom create prefix inherit)
   "Get the ID of the entry at EPOM.
@@ -229,7 +232,7 @@ to `org-id-new'."
         id)))))
 
 (defun my-org-set-id (value &optional epom)
-  "Set the value of ID of the entry at EPOM."
+  "Set the value of ID of the entry at EPOM to VALUE."
   (or epom (setq epom (point)))
   (org-with-point-at epom
     (let ((file (or org-id-overriding-file-name
@@ -245,64 +248,83 @@ to `org-id-new'."
 If the entry already has an ID, just return it.
 With optional argument FORCE, force the creation of a new ID."
   (interactive)
-  (if force
-      (let ((file (or org-id-overriding-file-name
-                      (buffer-file-name (buffer-base-buffer))))
-            (id (org-id-new)))
-        (setq id (org-id-new))
-        (my-org-set-id id))
-    (my-org-get-id (point) 'create)))
+  (when (derived-mode-p 'org-mode)
+    (if force
+        (let ((file (or org-id-overriding-file-name
+                        (buffer-file-name (buffer-base-buffer))))
+              (id (org-id-new)))
+          (setq id (org-id-new))
+          (my-org-set-id id))
+      (my-org-get-id (point) 'create))))
+
+(defun my/org-add-author (&optional name email)
+  "Insert AUTHOR and EMAIL keyword to top-level.
+
+Set NAME as the full name of AUTHOR if non-nil.
+Set EMAIL as the E-Mail address of EMAIL keyword if non-nil."
+  (interactive)
+  (when (derived-mode-p 'org-mode)
+    (unless (my-org-top-level-keyword-p "author")
+      (my-org-set-top-level-keyword-value "author" user-full-name))
+    (unless (my-org-top-level-keyword-p "email")
+      (my-org-set-top-level-keyword-value "email" user-mail-address)))
+  nil)
 
 (defun my/org-put-id-at-point (&optional pom)
   "Insert ID property for the entry at POM.
 
 POM is an marker, or buffer position."
   (interactive)
-  (or pom (setq pom (point)))
-  (org-with-point-at pom
-    (let ((file (or org-id-overriding-file-name
-                    (buffer-file-name (buffer-base-buffer))))
-          (id (org-entry-get nil "ID")))
-      (unless (and id (org-uuidgen-p id))
-        (setq id (org-id-new))
-        (org-entry-put nil "ID" id)
-        (org-id-add-location id file))
-      id)))
+  (when (derived-mode-p 'org-mode)
+    (or pom (setq pom (point)))
+    (org-with-point-at pom
+      (let ((file (or org-id-overriding-file-name
+                      (buffer-file-name (buffer-base-buffer))))
+            (id (org-entry-get nil "ID")))
+        (unless (and id (org-uuidgen-p id))
+          (setq id (org-id-new))
+          (org-entry-put nil "ID" id)
+          (org-id-add-location id file))
+        id))))
 
 (defun my/org-add-top-level-id ()
   "Insert CREATED_AT keyword at top-level."
   (interactive)
-  (let ((file (or org-id-overriding-file-name
-                  (buffer-file-name (buffer-base-buffer))))
-        (id (my-org-get-top-level-keyword-value "id")))
-    (unless (and id (org-uuidgen-p id))
-      (setq id (org-id-new))
-      (my-org-set-top-level-keyword-value "id" id)
-      (org-id-add-location id file))
-    id))
+  (when (derived-mode-p 'org-mode)
+    (let ((file (or org-id-overriding-file-name
+                    (buffer-file-name (buffer-base-buffer))))
+          (id (my-org-get-top-level-keyword-value "id")))
+      (unless (and id (org-uuidgen-p id))
+        (setq id (org-id-new))
+        (my-org-set-top-level-keyword-value "id" id)
+        (org-id-add-location id file))
+      id)))
 
 (defun my/org-add-id ()
   "Insert ID property for top-level and all entires."
   (interactive)
-  (my/org-add-top-level-id)
-  (org-map-entries #'my/org-put-id-at-point))
+  (when (derived-mode-p 'org-mode)
+    (my/org-add-top-level-id)
+    (org-map-entries #'my/org-put-id-at-point)))
 
 (defun my/org-add-top-level-last-modified ()
   "Insert LAST_MODIFIED keyword at top-level."
   (interactive)
-  (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
-    (my-org-set-top-level-keyword-value "last_modified" ts)))
+  (when (derived-mode-p 'org-mode)
+    (let ((ts (format-time-string "<%Y-%m-%d %a %H:%M>")))
+      (my-org-set-top-level-keyword-value "last_modified" ts))))
 
 (defun my/org-downcase-keywords ()
   "Ensure use lowercase keywords in a `org-mode' buffer."
   (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (let ((case-fold-search nil)
-          (rexp "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"))
-      (while (re-search-forward rexp nil 'noerror)
-        (replace-match (downcase (match-string-no-properties 1))
-                       'fixedcase nil nil 1)))))
+  (when (derived-mode-p 'org-mode)
+    (save-excursion
+      (goto-char (point-min))
+      (let ((case-fold-search nil)
+            (rexp "\\(?1:#\\+[A-Z_]+\\(?:_[[:alpha:]]+\\)*\\)\\(?:[ :=~’”]\\|$\\)"))
+        (while (re-search-forward rexp nil 'noerror)
+          (replace-match (downcase (match-string-no-properties 1))
+                         'fixedcase nil nil 1))))))
 
 (defun my-org-roam-capture--setup-target-location ()
   "Initialize the buffer, and goto the location of the new capture.
@@ -409,6 +431,7 @@ Return the ID of the location."
 
 (defun my-org-setup-save-functions (&rest _)
   "Run `my-org-save-functions'."
+  (add-hook 'before-save-hook #'my/org-add-author)
   (add-hook 'before-save-hook #'my/org-add-created-at nil t)
   (add-hook 'before-save-hook #'my/org-add-id nil t)
   (add-hook 'before-save-hook #'my/org-add-top-level-last-modified nil t)
