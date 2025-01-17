@@ -38,10 +38,25 @@
 
 
 ;;;
+;; Core:
+
+
+
+;;;
 ;; Parens editing:
 
 (setup scheme-mode
   (:hook parinfer-rust-mode))
+
+
+
+;;;
+;; REPL:
+
+(setup geiser-repl
+  (:when-loaded
+    (:set
+     geiser-repl-history-filename (my-state-path* "geiser" "history"))))
 
 
 
