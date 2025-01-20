@@ -68,6 +68,8 @@
   (require 'valign)
   (require 'window))
 
+(defvar org-end-time-was-given)
+
 (defun my-org-top-level-min ()
   "Return the minimum point value of top-level text."
   (point-min))
@@ -156,8 +158,7 @@
   "Set the value of  top-level KEYWORD to VALUE."
   (save-excursion
     (let* ((regexp (format "^#\\+\\(%s\\):\\s-*\\(.*\\)$"
-                           (regexp-quote keyword)))
-           (found nil))
+                           (regexp-quote keyword))))
       (goto-char (my-org-top-level-min))
       (if (re-search-forward regexp (my-org-top-level-max) t)
           (replace-match (format "#+%s: %s" keyword value) t t)
@@ -250,24 +251,24 @@ With optional argument FORCE, force the creation of a new ID."
   (interactive)
   (when (derived-mode-p 'org-mode)
     (if force
-        (let ((file (or org-id-overriding-file-name
-                        (buffer-file-name (buffer-base-buffer))))
-              (id (org-id-new)))
+        (let ((id (org-id-new)))
           (setq id (org-id-new))
           (my-org-set-id id))
       (my-org-get-id (point) 'create))))
 
-(defun my/org-add-author (&optional name email)
+(defun my/org-add-author (&optional author email)
   "Insert AUTHOR and EMAIL keyword to top-level.
 
-Set NAME as the full name of AUTHOR if non-nil.
+Set AUTHOR as the full name of AUTHOR if non-nil.
 Set EMAIL as the E-Mail address of EMAIL keyword if non-nil."
   (interactive)
   (when (derived-mode-p 'org-mode)
-    (unless (my-org-top-level-keyword-p "author")
-      (my-org-set-top-level-keyword-value "author" user-full-name))
-    (unless (my-org-top-level-keyword-p "email")
-      (my-org-set-top-level-keyword-value "email" user-mail-address)))
+    (let ((name (or author user-full-name))
+          (address (or email user-mail-address)))
+      (unless (my-org-top-level-keyword-p "author")
+        (my-org-set-top-level-keyword-value "author" name))
+      (unless (my-org-top-level-keyword-p "email")
+        (my-org-set-top-level-keyword-value "email" address))))
   nil)
 
 (defun my/org-put-id-at-point (&optional pom)
